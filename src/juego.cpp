@@ -3,7 +3,7 @@
 #include "arena.h"
 #include "juego.h"
 
-#define numeroAnimales 18 // Por ahora crea 9 entidades
+#define numeroAnimales 18 // Por ahora crea 18 entidades
 
 Juego::Juego() {
 
@@ -14,6 +14,7 @@ Juego::Juego() {
     arena = new Arena();
     renderizador = new Renderizador();
     creditos = new Creditos();
+    controles = new Controles();
 
      // Animales equipo 1, lado izquierdo
         for (int i = 0; i < numeroAnimales; i++) // se crean de arriba a abajo 
@@ -47,6 +48,7 @@ Juego::~Juego() {
     delete arena;
     delete renderizador;
 	delete creditos;
+    delete controles;
     for (int i = 0; i < numeroAnimales; i++)
 		delete animalesJ1[i];
 }
@@ -55,14 +57,14 @@ void Juego::actualizarLogica(float dt) {    // FASE 1: matemáticas, colisiones 
     
     switch (estado_actual) {
 
-    case MENU:       
+    case MENU:
         menu->actualizar(dt);
         break;
 
     case TABLERO:
-		tablero->actualizar(dt);
+        tablero->actualizar(dt);
         break;
-    
+
     case BATALLA:
         arena->actualizar(dt);
         break;
@@ -72,7 +74,18 @@ void Juego::actualizarLogica(float dt) {    // FASE 1: matemáticas, colisiones 
         if (!transicion.activo)
             creditos->actualizar(25);
 
-        if (creditos->getFinalizado()) 
+        if (creditos->getFinalizado())
+        {
+            transicion.empieza();
+            proximo_estado = MENU;
+        }
+        break;
+
+    case CONTROLES:
+
+        if (!transicion.activo)
+            controles->actualizar(25);
+        if (controles->getFinalizado())
         {
             transicion.empieza();
             proximo_estado = MENU;
@@ -80,10 +93,10 @@ void Juego::actualizarLogica(float dt) {    // FASE 1: matemáticas, colisiones 
         break;
     }
 
-    if (transicion.activo) 
+    if (transicion.activo)
         transicion.actualizar(dt);
 
-    if (transicion.getEstado() == Transicion::CERRADO) 
+    if (transicion.getEstado() == Transicion::CERRADO)
         estado_actual = proximo_estado;
 }
 
@@ -109,6 +122,11 @@ void Juego::renderizarGraficos() {          // FASE 2: pintar en pantalla
 
         creditos->dibujar(renderizador);
         break;
+
+    case CONTROLES:
+
+        controles->dibujar(renderizador);
+        break;
     }
 
     if (transicion.activo) transicion.dibujar(renderizador);
@@ -121,8 +139,11 @@ void Juego::procesarTeclaPresionada(unsigned char key) // Hacer que tecla solo s
     switch (estado_actual) {
 
         case MENU:
+
         if (key == 13) { // Intro para elegir una opción
+
             switch (menu->getOpcionActual()) {
+
             case Selector::JUGAR: 
                 transicion.empieza();
                 proximo_estado = TABLERO;
@@ -141,9 +162,16 @@ void Juego::procesarTeclaPresionada(unsigned char key) // Hacer que tecla solo s
                 transicion.empieza();
                 proximo_estado = CREDITOS;
                 break;
+
+            case Selector::CONTROLES:
+                controles->reset();
+                transicion.empieza();
+                proximo_estado = CONTROLES;
+                break;
             }
 
         }
+
         break;
 
 		case TABLERO: // movimiento discreto en el tablero, no hace falta procesar la tecla al levantarla, el movimiento se hace una vez al pulsar y ya está
