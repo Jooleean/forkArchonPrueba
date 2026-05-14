@@ -3,7 +3,7 @@
 #include "arena.h"
 #include "juego.h"
 
-#define numeroAnimales 9 // Por ahora crea 9 entidades
+#define numeroAnimales 18 // Por ahora crea 18 entidades
 
 Juego::Juego() {
 
@@ -14,45 +14,57 @@ Juego::Juego() {
     arena = new Arena();
     renderizador = new Renderizador();
     creditos = new Creditos();
+    controles = new Controles();
 
-    for (int j = 0; j < 2; j++) // Creación de 18 instancias de animal, guardadas en la colección de animales
+     // Animales equipo 1, lado izquierdo
+        for (int i = 0; i < numeroAnimales; i++) // se crean de arriba a abajo 
+        {
+            if (i < 9) 
+            animalesJ1[i] = new Oveja(-44 - 15 * (i) + 11, 36 + 176 - (22 * i) + 11, -3 - 0.01 * i - 0, 20, 152, 0); // dejar los numeros asi por ahora porque representan unidades conocidas
+
+            if (i >= 9)
+            animalesJ1[i] = new Gallina( - 15 * (i-9) + 11, 36 + 176 - (22 * (i-9)) + 11, -3 - 0.01 * (i-9) - 0.08, 20, 152+22, 0);
+           // animalesJ1[i + j * numeroAnimales] = new Cerdo(-44 * j - 15 * (numeroAnimales - i) + 11, 36 + (22 * i) + 11, -3 - 0.01 * i - 0.08 * j, 20, 152);
+        }
+
+     // Animales equipo 2, lado derecho
         for (int i = 0; i < numeroAnimales; i++)
         {
-            int tipoAnimal = ((j * (i + 1)) % 3) + j;
-            if (tipoAnimal == 0)
-                animales[i + j * numeroAnimales] = new Gallina(-44 * j - 15 * (numeroAnimales - i) + 11, 36 + (22 * i) + 11, -3 - 0.01 * i - 0.08 * j, 20, 174);
-            else if (tipoAnimal == 1)
-                animales[i + j * numeroAnimales] = new Cerdo(-44 * j - 15 * (numeroAnimales - i) + 11, 36 + (22 * i) + 11, -3 - 0.01 * i - 0.08 * j, 20, 152);
-            else if (tipoAnimal == 2)
-                animales[i + j * numeroAnimales] = new Cabra(-44 * j - 15 * (numeroAnimales - i) + 11, 36 + (22 * i) + 11, -3 - 0.01 * i - 0.08 * j, 20, 152);
-            else if (tipoAnimal == 3)
-                animales[i + j * numeroAnimales] = new Oveja(-44 * j - 15 * (numeroAnimales - i) + 11, 36 + (22 * i) + 11, -3 - 0.01 * i - 0.08 * j, 20, 152);
+            if (i < 9)
+                animalesJ2[i] = new Oveja(anchoVentana() + 44 + 15 * (i)-11, 36 + 176 - (22 * i) + 11, -3 - 0.01 * i - 0, 20, 152 + 22 * 8, 1);
+
+            if (i >= 9)
+                animalesJ2[i] = new Gallina(anchoVentana() + 15 * (i - 9) - 11, 36 + 176 - (22 * (i - 9)) + 11, -3 - 0.01 * (i - 9) - 0.08, 20, 152 + 22 * 7, 1);
+            // animalesJ1[i + j * numeroAnimales] = new Cerdo(-44 * j - 15 * (numeroAnimales - i) + 11, 36 + (22 * i) + 11, -3 - 0.01 * i - 0.08 * j, 20, 152);
         }
-    tablero = new Tablero(animales);
+
+    tablero = new Tablero(animalesJ1, animalesJ2);
 }
 
 Juego::~Juego() {
+
     delete menu;
     delete tablero;
     delete arena;
     delete renderizador;
 	delete creditos;
-    for (int i = 0; i < 2 * numeroAnimales; i++)
-		delete animales[i];
+    delete controles;
+    for (int i = 0; i < numeroAnimales; i++)
+		delete animalesJ1[i];
 }
 
 void Juego::actualizarLogica(float dt) {    // FASE 1: matemáticas, colisiones y reglas del juego
     
     switch (estado_actual) {
 
-    case MENU:       
+    case MENU:
         menu->actualizar(dt);
         break;
 
     case TABLERO:
-		tablero->actualizar(dt);
+        tablero->actualizar(dt);
         break;
-    
+
     case BATALLA:
         arena->actualizar(dt);
         break;
@@ -62,7 +74,18 @@ void Juego::actualizarLogica(float dt) {    // FASE 1: matemáticas, colisiones 
         if (!transicion.activo)
             creditos->actualizar(25);
 
-        if (creditos->getFinalizado()) 
+        if (creditos->getFinalizado())
+        {
+            transicion.empieza();
+            proximo_estado = MENU;
+        }
+        break;
+
+    case CONTROLES:
+
+        if (!transicion.activo)
+            controles->actualizar(25);
+        if (controles->getFinalizado())
         {
             transicion.empieza();
             proximo_estado = MENU;
@@ -70,10 +93,10 @@ void Juego::actualizarLogica(float dt) {    // FASE 1: matemáticas, colisiones 
         break;
     }
 
-    if (transicion.activo) 
+    if (transicion.activo)
         transicion.actualizar(dt);
 
-    if (transicion.getEstado() == Transicion::CERRADO) 
+    if (transicion.getEstado() == Transicion::CERRADO)
         estado_actual = proximo_estado;
 }
 
@@ -99,6 +122,11 @@ void Juego::renderizarGraficos() {          // FASE 2: pintar en pantalla
 
         creditos->dibujar(renderizador);
         break;
+
+    case CONTROLES:
+
+        controles->dibujar(renderizador);
+        break;
     }
 
     if (transicion.activo) transicion.dibujar(renderizador);
@@ -111,8 +139,11 @@ void Juego::procesarTeclaPresionada(unsigned char key) // Hacer que tecla solo s
     switch (estado_actual) {
 
         case MENU:
+
         if (key == 13) { // Intro para elegir una opción
+
             switch (menu->getOpcionActual()) {
+
             case Selector::JUGAR: 
                 transicion.empieza();
                 proximo_estado = TABLERO;
@@ -131,6 +162,12 @@ void Juego::procesarTeclaPresionada(unsigned char key) // Hacer que tecla solo s
                 transicion.empieza();
                 proximo_estado = CREDITOS;
                 break;
+
+            case Selector::CONTROLES:
+                controles->reset();
+                transicion.empieza();
+                proximo_estado = CONTROLES;
+                break;
             }
         }
 
@@ -143,11 +180,14 @@ void Juego::procesarTeclaPresionada(unsigned char key) // Hacer que tecla solo s
         break;
 
 		case TABLERO: // movimiento discreto en el tablero, no hace falta procesar la tecla al levantarla, el movimiento se hace una vez al pulsar y ya está
+         
          if (key == 'w' || key == 'W') tablero->recibirMovimiento(0, 0, 1); // tablero->recibirMovimiento(jugador, dx, dy);
          if (key == 's' || key == 'S') tablero->recibirMovimiento(0, 0, -1);
          if (key == 'a' || key == 'A') tablero->recibirMovimiento(0, -1, 0);
          if (key == 'd' || key == 'D') tablero->recibirMovimiento(0, 1, 0);
          if (key == 'q' || key == 'Q') tablero->seleccionarPieza(0);
+
+         if (key == 'm' || key == 'M') tablero->seleccionarPieza(1); // Selección para J2
 
         break;
 
@@ -156,13 +196,17 @@ void Juego::procesarTeclaPresionada(unsigned char key) // Hacer que tecla solo s
          if (key == 's' || key == 'S') arena->recibirMovimiento(0, ABAJO, true);
          if (key == 'a' || key == 'A') arena->recibirMovimiento(0, IZQUIERDA, true);
          if (key == 'd' || key == 'D') arena->recibirMovimiento(0, DERECHA, true);
-         if (key == 'q' || key == 'Q') arena->recibirAtaque(0); //poner los controles qeu querais
+        
 
          if (key == 'b') {
              transicion.empieza();
              proximo_estado = MENU;
          }
 
+
+        
+         if (key == 'q' || key == 'Q') arena->recibirAtaque(0); //poner los controles qeu querais
+         if (key == 'm' || key == 'M') arena->recibirAtaque(1); // Ataque para J2
 
          break;
 
@@ -200,7 +244,7 @@ void Juego::procesarTeclaEspecialPresionada(int key) // JUGADOR 2 (FLECHAS)
         if (key == GLUT_KEY_DOWN)  tablero->recibirMovimiento(1, 0, -1);
         if (key == GLUT_KEY_LEFT)  tablero->recibirMovimiento(1, -1, 0);
         if (key == GLUT_KEY_RIGHT) tablero->recibirMovimiento(1, 1, 0);
-        if (key == '.') tablero->seleccionarPieza(1);
+        //if (key == '.') tablero->seleccionarPieza(1); La selección del J2 va arriba, no es tecla especial
         break;
 
     case BATALLA:
@@ -208,7 +252,7 @@ void Juego::procesarTeclaEspecialPresionada(int key) // JUGADOR 2 (FLECHAS)
         if (key == GLUT_KEY_DOWN)  arena->recibirMovimiento(1, ABAJO, true);
         if (key == GLUT_KEY_LEFT)  arena->recibirMovimiento(1, IZQUIERDA, true);
         if (key == GLUT_KEY_RIGHT) arena->recibirMovimiento(1, DERECHA, true);
-        if (key == '.') arena->recibirAtaque(1);
+        //if (key == '.') arena->recibirAtaque(1); La selección del J2 va arriba, no es tecla especial
         break;
     }
 }

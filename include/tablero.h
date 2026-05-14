@@ -3,10 +3,21 @@
 #include "cursor.h" 
 #include "tarjetaID.h" 
 
-const int BANDO_LUZ = 1;        //bando luz igual bando izquierda
-const int BANDO_OSCURIDAD = 2;
-const int CASILLA_LUZ = 1;
-const int CASILLA_OSCURA = 2;
+const int BANDO_LUZ = 0;        //bando luz igual bando izquierda
+const int BANDO_OSCURIDAD = 1;
+const int CASILLA_LUZ = 0;
+const int CASILLA_OSCURA = 1;
+
+struct Letrero {
+    float posx = 550;
+    float posy = 65;
+    int frameActualX_ = 0, frameActualY_ = 0;
+    float timer{}, msStep = 65;
+    int nFrames = 8;
+    void animar(float dt);
+    bool loop = false;
+    void setState(int frameX, int frameY);
+};
 
 class Tablero {
 
@@ -15,6 +26,7 @@ class Tablero {
     bool hay_pieza_seleccionada_ = FALSE;  //1 hay una pieza seleccionada 0 no hay
 	Animal* animal_seleccionado_ = nullptr; //puntero al animal seleccionado, si no hay ninguno seleccionado es nullptr
     int turno_actual;
+    Letrero letreroTurnos;
 
     /*
         Haremos que ColorCasilla sea como una bandera
@@ -43,7 +55,7 @@ class Tablero {
 
 public:
 
-    Tablero(Animal** misAnimales);//le metemos un puntero a un array de punteros, los animales se crean desde juego y los enviamos
+    Tablero(Animal** animalesJ1, Animal** animalesJ2);//le metemos un puntero a un array de punteros, los animales se crean desde juego y los enviamos
     // a este constructor que simplemente copia la direccion de los animales creados en las casillas del tablero y entonces
     //cada casilla apunta a un animal creado y tiene toda la informacion de ese animal y puede modificar valores de el
     ~Tablero();//no hace nada porque el constructor no tiene ningun new
