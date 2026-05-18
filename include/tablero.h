@@ -2,6 +2,7 @@
 #include "animal.h"  
 #include "cursor.h" 
 #include "tarjetaID.h" 
+#include "jugador.h"
 
 const int BANDO_LUZ = 0;        //bando luz igual bando izquierda
 const int BANDO_OSCURIDAD = 1;
@@ -24,6 +25,7 @@ class Tablero {
     Animal* casillas[9][9]; //crea la matriz que es el tablero, cada casilla es un puntero a animal, es decir que tiene los atributos de animal
 	int color_casilla[9][9];  //la casilla de abajo a la izquierda es (0,0) y la de arriba a la derecha es (8,8) la matriz de arriba
     bool hay_pieza_seleccionada_ = FALSE;  //1 hay una pieza seleccionada 0 no hay
+    bool hay_colision_ = FALSE;
 	Animal* animal_seleccionado_ = nullptr; //puntero al animal seleccionado, si no hay ninguno seleccionado es nullptr
     int turno_actual;
     Letrero letreroTurnos;
@@ -55,7 +57,7 @@ class Tablero {
 
 public:
 
-    Tablero(Animal** animalesJ1, Animal** animalesJ2);//le metemos un puntero a un array de punteros, los animales se crean desde juego y los enviamos
+    Tablero(Jugador* jugador1, Jugador* jugador2);//le metemos un puntero a un array de punteros, los animales se crean desde juego y los enviamos
     // a este constructor que simplemente copia la direccion de los animales creados en las casillas del tablero y entonces
     //cada casilla apunta a un animal creado y tiene toda la informacion de ese animal y puede modificar valores de el
     ~Tablero();//no hace nada porque el constructor no tiene ningun new
@@ -66,6 +68,8 @@ public:
     void seleccionarPieza(int jugador);    //identifica si en la casilla hay un animal, si lo hay, bloquea el cursor y tocaria que se moviese el animal y no el cursor
 	void actualizar(float dt);     //actualiza el estado del tablero, se llama en cada iteracion del juego, se encarga de actualizar los animales y el cursor
     void dibujar(Renderizador* motor);
+    void actualizarColision();
+    bool getHayColision() const { return hay_colision_; };
 
     Cursor cursor;
     Tarjeta tarjeta;

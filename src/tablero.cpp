@@ -1,24 +1,16 @@
 #include "tablero.h"
 
-Tablero::Tablero(Animal** animalesJ1, Animal** animalesJ2)
+Tablero::Tablero(Jugador* jugador1, Jugador* jugador2)
 {
     inicializarTablero();
 
     for (int j = 0; j < 2; j++)
-    {
         for (int i = 0; i < FILAS; i++)
-        {
-            casillas[i][j] = animalesJ1[j * FILAS + i];
-        }
-    }
+            casillas[i][j] = jugador1->getAnimales()[j * FILAS + i];
 
     for (int j = 0; j < 2; j++)
-    {
         for (int i = 0; i < FILAS; i++)
-        {
-            casillas[i][8-j] = animalesJ2[j * FILAS + i];
-        }
-    }
+            casillas[i][8 - j] = jugador2->getAnimales()[j * FILAS + i];
 }
 
 Tablero::~Tablero()
@@ -187,6 +179,15 @@ void Letrero::animar(float dt) {
 
         timer = timer - msStep;
     }
+}
+void Tablero::actualizarColision()
+{
+    if (casillas[cursor.fila][cursor.columna] != nullptr
+        && animal_seleccionado_ != nullptr
+        && casillas[cursor.fila][cursor.columna]->equipo_ != animal_seleccionado_->equipo_)
+        hay_colision_ = true;
+    else
+        hay_colision_ = false;
 }
 
 void Letrero::setState(int frameX, int frameY) {

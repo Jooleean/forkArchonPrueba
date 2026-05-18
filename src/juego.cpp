@@ -19,7 +19,7 @@ Juego::Juego() {
     jugador1_ = new Jugador(0);  // crea sus propios animales internamente
     jugador2_ = new Jugador(1);
 
-    tablero = new Tablero(jugador1_->getAnimales(), jugador2_->getAnimales());
+    tablero = new Tablero(jugador1_, jugador2_);
 }
 
 Juego::~Juego() {
@@ -48,6 +48,10 @@ void Juego::actualizarLogica(float dt) {    // FASE 1: matemáticas, colisiones 
 
     case BATALLA:
         arena->actualizar(dt);
+        if (tablero->getHayColision()) {
+            transicion.empieza();
+            proximo_estado = BATALLA;
+        }
         break;
 
     case CREDITOS:
