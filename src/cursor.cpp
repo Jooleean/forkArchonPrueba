@@ -1,8 +1,8 @@
 #include "cursor.h"
 #include "renderizador.h"
 
-Cursor::Cursor(float x_inicial, float y_inicial, int id)
-    : posx_(x_inicial), posy_(y_inicial), idJugador_(id)
+Cursor::Cursor(float x_inicial, float y_inicial, int id) : 
+    posx_(x_inicial), posy_(y_inicial), idJugador_(id)
 {
     columna = (int)((x_inicial - 141.0f - 11.0f) / 22.0f);
     fila = 8 - (int)((y_inicial - 36.0f - 11.0f) / 22.0f);

@@ -1,18 +1,18 @@
 #include "renderizador.h"
 
-void Renderizador::limpiarPantalla() {
+void Renderizador::limpiarPantalla() 
+{
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 }
 
-void Renderizador::dibujarSprite(const char* rutaImagen, float ancho, float alto, float posx, float posy, float capa, int rows, int cols, int stateX, int stateY, bool transparencia) {
-
+void Renderizador::dibujarSprite(const char* rutaImagen, float ancho, float alto, float posx, float posy, float capa, int rows, int cols, int stateX, int stateY, bool transparencia) 
+{
     float anchoFrame = ancho / cols; // si es solo un frame anchoFrame = ancho pasado en parametro
     float altoFrame = alto / rows;
     float inicioFrameX = stateX * anchoFrame;
     float inicioFrameY = stateY * altoFrame;
-
   
     glEnable(GL_TEXTURE_2D);
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
@@ -50,8 +50,7 @@ void Renderizador::dibujarSprite(const char* rutaImagen, float ancho, float alto
     }
 
     //glEnable(GL_LIGHTING);
-    glDisable(GL_TEXTURE_2D);
-   
+    glDisable(GL_TEXTURE_2D);   
 }
 
 void Renderizador::dibujarArena(float x, float y, float ancho, float alto, float r, float g, float b, float profundidad)

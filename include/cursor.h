@@ -1,8 +1,8 @@
 #pragma once
 #include "renderizador.h"
 
-class Cursor {
-
+class Cursor 
+{
     float posx_;
     float posy_;
     int idJugador_;

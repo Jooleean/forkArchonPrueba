@@ -3,23 +3,23 @@
 #include "ETSIDI.h"
 #include "renderizador.h"
 
-enum modoJuego
+enum modoJuego 
 {
 	TABLERO, BATALLA, CANCELAR
 };
 
-enum animacionTipo
+enum animacionTipo 
 {
 	QUIETO, CAMINAR, ATACAR,
 };
 
-enum direccion
+enum direccion 
 {
 	R, L, U, D, UR, UL, DR, DL
 };
 
-class Animal {
-
+class Animal 
+{
 public:
 
 	Animal(float posx, float posy, float capa, int vida, float xinicial, int equipo )
@@ -37,7 +37,7 @@ public:
 	float vely_{0};
 	int equipo_;
 	int vida_;
-	int ataque_;
+	int ataque_{0};
 	float avanzando_casilla_ = 0;	// para saber cuando ha terminado de moverse
 	bool en_movimiento_ = false;	// para bloquear el teclado si se esta moviendo
 	int casillas_movidas_x_ = 0;
@@ -47,7 +47,7 @@ public:
 	bool intro_tablero_ = true; 
 	float xinicial_ = 152; 
 
-	int casillaInicial_[2];
+	int casillaInicial_[2] = {0,0};
 
 	bool mover(modoJuego modo, direccion dir);	//ahora es un bool, si devuelve true se ha movido bien,
 												// si devuelve false, no se ha movido
@@ -75,16 +75,15 @@ public:
 	// Dibujo y animación
 	int frameActualX_ = 0;
 	int frameActualY_ = 1;
-	int nFrames;
+	int nFrames = 1;
 	float timer = 0;
 	float msStep = 100;
 	bool pausa = true;
-	int ancho;
-	int alto;
+	int ancho = 0;
+	int alto = 0;
 	void setState(int frameX, int frameY);
 	void animar(float dt);
 
 	virtual void actualizar(float dt);
 	virtual void dibujar(Renderizador* motor);
-
 };

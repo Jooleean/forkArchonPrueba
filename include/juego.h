@@ -14,25 +14,20 @@
 #include "creditos.h"
 #include "controles.h"
 #include "jugador.h"
+#include "estructuras.h"
 
 class Juego 
-{
-    Transicion transicion;
-    Menu* menu;
-    Tablero* tablero;
-    Arena* arena;
-    Renderizador* renderizador;
+{   
+    Transicion transicion_;
+    Menu* menu_;
+    Tablero* tablero_;
+    Arena* arena_;
+    Renderizador* renderizador_;
     Jugador* jugadores_[2];
-    Creditos* creditos;
-    Controles* controles;
-
-    double ancho_ventana_ = 480;
-    double alto_ventana_ = 270;
+    Creditos* creditos_;
+    Controles* controles_;
 
 public:
-
-    double anchoVentana() const {return ancho_ventana_;} // Para decirle al main cuánto mide la ventana que debe crear
-    double altoVentana() const {return alto_ventana_;}
 
     enum Estado { MENU, TABLERO, BATALLA, CREDITOS, CONTROLES};
     Estado estado_actual;

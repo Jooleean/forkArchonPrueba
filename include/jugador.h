@@ -1,13 +1,13 @@
 #pragma once
 #include "animal.h"
+#include "estructuras.h"
 
-class Jugador {
-
-    Animal* animales_[18];
+class Jugador 
+{
+    Animal* animales_[Constantes::numeroAnimales] = {};
     Animal* piezaSeleccionada_ = nullptr;
-    Animal* animalEnCombate_= nullptr;
+    Animal* animalEnCombate_ = nullptr;
     int equipo_;
-    int numAnimales_ = 18;
 
 public:
 
@@ -15,8 +15,8 @@ public:
     ~Jugador();
 
     // Animales
-    Animal** getAnimales() { return animales_; }
-     Animal* getAnimalEnCombate() { return animalEnCombate_; }
+    Animal* const* getAnimales() const { return animales_; }
+    Animal* getAnimalEnCombate() { return animalEnCombate_; }
     void setAnimalEnCombate(Animal* animal) { animalEnCombate_ = animal; }
 
     // Pieza seleccionada

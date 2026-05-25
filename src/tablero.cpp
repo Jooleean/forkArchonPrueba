@@ -2,8 +2,8 @@
 //cursorJ1_(141.0f + 11.0f, 36.0f + 11.0f + 22.0f * 8.0f, 0),
 //cursorJ2_(141.0f + 11.0f + 22.0f * 8.0f, 36.0f + 11.0f, 1)
 
-Tablero::Tablero(Jugador* jugador1, Jugador* jugador2)
-    : cursorJ1_(141.0f + 11.0f, 36.0f + 11.0f + 22.0f * 8.0f, 0),
+Tablero::Tablero(Jugador* jugador1, Jugador* jugador2) : 
+    cursorJ1_(141.0f + 11.0f, 36.0f + 11.0f + 22.0f * 8.0f, 0),
     cursorJ2_(141.0f + 11.0f + 22.0f * 8.0f, 36.0f + 11.0f, 1)
 {
     jugadores_[0] = jugador1;
@@ -12,23 +12,23 @@ Tablero::Tablero(Jugador* jugador1, Jugador* jugador2)
 
     for (int j = 0; j < 2; j++)
         for (int i = 0; i < FILAS; i++)
-            casillas[i][j] = jugadores_[0]->getAnimales()[j * FILAS + i];
+            casillas_[i][j] = jugadores_[0]->getAnimales()[j * FILAS + i];
 
     for (int j = 0; j < 2; j++)
         for (int i = 0; i < FILAS; i++)
-            casillas[i][8 - j] = jugadores_[1]->getAnimales()[j * FILAS + i];
+            casillas_[i][8 - j] = jugadores_[1]->getAnimales()[j * FILAS + i];
 }
 
 Tablero::~Tablero() {}
 
 Cursor& Tablero::getCursorActivo()
 {
-    return turno_actual == 0 ? cursorJ1_ : cursorJ2_;
+    return turno_actual_ == 0 ? cursorJ1_ : cursorJ2_;
 }
 
 Jugador* Tablero::getJugadorActivo()
 {
-    return jugadores_[turno_actual];
+    return jugadores_[turno_actual_];
 }
 
 void Tablero::inicializarTablero()
@@ -37,12 +37,12 @@ void Tablero::inicializarTablero()
     {
         for (int j = 0; j < COLUMNAS; j++)
         {
-            casillas[i][j] = nullptr;
+            casillas_[i][j] = nullptr;
 
             if ((i + j) % 2 == 0)
-                color_casilla[i][j] = CASILLA_LUZ;
+                color_casilla_[i][j] = CASILLA_LUZ;
             else
-                color_casilla[i][j] = CASILLA_OSCURA;
+                color_casilla_[i][j] = CASILLA_OSCURA;
         }
     }
 }
@@ -51,28 +51,28 @@ void Tablero::actualizar(float dt)
 {
     for (int i = 0; i < FILAS; i++)
         for (int j = 0; j < COLUMNAS; j++)
-            if (casillas[i][j] != nullptr)
-                casillas[i][j]->actualizar(dt);
+            if (casillas_[i][j] != nullptr)
+                casillas_[i][j]->actualizar(dt);
 
     if (getJugadorActivo()->tienePiezaAgarrada())
         getJugadorActivo()->getPiezaSeleccionada()->actualizar(dt);
 
     actualizarColision();
 
-    letreroTurnos.posx = 102 + turno_actual * 273;
-    letreroTurnos.animar(dt);
+    letreroTurnos_.posx = 102 + turno_actual_ * 273;
+    letreroTurnos_.animar(dt);
 }
 
 void Tablero::dibujar(Renderizador* motor)
 {
     motor->dibujarSprite("../assets/Sprites/tablero/tableroFondo.png", 512, 512, 480 / 2, 270 / 2, -1);
     motor->dibujarSprite("../assets/Sprites/tablero/tablero.png", 256, 256, 480 / 2, 270 / 2, -2);
-    motor->dibujarSprite("../assets/Sprites/tablero/turnos.png", 256, 128, letreroTurnos.posx, 270 / 2, -5, 4, 8, letreroTurnos.frameActualX_, letreroTurnos.frameActualY_);
+    motor->dibujarSprite("../assets/Sprites/tablero/turnos.png", 256, 128, letreroTurnos_.posx, 270 / 2, -5, 4, 8, letreroTurnos_.frameActualX_, letreroTurnos_.frameActualY_);
 
     for (int i = 0; i < FILAS; i++)
         for (int j = 0; j < COLUMNAS; j++)
-            if (casillas[i][j] != nullptr)
-                casillas[i][j]->dibujar(motor);
+            if (casillas_[i][j] != nullptr)
+                casillas_[i][j]->dibujar(motor);
 
     if (getJugadorActivo()->tienePiezaAgarrada())
         getJugadorActivo()->getPiezaSeleccionada()->dibujar(motor);
@@ -86,11 +86,11 @@ void Tablero::dibujar(Renderizador* motor)
 
 void Tablero::recibirMovimiento(int jugador, int dx, int dy)
 {
-    if (casillas[8][0] != nullptr && casillas[8][0]->getIntroTablero()) return;
+    if (casillas_[8][0] != nullptr && casillas_[8][0]->getIntroTablero()) return;
 
     Cursor& cursor = jugador == 0 ? cursorJ1_ : cursorJ2_;
 
-    if (jugador == turno_actual)
+    if (jugador == turno_actual_)
     {
         Jugador* jugadorActivo = getJugadorActivo();
 
@@ -117,11 +117,11 @@ void Tablero::recibirMovimiento(int jugador, int dx, int dy)
 
 void Tablero::seleccionarPieza(int jugador)
 {
-    if (turno_actual == jugador)
+    if (turno_actual_ == jugador)
     {
         Cursor& cursor = getCursorActivo();
         Jugador* jugadorActivo = getJugadorActivo();
-        Animal* casilla = casillas[cursor.fila][cursor.columna];
+        Animal* casilla = casillas_[cursor.fila][cursor.columna];
 
         if (casilla == nullptr && !jugadorActivo->tienePiezaAgarrada()) {
             // casilla vacía y sin pieza agarrada, no hace nada
@@ -131,16 +131,16 @@ void Tablero::seleccionarPieza(int jugador)
             if (casilla->equipo_ == jugador)
             {
                 jugadorActivo->agarrarPieza(casilla);
-                casillas[cursor.fila][cursor.columna] = nullptr;
+                casillas_[cursor.fila][cursor.columna] = nullptr;
             }
         }
         else if (casilla == nullptr && jugadorActivo->tienePiezaAgarrada()) {
 
-            casillas[cursor.fila][cursor.columna] = jugadorActivo->getPiezaSeleccionada();
+            casillas_[cursor.fila][cursor.columna] = jugadorActivo->getPiezaSeleccionada();
             jugadorActivo->soltarPieza();
 
-            turno_actual = (turno_actual == 0) ? 1 : 0;
-            letreroTurnos.setState(0, turno_actual);
+            turno_actual_ = (turno_actual_ == 0) ? 1 : 0;
+            letreroTurnos_.setState(0, turno_actual_);
         }
         else if (casilla != nullptr && jugadorActivo->tienePiezaAgarrada()) {
             // colisión con enemigo, se gestiona desde Juego con getHayColision()
@@ -153,9 +153,9 @@ void Tablero::actualizarColision()
     Cursor& cursor = getCursorActivo();
     Jugador* jugadorActivo = getJugadorActivo();
 
-    if (casillas[cursor.fila][cursor.columna] != nullptr
+    if (casillas_[cursor.fila][cursor.columna] != nullptr
         && jugadorActivo->tienePiezaAgarrada()
-        && casillas[cursor.fila][cursor.columna]->equipo_ != jugadorActivo->getEquipo())
+        && casillas_[cursor.fila][cursor.columna]->equipo_ != jugadorActivo->getEquipo())
         hay_colision_ = true;
     else
         hay_colision_ = false;

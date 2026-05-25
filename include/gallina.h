@@ -1,10 +1,9 @@
 #pragma once
 #include "animal.h"
 
-class Gallina : public Animal {
-
+class Gallina : public Animal 
+{
 public:
-
 
 	Gallina(float posx, float posy, float capa, int vida, float xinicial, int equipo) : Animal(posx, posy, capa, vida, xinicial, equipo) {
 
