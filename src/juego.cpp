@@ -53,15 +53,17 @@ void Juego::actualizarLogica(float dt) {    // FASE 1: matemáticas, colisiones 
                 int perdedor = arena->obtenerPerdedor();
                 if (perdedor == 0) 
                 {
-                    animalesJ1[9]->vida_ = 0;
-                    animalesJ1[9]->posx_ = -100; // la mandamos fuera de pantalla
-                    animalesJ1[9]->posy_ = -100;
+                    Animal* j1animalc = jugador1_->getAnimalEnCombate();
+                   j1animalc->vida_ = 0;
+                   j1animalc->posx_ = -100; // la mandamos fuera de pantalla
+                   j1animalc->posy_ = -100;//aqui le podemos mandar a un vector de animales muertos.
                 }
                 else 
                 {
-                    animalesJ2[9]->vida_ = 0;
-                    animalesJ2[9]->posx_ = -100;
-                    animalesJ2[9]->posy_ = -100;
+                    Animal* j2animalc = jugador2_->getAnimalEnCombate();
+                    j2animalc->vida_ = 0;
+                    j2animalc->posx_ = -100;
+                    j2animalc->posy_ = -100;
                 }
                 estado_actual = TABLERO;
             }
@@ -136,7 +138,7 @@ void Juego::procesarTeclaPresionada(unsigned char key) // Hacer que tecla solo s
 
     if (key == 'b' || key == 'B')
     {
-        arena->inicioCombate(animalesJ1[9], animalesJ2[9]);
+        arena->inicioCombate(jugador1_->getAnimalEnCombate(), jugador2_->getAnimalEnCombate());
         estado_actual = BATALLA;
         return;
     }

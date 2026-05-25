@@ -100,7 +100,6 @@ void Tablero::recibirMovimiento(int jugador, int dx, int dy)
         }
         else
         {
-            std::cout << "tengo pieza agarrada" << std::endl;
             Animal* pieza = jugadorActivo->getPiezaSeleccionada();
             if (pieza->getEnMovimiento()) return;
 
@@ -121,7 +120,6 @@ void Tablero::seleccionarPieza(int jugador)
     if (turno_actual == jugador)
     {
         Cursor& cursor = getCursorActivo();
-        std::cout << "seleccionando en fila: " << cursor.fila<< " col: " << cursor.columna<< " casilla: " << casillas[cursor.fila][cursor.columna]<< std::endl;
         Jugador* jugadorActivo = getJugadorActivo();
         Animal* casilla = casillas[cursor.fila][cursor.columna];
 

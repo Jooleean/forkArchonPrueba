@@ -1,6 +1,6 @@
 #pragma once
 #include "animal.h"
-#include "renderizador.h"	
+#include "renderizador.h"
 
 //dimensiones que ocupa la arena en la pantalla
 
@@ -34,6 +34,7 @@ const int ATAQUE_EN_AREA = 3;
 
 class Arena
 {
+	
 	Animal* combatientes[2]; // si quereis Bnado Luz [0], [1] para el otro bando.
 	float pos_x[2];
 	float pos_y[2];
