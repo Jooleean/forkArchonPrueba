@@ -1,15 +1,13 @@
 #pragma once
 #include "renderizador.h"
 
-class Tarjeta {
-
+class Tarjeta 
+{
 public:
 
 	int animalSeleccionado = 1;
 	enum lado {IZQ = 69, DER = 480 - 69};
 	float posy = 32;
 
-
-	void dibujar(Renderizador* motor);
-
+	void dibujar(Renderizador* motor) const;
 };

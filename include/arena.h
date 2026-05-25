@@ -1,6 +1,6 @@
 #pragma once
 #include "animal.h"
-#include "renderizador.h"	
+#include "renderizador.h"
 
 //dimensiones que ocupa la arena en la pantalla
 
@@ -33,44 +33,44 @@ const int ATAQUE_TIPO_GOLPE = 2;
 const int ATAQUE_EN_AREA = 3;
 
 class Arena
-{
-	Animal* combatientes[2]; // si quereis Bnado Luz [0], [1] para el otro bando.
-	float pos_x[2];
-	float pos_y[2];
-	float pos_antigua_x[2];
-	float pos_antigua_y[2];
-	float ultima_direccion_x[2];
-	float ultima_direccion_y[2];
-	bool vivo[2];
+{	
+	Animal* combatientes_[2]{}; // si quereis Bnado Luz [0], [1] para el otro bando.
+	float pos_x_[2] = {};
+	float pos_y_[2] = {};
+	float pos_antigua_x_[2] = {};
+	float pos_antigua_y_[2] = {};
+	float ultima_direccion_x_[2] = {};
+	float ultima_direccion_y_[2] = {};
+	bool vivo_[2] = {};
 
-	bool movimiento_arriba[2];
-	bool movimiento_abajo[2];
-	bool movimiento_izq[2];
-	bool movimiento_dch[2];
+	bool movimiento_arriba_[2] = {};
+	bool movimiento_abajo_[2] = {};
+	bool movimiento_izq_[2] = {};
+	bool movimiento_dch_[2] = {};
 
-	float disparo_x[2];
-	float disparo_y[2];
-	float direccion_disparo_x[2];
-	float direccion_disparo_y[2];
-	float disparo_disparado[2];// xd el nombre.
+	float disparo_x_[2] = {};
+	float disparo_y_[2] = {};
+	float direccion_disparo_x_[2] = {};
+	float direccion_disparo_y_[2] = {};
+	bool disparo_disparado_[2] = {}; // xd el nombre.
 
-	float recarga_de_ataque[2];//tiempo que queda para poder atacar 
-	float recarga_maxima_de_ataque[2];//tiempo de racarga total de cada pieza
+	float recarga_de_ataque_[2] = {};//tiempo que queda para poder atacar 
+	float recarga_maxima_de_ataque_[2] = {};//tiempo de racarga total de cada pieza
 
-	float barrera_x[NUM_DE_BARRERAS];
-	float barrera_y[NUM_DE_BARRERAS];
-	bool barrera_visible[NUM_DE_BARRERAS];
-	float contador_ciclo_barrera[8];
-	float ciclo_maximo_barrera[8];
-	int ganador;
-	bool combate_terminado;
+	float barrera_x_[NUM_DE_BARRERAS] = {};
+	float barrera_y_[NUM_DE_BARRERAS] = {};
+	bool barrera_visible_[NUM_DE_BARRERAS] = {};
+	float contador_ciclo_barrera_[8] = {};
+	float ciclo_maximo_barrera_[8] = {};
+	int ganador_ = {};
+	bool combate_terminado_;
 
 	//atributos de ataque a melee
-	bool ataque_activo[2];
-	float ataque_x[2];
-	float ataque_y[2];
-	float ataque_visible_tiempo[2];
-	static const float DURACION_ATAQUE;
+	bool ataque_activo_[2] = {};
+	float ataque_x_[2] = {};
+	float ataque_y_[2] = {};
+	float ataque_visible_tiempo_[2] = {};
+	inline static const float DURACION_ATAQUE = 0.2f; 
 
 	void actualizarMovimiento(float dt);
 	void actualizarDisparo(float dt);
@@ -89,7 +89,7 @@ public:
 
 	void inicioCombate(Animal* pieza_luz, Animal* pieza_oscuridad);
 	void actualizar(float dt);
-	void dibujar(Renderizador* renderizador);
+	void dibujar(Renderizador* renderizador) const;
 	void recibirMovimiento(int jugador, int movimiento, bool tecla_pulsada);
 	bool recibirAtaque(int jugador);
 	int obtenerPerdedor() const; 

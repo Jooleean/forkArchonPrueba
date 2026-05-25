@@ -1,7 +1,7 @@
 #include "transicion.h"
 
-void Transicion::actualizar(float dt) {
-
+void Transicion::actualizar(float dt) 
+{
 	switch (estado) {
 
 	case ESPERANDO:
@@ -30,14 +30,12 @@ void Transicion::actualizar(float dt) {
 		}
 			break;
 	}
-
 }
 
-void Transicion::dibujar(Renderizador* motor) {
-
+void Transicion::dibujar(Renderizador* motor) const 
+{
 	if (tamano>0)
 		motor->dibujarSprite("../assets/Sprites/menu/transicionAgujero.png", tamano, tamano, 480 / 2, 270 / 2, -10, 1, 1, 0, 0, false); // agujero transparente
 
 		motor->dibujarSprite("../assets/Sprites/menu/transicionFondo.png", 480, 270, 480 / 2, 270 / 2, -10, 1, 1, 0, 0, false); // fondo negro
-
 }

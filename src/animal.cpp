@@ -1,7 +1,7 @@
 #include "animal.h"
 
-void Animal::actualizar(float dt) {
-
+void Animal::actualizar(float dt) 
+{
     if (intro_tablero_) {
 
         if (equipo_ == 0)
@@ -54,7 +54,8 @@ void Animal::actualizar(float dt) {
     animar(dt);
 }
 
-bool Animal::mover(modoJuego modo, direccion dir){   // Para que el animal sepa que tipo de movimiento debe realizar, se le debe indicar en que modo estamos
+bool Animal::mover(modoJuego modo, direccion dir) // Para que el animal sepa que tipo de movimiento debe realizar, 
+{   // se le debe indicar en que modo estamos
     // Agregar dt en los cambios de posición
 
     switch (modo) {
@@ -97,8 +98,8 @@ bool Animal::mover(modoJuego modo, direccion dir){   // Para que el animal sepa 
 
 }
 
-void Animal::animar(float dt) {
-
+void Animal::animar(float dt)
+{
         timer = timer + dt;
         if (timer > msStep)
         {
@@ -106,19 +107,15 @@ void Animal::animar(float dt) {
             else frameActualX_ = 0;
             timer = timer - msStep;
         }
-
 }
 
-
-
-void Animal::setState(int frameX, int frameY) {
-
+void Animal::setState(int frameX, int frameY) 
+{
     frameActualX_ = frameX;
     frameActualY_ = frameY;
     pausa = true;
 
 }
-
 
 void Animal::dibujar(Renderizador* motor)
 {

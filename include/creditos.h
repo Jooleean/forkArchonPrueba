@@ -3,11 +3,10 @@
 
 class BotellaCreditos
 {
-
-	float timer = 0;
-	float msStep = 100;
-	int nFrames = 8;
-	bool loop = false;
+	float timer_ = 0;
+	float msStep_ = 100;
+	int nFrames_ = 8;
+	bool loop_ = false;
 
 public:
 
@@ -17,14 +16,13 @@ public:
 	int frameActualY_ = 1;
 
 	void animar(float dt);
-
 };
 
-class GallinaCreditos {
-
-	float timer = 0;
-	float msStep = 100;
-	int nFrames = 8;
+class GallinaCreditos 
+{
+	float timer_ = 0;
+	float msStep_ = 100;
+	int nFrames_ = 8;
 
 public:
 
@@ -36,12 +34,12 @@ public:
 	void animar(float dt);
 };
 
-class Creditos {
-
+class Creditos 
+{
 private:
 
-	BotellaCreditos botella;
-	GallinaCreditos gallina;
+	BotellaCreditos botella_;
+	GallinaCreditos gallina_;
 	float posx_;
 	float posy_;
 	const float posFinal_ = -246;

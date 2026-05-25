@@ -1,8 +1,8 @@
 #pragma once
 #include "renderizador.h"
 
-class Transicion {
-
+class Transicion 
+{
 public:
 
     bool activo = false;
@@ -17,5 +17,5 @@ public:
     void termina() { activo = false;}
 
     void actualizar(float dt);
-    void dibujar(Renderizador* motor);
+    void dibujar(Renderizador* motor) const;
 };

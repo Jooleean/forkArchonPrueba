@@ -1,11 +1,11 @@
 #pragma once
 #include "renderizador.h"
 
-class PalomaControles {
-
-	float timer = 0;
-	float msStep = 100;
-	int nFrames = 5;
+class PalomaControles 
+{
+	float timer_ = 0;
+	float msStep_ = 100;
+	int nFrames_ = 5;
 
 public:
 
@@ -18,11 +18,11 @@ public:
 	void setState(int frameX, int frameY);
 };
 
-class Controles {
-
+class Controles 
+{
 private:
 
-	PalomaControles paloma;
+	PalomaControles paloma_;
 	float posx_;
 	float posy_;
 	const float posFinal_ = -246;

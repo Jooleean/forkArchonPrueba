@@ -2,8 +2,9 @@
 #include "ETSIDI.h" // Biblioteca para sprites y sonidos
 #include "freeglut.h" // Biblioteca de ventana, dibujo y manejo teclado
 #include "juego.h"
+#include "estructuras.h"
 
-Juego rancho;
+Juego rancho; // FALTA IMPLEMENTAR EL PATRÓN SINGLETON PARA QUE SOLO HAYA UNA INSTANCIA DE JUEGO
 
 // los callback, funciones que seran llamadas automaticamente por la glut cuando sucedan eventos
 void OnDraw(void);		 // llamada para dibujar
@@ -19,7 +20,7 @@ int main(int argc, char* argv[])
 		
 	//Inicializar el gestor de ventanas GLUT y crear la ventana
 	glutInit(&argc, argv);
-	glutInitWindowSize(rancho.anchoVentana(), rancho.altoVentana());
+	glutInitWindowSize(Constantes::ANCHO_VENTANA, Constantes::ALTO_VENTANA);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 	glutCreateWindow("Rancho");
 
@@ -33,7 +34,7 @@ int main(int argc, char* argv[])
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	glOrtho(0, rancho.anchoVentana(), 0, rancho.altoVentana(), 50, -50); // alto y ancho podrian hacerse static para acceder desde otras clases como menú (
+	glOrtho(0, Constantes::ANCHO_VENTANA, 0, Constantes::ALTO_VENTANA, 50, -50); // alto y ancho podrian hacerse static para acceder desde otras clases como menú (
 	glutFullScreen();
 	
 	//Registrar los callbacks

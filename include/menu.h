@@ -1,13 +1,15 @@
 #pragma once
 #include "renderizador.h"
 
-struct Letra {
+struct Letra 
+{
     float horiz;
     float altura;
     float capa;
 };
 
-struct Tractor {
+struct Tractor 
+{
     float posx = 550;
     float posy = 65;
     int frameActualX_ = 0, frameActualY_ = 0;
@@ -16,7 +18,8 @@ struct Tractor {
     void animar(float dt);
 };
 
-struct Paloma {
+struct Paloma 
+{
     float posx = -10;
     float posy = 222;
     int frameActualX_ = 0, frameActualY_ = 1;
@@ -25,13 +28,15 @@ struct Paloma {
     void animar(float dt);
 };
 
-struct Nube {
+struct Nube 
+{
     float posx;
     float posy;
     float capa;
 };
 
-struct Selector {
+struct Selector 
+{
     float posx = 178;
     float posy = 140;
 
@@ -42,7 +47,8 @@ struct Selector {
     Opcion opcionActual = JUGAR;
 };
 
-class Menu {
+class Menu 
+{
 public:
 
     Letra titulo[6] = {{0,0,-2.0},{0,0,-2.1},{0,0,-2.2},{0,0,-2.3},{0,0,-2.4},{0,0,-2.5}};
