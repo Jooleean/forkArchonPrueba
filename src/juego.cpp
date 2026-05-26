@@ -46,6 +46,7 @@ void Juego::actualizarLogica(float dt) // FASE 1: matemáticas, colisiones y reg
 
         if (tablero_->enBatalla)
         {
+            arena_->inicioCombate(jugadores_[0]->getAnimalEnCombate(), jugadores_[1]->getAnimalEnCombate());
             transicion_.empieza();
             proximo_estado = BATALLA;
         }

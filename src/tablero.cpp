@@ -113,8 +113,8 @@ void Tablero::dibujar(Renderizador* motor)
     if (getJugadorActivo()->tienePiezaAgarrada())
         getJugadorActivo()->getPiezaSeleccionada()->dibujar(motor);
 
-    cursorJ1_.dibujar(motor);
-    cursorJ2_.dibujar(motor);
+	Cursor& cursor_activo = getCursorActivo();
+	cursor_activo.dibujar(motor);
 
     if (getCursorActivo().getPosX() > 150 && getCursorActivo().getPosX() < 170)
         tarjeta.dibujar(motor);
