@@ -15,6 +15,5 @@ public:
 		setState(0, 0);
 	}
 
-	std::vector<Movimiento> movimientosPosibles() const override;
 	void dibujar(Renderizador* motor) override;
 };

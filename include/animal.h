@@ -89,6 +89,32 @@ public:
 	virtual void actualizar(float dt);
 	virtual void dibujar(Renderizador* motor);
 
-	// funcion virtual pura, se pone = 0 para obligar a que cada clase hija la defina
-	virtual std::vector<Movimiento> movimientosPosibles() const = 0; // cada animal tiene que definir sus movimientos posibles
+	// funcion virtual
+	virtual std::vector<Movimiento> movimientosPosibles() const; 
 };
+
+std::vector<Movimiento> Animal::movimientosPosibles() const {
+	std::vector<Movimiento> movimientos;
+	Casilla origen = { casillaInicial_[0], casillaInicial_[1] };
+	int alcance = max_casillas_movidas_;
+
+	for (int f = -alcance; f <= alcance; f++) {
+		for (int c = -alcance; c <= alcance; c++) {
+			if (f == 0 && c == 0) continue;
+
+			int nuevaFila = origen.fila + f;
+			int nuevaCol = origen.columna + c;
+
+			// Validación de las fronteras lógicas del tablero (9x9)
+			if (nuevaFila >= 0 && nuevaFila < Constantes::FILAS_TABLERO &&
+				nuevaCol >= 0 && nuevaCol < Constantes::COLUMNAS_TABLERO) {
+
+				Movimiento m;
+				m.origen = origen;
+				m.destino = { nuevaFila, nuevaCol };
+				movimientos.push_back(m);
+			}
+		}
+	}
+	return movimientos;
+}
