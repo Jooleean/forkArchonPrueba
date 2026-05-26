@@ -1,4 +1,5 @@
 #include "tablero.h"
+#include <cmath>
 //cursorJ1_(141.0f + 11.0f, 36.0f + 11.0f + 22.0f * 8.0f, 0),
 //cursorJ2_(141.0f + 11.0f + 22.0f * 8.0f, 36.0f + 11.0f, 1)
 
@@ -105,13 +106,15 @@ void Tablero::recibirMovimiento(int jugador, int dx, int dy)
 
             bool movimiento_valido = false;
             movimiento_valido = pieza->mover(TABLERO, dx, dy);
+
+            // Ahora es solo una linea pieza->mover(dx, dy); antes era todo esto:
             /*if (dx == 0 && dy == 1)  movimiento_valido = pieza->mover(TABLERO, U);
             if (dx == 0 && dy == -1) movimiento_valido = pieza->mover(TABLERO, D);
             if (dx == -1 && dy == 0) movimiento_valido = pieza->mover(TABLERO, L);
             if (dx == 1 && dy == 0)  movimiento_valido = pieza->mover(TABLERO, R);*/
 
-            if (movimiento_valido)
-                cursor.mover(dx, dy);
+            // vamos a probar a que el cursor se quede quiero mientras se mueve la pieza
+            // if (movimiento_valido) cursor.mover(dx, dy);
         }
     }
 }
@@ -138,23 +141,34 @@ void Tablero::seleccionarPieza(int jugador)
             }
         }
         // CASO 2: SOLTAR UNA PIEZA (Intentar movimiento)
-        else if (casilla == nullptr && jugadorActivo->tienePiezaAgarrada())
+        else if (jugadorActivo->tienePiezaAgarrada())
         {
             Animal* pieza = jugadorActivo->getPiezaSeleccionada();
 
-            // intento de movimiento lógico
+            // si la pieza sigue desplazándose visualmente, evitar soltarla
+            if (pieza->getEnMovimiento()) return;
+
             Movimiento m;
             m.origen.fila = pieza->casillaInicial_[0];
             m.origen.columna = pieza->casillaInicial_[1];
-            m.destino.fila = cursor.fila;
-            m.destino.columna = cursor.columna;
+
+            // leer la coordenada destino matemática a partir de los píxeles
+            m.destino.columna = std::round((pieza->getPosX() - 152.0f) / 22.0f);
+            m.destino.fila = 8 - std::round((pieza->getPosY() - 47.0f) / 22.0f);
 
             if (esMovimientoLegal(m))
             {
                 mover(m);
+
+                // teletransporta el cursor a la nueva casilla
+                // aprovechando cursor.mover iterando hasta la meta con while
+                while (cursor.columna < m.destino.columna) cursor.mover(1, 0);
+                while (cursor.columna > m.destino.columna) cursor.mover(-1, 0);
+                while (cursor.fila > m.destino.fila) cursor.mover(0, 1);  // dy=1 es ARRIBA (resta fila)
+                while (cursor.fila < m.destino.fila) cursor.mover(0, -1);
+
                 jugadorActivo->soltarPieza();
 
-                // cambio de turno
                 turno_actual_ = (turno_actual_ == 0) ? 1 : 0;
                 letreroTurnos_.setState(0, turno_actual_);
             }
@@ -180,21 +194,36 @@ void Tablero::seleccionarPieza(int jugador)
                 jugadorActivo->soltarPieza(); // soltar la pieza aunque el movimiento sea ilegal
                 // no se cambia el turno, el jugador vuelve a intentarlo
             }
-        }
+        }        
     }
 }
 
 void Tablero::actualizarColision()
 {
-    Cursor& cursor = getCursorActivo();
     Jugador* jugadorActivo = getJugadorActivo();
 
-    if (casillas_[cursor.fila][cursor.columna] != nullptr
-        && jugadorActivo->tienePiezaAgarrada()
-        && casillas_[cursor.fila][cursor.columna]->equipo_ != jugadorActivo->getEquipo())
-        hay_colision_ = true;
-    else
-        hay_colision_ = false;
+    if (jugadorActivo->tienePiezaAgarrada())
+    {
+        Animal* pieza = jugadorActivo->getPiezaSeleccionada();
+
+        // calcula la casilla sobre la que está volando el animal
+		int destCol = std::round((pieza->getPosX() - 152.0f) / 22.0f); // round sirve para redondear al entero más cercano
+        int destFila = 8 - std::round((pieza->getPosY() - 47.0f) / 22.0f);
+
+        // Si está dentro del tablero y hay un enemigo, activar colisión
+        if (destFila >= 0 && destFila < Constantes::FILAS_TABLERO &&
+            destCol >= 0 && destCol < Constantes::COLUMNAS_TABLERO)
+        {
+            if (casillas_[destFila][destCol] != nullptr &&
+                casillas_[destFila][destCol]->equipo_ != jugadorActivo->getEquipo())
+            {
+                hay_colision_ = true;
+                return;
+            }
+        }
+    }
+
+    hay_colision_ = false;
 }
 
 void Letrero::animar(float dt)
