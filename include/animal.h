@@ -75,7 +75,7 @@ public:
 	int getFrameActualX() const { return frameActualX_; }
 	int getFrameActualY() const { return frameActualY_; }
 
-	especieAnimal especie() const { return especie_; }
+	especieAnimal getEspecie() const { return especie_; }
 	bool getVivo() const { return vida_ > 0; }
 	int getEquipo() const { return equipo_; }
 

@@ -15,7 +15,7 @@ void Renderizador::dibujar(const Animal* animal) const
 {
     if (!animal || !animal->getVivo()) return;
 	std::string ruta_sprite;
-    switch (animal->especie()) {
+    switch (animal->getEspecie()) {
         case CABRA:
             ruta_sprite = "../assets/Sprites/cabra/cabraSpritesheet.png";
             break;
