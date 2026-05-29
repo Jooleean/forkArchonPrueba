@@ -73,9 +73,7 @@ void Tablero::recibirMovimiento(int jugador, int dx, int dy)
             Animal* pieza = jugadorActivo->getPiezaSeleccionada();
             if (pieza->getEnMovimiento()) return;
 
-            bool movimiento_valido = false;
-            movimiento_valido = pieza->mover(TABLERO, dx, dy);
-
+            pieza->mover(TABLERO,dx, dy);
             // Ahora es solo una linea pieza->mover(dx, dy); antes era todo esto:
             /*if (dx == 0 && dy == 1)  movimiento_valido = pieza->mover(TABLERO, U);
             if (dx == 0 && dy == -1) movimiento_valido = pieza->mover(TABLERO, D);
@@ -129,6 +127,7 @@ void Tablero::seleccionarPieza(int jugador, RenderizadorAudio* audio)
 
             if (esMovimientoLegal(m))
             {
+                Animal* rival = casillas_[m.destino.fila][m.destino.columna];
                 mover(m);
 
                 // teletransporta el cursor a la nueva casilla
@@ -141,10 +140,19 @@ void Tablero::seleccionarPieza(int jugador, RenderizadorAudio* audio)
 
                 if (getHayColision())
                 {
-                    animalesEnBatalla[0] = pieza;
-                    animalesEnBatalla[1] = casillas_[m.destino.fila][m.destino.columna];
+                    Animal* animal1 = pieza;
+                    Animal* animal2 = rival;//asi si que son animales distintos
+                    if (animal1->equipo_ == 0 && animal2->equipo_ == 1) {
+                        animalesEnBatalla[0] = animal1;
+                        animalesEnBatalla[1] = animal2;
+                    }
+                    else {
+                        animalesEnBatalla[0] = animal2;
+                        animalesEnBatalla[1] = animal1;
+                    }
                     enBatalla = true;
                 }
+
 
                  jugadorActivo->soltarPieza();
                  turno_actual_ = (turno_actual_ == 0) ? 1 : 0;

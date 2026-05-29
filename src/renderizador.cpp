@@ -31,8 +31,8 @@ void Renderizador::dibujar(const Animal* animal) const
     }
 
     dibujarSprite(
-        ruta_sprite.c_str(),
-        256, 128,
+       ruta_sprite.c_str(),
+        256.0f, 128.0f,
         animal->getPosX(), animal->getPosY(),
         animal->getCapaz(),
         4, 8,
@@ -242,8 +242,10 @@ void Renderizador::dibujar(const Arena* arena) const
 
     // DIBUJAR ATAQUES ACTIVOS
     for (int i = 0; i < 2; i++) {
-        if (arena->isAtaqueActivo(i)) {
-            dibujarBarreras(arena->getAtaqueX(i) - 4, arena->getAtaqueY(i) - 8, 8, 16, 0.55f, 0.27f, 0.07f, -2.0f);
+        const Ataque* atq = arena->getAtaqueObjeto(i);
+        if (atq && atq->isActivo()) {
+            float tam = atq->getTamanio();
+            dibujarSprite(atq->getSprite(),tam, tam,atq->getX(), atq->getY(),-10.0f,1, 1, 0, 0,true);
         }
     }
 
@@ -254,17 +256,9 @@ void Renderizador::dibujar(const Arena* arena) const
         if (arena->isVivo(i)) {
             const Animal* combatiente = arena->getCombatiente(i);
 
-            if (combatiente != nullptr) {
-                dibujarSprite("../assets/Sprites/gallina/gallinaSpritesheet.png",
-                    256, 32, combatiente->getPosX(), combatiente->getPosY(), -4.5f, 1, 8,
-                    combatiente->getFrameActualX(),
-                    combatiente->getFrameActualY(),
-                    true
-                );
-            }
+            if (combatiente != nullptr) {this->dibujar(combatiente);}
         }
     }
-
     glEnable(GL_DEPTH_TEST);
 }
 
