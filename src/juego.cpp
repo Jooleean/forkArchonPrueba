@@ -45,7 +45,10 @@ void Juego::actualizarLogica(float dt) // FASE 1: matemáticas, colisiones y reg
         tablero_->actualizar(dt);
         if (tablero_->enBatalla)
         {
+            jugadores_[0]->setAnimalEnCombate(tablero_->animalesEnBatalla[0]);
+            jugadores_[0]->setAnimalEnCombate(tablero_->animalesEnBatalla[1]);
             arena_->inicioCombate(tablero_->animalesEnBatalla[0], tablero_->animalesEnBatalla[1]);
+            tablero_->enBatalla = false;
             transicion_.empieza();
             proximo_estado = BATALLA;
             tablero_->enBatalla = false;
@@ -201,8 +204,8 @@ void Juego::procesarTeclaPresionada(unsigned char key) // Hacer que tecla solo s
          if (key == 's' || key == 'S') arena_->recibirMovimiento(0, ABAJO, true);
          if (key == 'a' || key == 'A') arena_->recibirMovimiento(0, IZQUIERDA, true);
          if (key == 'd' || key == 'D') arena_->recibirMovimiento(0, DERECHA, true);                
-		 if (key == 'q' || key == 'Q') arena_->recibirAtaque(0,audio_); // Ataque para J1
-         if (key == 'm' || key == 'M') arena_->recibirAtaque(1,audio_); // Ataque para J2
+		 if (key == 'q' || key == 'Q') arena_->recibirAtaque(0); // Ataque para J1
+         if (key == 'm' || key == 'M') arena_->recibirAtaque(1); // Ataque para J2
 
          if (key == 'b') {
              transicion_.empieza();

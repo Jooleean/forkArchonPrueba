@@ -3,6 +3,7 @@
 #include <vector>
 #include "ETSIDI.h"
 #include "estructuras.h"
+#include "ataque.h"
 
 enum modoJuego 
 {
@@ -30,6 +31,7 @@ public:
 			setState(0, 0);
 		else if (equipo_ == 1)
 			setState(0, 1);
+		ataque_ = nullptr;
 
 	}
 
@@ -42,7 +44,7 @@ public:
 	float capaz_;
 	int equipo_;
 	int vida_;
-	int ataque_{ 0 };
+	Ataque* ataque_;
 	float avanzando_casilla_ = 0;	// para saber cuando ha terminado de moverse
 	bool en_movimiento_ = false;	// para bloquear el teclado si se esta moviendo
 	int casillas_movidas_x_ = 0;
@@ -105,4 +107,12 @@ public:
 
 	// funcion virtual
 	virtual std::vector<Movimiento> movimientosPosibles() const; 
+	// ATAQUE
+	Ataque* getAtaque() const { return ataque_; }
+	int   getDanoAtaque()    const { return ataque_ ? ataque_->getDano() : 0; }
+	float getAlcanceAtaque() const { return ataque_ ? ataque_->getAlcance() : 0.f; }
+	float getRecargaAtaque() const { return ataque_ ? ataque_->getRecarga() : 0.f; }
+	virtual const char* getTipoAtaque() const = 0;
+	void recibirDano(int dano) { vida_ -= dano; }
+
 };
