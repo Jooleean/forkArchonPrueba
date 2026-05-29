@@ -41,6 +41,7 @@ class Tablero
 
 public:
 
+    Casilla casillaDisputada{};
     bool enBatalla = false;
     
     Animal* animalesEnBatalla[2]{};
@@ -70,6 +71,8 @@ public:
 	void setLetreroPosY(float y) { letreroTurnos_.posicion.y = y; }
 
 	Animal* getAnimalEnCasilla(int fila, int columna) const { return casillas_[fila][columna]; }
+    void acomodarGanador(Animal* animalGanador);
+
 	const Tarjeta* getTarjeta() const { return &tarjeta; }
 
     Tarjeta tarjeta;

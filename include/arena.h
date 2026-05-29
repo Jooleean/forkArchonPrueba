@@ -46,7 +46,6 @@ class Arena
 	bool movimiento_dch_[2] = {};
 
 	float recarga_de_ataque_[2] = {};//tiempo que queda para poder atacar 
-	
 
 	float barrera_x_[NUM_DE_BARRERAS] = {};
 	float barrera_y_[NUM_DE_BARRERAS] = {};
@@ -55,7 +54,6 @@ class Arena
 	float ciclo_maximo_barrera_[8] = {};
 
 	int ganador_ = -1;
-	bool combate_terminado_=false;
 
 	void actualizarMovimiento(float dt);
 	void actualizarAtaques(float dt);
@@ -69,6 +67,8 @@ class Arena
 	
 public:
 
+	bool combate_terminado_ = false;
+
 	Arena();
 	~Arena();
 
@@ -77,8 +77,8 @@ public:
 	void recibirMovimiento(int jugador, int movimiento, bool tecla_pulsada);
 	bool recibirAtaque(int jugador);
 	int obtenerPerdedor() const; 
-	bool combateTerminado() const;
-	int ganadorCombate() const;
+	bool combateTerminado() const { return combate_terminado_; }
+	int ganadorCombate() const { return ganador_;};
 	bool isBarreraVisible(int indice) const { return barrera_visible_[indice]; }
 	float getBarreraX(int indice) const { return barrera_x_[indice]; }
 	float getBarreraY(int indice) const { return barrera_y_[indice]; }
@@ -90,6 +90,7 @@ public:
 
 	void setCombatientes(Animal* animal1, Animal* animal2) {
 
+		combate_terminado_ = false;
 		combatientes_[0] = animal1;
 		combatientes_[1] = animal2;
 	}

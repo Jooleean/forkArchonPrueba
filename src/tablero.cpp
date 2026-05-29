@@ -133,8 +133,10 @@ void Tablero::seleccionarPieza(int jugador, RenderizadorAudio* audio)
                         jugadores_[1]->setAnimalEnCombate(pieza);
                     }
 
+                    casillaDisputada = m.destino;
                     enBatalla = true;
                 }
+
                 mover(m);
 
                 // teletransporta el cursor a la nueva casilla
@@ -145,6 +147,7 @@ void Tablero::seleccionarPieza(int jugador, RenderizadorAudio* audio)
                 while (cursor.fila < m.destino.fila) cursor.mover(0, -1);
 
                 jugadorActivo->soltarPieza();
+
                 turno_actual_ = (turno_actual_ == 0) ? 1 : 0;
                 letreroTurnos_.setState(0, turno_actual_);
             }
@@ -300,4 +303,11 @@ int Tablero::determinarGanador() {
     // + condición de ganar por eliminación
 
     return -1;
+}
+
+void Tablero::acomodarGanador(Animal* animalGanador)
+{
+    casillas_[casillaDisputada.fila][casillaDisputada.columna] = animalGanador;
+    casillas_[casillaDisputada.fila][casillaDisputada.columna]->
+    setPosicion({ 141.0f + 11.0f + 22.0f * casillaDisputada.columna, 36.0f + 11.0f + 22.0f * (8 - casillaDisputada.fila) });
 }

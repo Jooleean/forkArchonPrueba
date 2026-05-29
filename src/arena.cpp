@@ -75,15 +75,16 @@ void Arena::inicioCombate()
 
 void Arena::actualizar(float dt)
 {
-	if (combate_terminado_) {
-		intro_arena = true;
-		return;
-	}
 
 	if (intro_arena)
 	{
 		inicioCombate();
 		intro_arena = false;
+	}
+
+	if (combate_terminado_) {
+		intro_arena = true;
+		return;
 	}
 
 	actualizarBarreras(dt);
@@ -124,10 +125,6 @@ bool Arena::recibirAtaque(int jugador)
 			//audio->sonarDanoCabra();
 	return true;
 }
-
-bool Arena::combateTerminado() const { return combate_terminado_; }
-
-int Arena::ganadorCombate()const { return ganador_; }
 
 void Arena::actualizarMovimiento(float dt)
 {

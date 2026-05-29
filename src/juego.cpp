@@ -67,8 +67,10 @@ void Juego::actualizarLogica(float dt) // FASE 1: matemáticas, colisiones y reg
 
         if (arena_->combateTerminado())
         {
-            int perdedor = arena_->obtenerPerdedor();
-            Animal* animalPerdedor = jugadores_[perdedor]->getAnimalEnCombate();
+            Animal* animalPerdedor = jugadores_[arena_->obtenerPerdedor()]->getAnimalEnCombate();
+            Animal* animalGanador = jugadores_[1 - arena_->obtenerPerdedor()]->getAnimalEnCombate();
+
+            tablero_->acomodarGanador(animalGanador);
 
             animalPerdedor->vida_ = 0;
             animalPerdedor->setPosicion(Vector2D(-100, -100));
