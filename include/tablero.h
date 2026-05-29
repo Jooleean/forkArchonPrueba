@@ -42,6 +42,7 @@ class Tablero
 public:
 
     bool enBatalla = false;
+    
     Animal* animalesEnBatalla[2]{};
 
     Tablero(Jugador* jugador1, Jugador* jugador2);
@@ -54,6 +55,7 @@ public:
     void seleccionarPieza(int jugador, RenderizadorAudio* audio);
     void actualizar(float dt);
     void actualizarColision();
+    int determinarGanador();
 
     bool getHayColision() const { return hay_colision_; }
     const Cursor& getCursorActivo() const { return turno_actual_ == 0 ? cursorJ1_ : cursorJ2_; }

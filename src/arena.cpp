@@ -41,10 +41,10 @@ Arena::~Arena()
 	//las piezas se deben de destruir en tablero.
 }
 
-void Arena::inicioCombate(Animal* pieza_luz, Animal* pieza_oscuridad)
+void Arena::inicioCombate(Animal* animalJ1, Animal* animalJ2)
 {
-	combatientes_[0] = pieza_luz;
-	combatientes_[1] = pieza_oscuridad;
+	combatientes_[0] = animalJ1;
+	combatientes_[1] = animalJ2;
 
 	// desactivamos toda la logica del tablero para estos animales
 	for (int i = 0; i < 2; i++) {
@@ -53,14 +53,12 @@ void Arena::inicioCombate(Animal* pieza_luz, Animal* pieza_oscuridad)
 		combatientes_[i]->casillas_movidas_ = 0;
 		combatientes_[i]->casillas_movidas_x_ = 0;
 		combatientes_[i]->casillas_movidas_y_ = 0;
-		combatientes_[i]->velocidad_.x = 0;
-		combatientes_[i]->velocidad_.y = 0;
 	}	
 
 	// colocacion en la arena
-	pos_x_[0] = ARENA_MARGEN_X + 30.0f;
-	pos_y_[0] = ARENA_MARGEN_Y + ZONA_DE_COMBATE_Y / 2.0f;
-	pos_x_[1] = ARENA_MARGEN_X + ZONA_DE_COMBATE_X - 30.0f;
+	pos_x_[0] =ARENA_MARGEN_X + 30.0f;
+	pos_y_[0] =ARENA_MARGEN_Y + ZONA_DE_COMBATE_Y / 2.0f;
+	pos_x_[1] =ARENA_MARGEN_X + ZONA_DE_COMBATE_X - 30.0f;
 	pos_y_[1] = ARENA_MARGEN_Y + ZONA_DE_COMBATE_Y / 2.0f;
 
 	for (int i = 0; i < 2; i++) {
@@ -87,6 +85,7 @@ void Arena::inicioCombate(Animal* pieza_luz, Animal* pieza_oscuridad)
 void Arena::actualizar(float dt) 
 {
 	if (combate_terminado_) return;
+
 	actualizarBarreras(dt);
 	actualizarMovimiento(dt);
 	actualizarDisparo(dt);

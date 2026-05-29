@@ -13,6 +13,7 @@ Juego::Juego()
     renderizador_ = new Renderizador();
     creditos_ = new Creditos();
     controles_ = new Controles();
+    ganador_ = new Ganador();
     audio_ = new RenderizadorAudio();
 
     for (int i = 0; i < 2; i++)
@@ -29,6 +30,7 @@ Juego::~Juego()
     delete renderizador_;
 	delete creditos_;
     delete controles_;
+    delete ganador_;
     for (int i = 0; i < 2; i++)
         delete jugadores_[i];
 }
@@ -45,10 +47,16 @@ void Juego::actualizarLogica(float dt) // FASE 1: matemáticas, colisiones y reg
         tablero_->actualizar(dt);
         if (tablero_->enBatalla)
         {
-            arena_->inicioCombate(tablero_->animalesEnBatalla[0], tablero_->animalesEnBatalla[1]);
+            arena_->inicioCombate(jugadores_[0]->getAnimalEnCombate(), jugadores_[1]->getAnimalEnCombate());
             transicion_.empieza();
             proximo_estado = BATALLA;
             tablero_->enBatalla = false;
+        }
+
+        if (tablero_->determinarGanador() != -1)
+        {
+            transicion_.empieza();
+            proximo_estado = GANADOR;
         }
         break;
 
@@ -58,11 +66,10 @@ void Juego::actualizarLogica(float dt) // FASE 1: matemáticas, colisiones y reg
         {
             int perdedor = arena_->obtenerPerdedor();
             Animal* animalPerdedor = tablero_->animalesEnBatalla[perdedor];
-        
-  
+
             animalPerdedor->vida_ = 0;
             animalPerdedor->setPosicion(Vector2D(-100, -100));
-      
+
             transicion_.empieza();
             proximo_estado = TABLERO;
         }
@@ -87,6 +94,11 @@ void Juego::actualizarLogica(float dt) // FASE 1: matemáticas, colisiones y reg
             proximo_estado = MENU;
         }
         break;
+
+    case GANADOR:
+
+
+        break;
     }
 
     if (transicion_.getActivo())
@@ -110,28 +122,33 @@ void Juego::renderizarGraficos() // FASE 2: pintar en pantalla
 {   
     renderizador_->limpiarPantalla();
 
-    switch (estado_actual) 
+    switch (estado_actual)
     {
     case MENU:
-		renderizador_->dibujar(menu_);
+        renderizador_->dibujar(menu_);
         break;
 
-    case TABLERO:  
-		renderizador_->dibujar(tablero_);
+    case TABLERO:
+        renderizador_->dibujar(tablero_);
         break;
 
     case BATALLA:
-		renderizador_->dibujar(arena_);
+        renderizador_->dibujar(arena_);
         break;
 
     case CREDITOS:
-		renderizador_->dibujar(creditos_);
+        renderizador_->dibujar(creditos_);
         break;
 
     case CONTROLES:
         renderizador_->dibujar(controles_);
         break;
+
+    case GANADOR:
+        renderizador_->dibujar(ganador_);
+        break;
     }
+
     renderizador_->dibujar(&transicion_);
 }
 
@@ -232,7 +249,6 @@ void Juego::procesarTeclaLevantada(unsigned char key)
 
 void Juego::procesarTeclaEspecialPresionada(int key) // JUGADOR 2 (FLECHAS)
 {
- 
     switch (estado_actual) 
     {
     case MENU:

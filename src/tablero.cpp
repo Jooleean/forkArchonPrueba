@@ -1,10 +1,7 @@
 #include "tablero.h"
 #include <cmath>
-//cursorJ1_(141.0f + 11.0f, 36.0f + 11.0f + 22.0f * 8.0f, 0),
-//cursorJ2_(141.0f + 11.0f + 22.0f * 8.0f, 36.0f + 11.0f, 1)
 
 Tablero::Tablero(Jugador* jugador1, Jugador* jugador2) 
-
 {
     jugadores_[0] = jugador1;
     jugadores_[1] = jugador2;
@@ -48,10 +45,12 @@ void Tablero::actualizar(float dt)
         getJugadorActivo()->getPiezaSeleccionada()->actualizar(dt);
 
     actualizarColision();
-    //if(getHayColision())
 
     setLetreroPosX(102 + turno_actual_ * 273);
     letreroTurnos_.animar(dt);
+
+    determinarGanador();
+
 }
 
 void Tablero::recibirMovimiento(int jugador, int dx, int dy)
@@ -76,12 +75,7 @@ void Tablero::recibirMovimiento(int jugador, int dx, int dy)
             bool movimiento_valido = false;
             movimiento_valido = pieza->mover(TABLERO, dx, dy);
 
-            // Ahora es solo una linea pieza->mover(dx, dy); antes era todo esto:
-            /*if (dx == 0 && dy == 1)  movimiento_valido = pieza->mover(TABLERO, U);
-            if (dx == 0 && dy == -1) movimiento_valido = pieza->mover(TABLERO, D);
-            if (dx == -1 && dy == 0) movimiento_valido = pieza->mover(TABLERO, L);
-            if (dx == 1 && dy == 0)  movimiento_valido = pieza->mover(TABLERO, R);*/
-
+            // Ahora es solo una linea pieza->mover(dx, dy); 
             // vamos a probar a que el cursor se quede quiero mientras se mueve la pieza
             // if (movimiento_valido) cursor.mover(dx, dy);
         }
@@ -102,8 +96,9 @@ void Tablero::seleccionarPieza(int jugador, RenderizadorAudio* audio)
             if (casilla->equipo_ == jugador)
             {
                 // guardar el origen antes de levantarla físicamente
-                casilla->casillaInicial_[0] = cursor.fila;
-                casilla->casillaInicial_[1] = cursor.columna;
+                // casilla->casillaInicial_[0] = cursor.fila;
+                // casilla->casillaInicial_[1] = cursor.columna;
+                casilla->casillaInicial_ = {cursor.fila, cursor.columna};
 
                 jugadorActivo->agarrarPieza(casilla);
                 casillas_[cursor.fila][cursor.columna] = nullptr;
@@ -120,8 +115,9 @@ void Tablero::seleccionarPieza(int jugador, RenderizadorAudio* audio)
             if (pieza->getEnMovimiento()) return;
 
             Movimiento m;
-            m.origen.fila = pieza->casillaInicial_[0];
-            m.origen.columna = pieza->casillaInicial_[1];
+           // m.origen.fila = pieza->casillaInicial_[0];
+           // m.origen.columna = pieza->casillaInicial_[1];
+            m.origen = pieza->casillaInicial_;
 
             // leer la coordenada destino matemática a partir de los píxeles
             m.destino.columna = std::round((pieza->getPosX() - 152.0f) / 22.0f);
@@ -129,6 +125,21 @@ void Tablero::seleccionarPieza(int jugador, RenderizadorAudio* audio)
 
             if (esMovimientoLegal(m))
             {
+                if (getHayColision()) // asignar animales de combate a piezas chocantes (J1 izquierda, J2 derecha siempre)
+                {
+                    if (pieza->equipo_ == 0)
+                    {
+                        jugadores_[0]->setAnimalEnCombate(pieza);
+                        jugadores_[1]->setAnimalEnCombate(casillas_[m.destino.fila][m.destino.columna]);
+                    }
+                    else
+                    {
+                        jugadores_[0]->setAnimalEnCombate(casillas_[m.destino.fila][m.destino.columna]);
+                        jugadores_[1]->setAnimalEnCombate(pieza);
+                    }
+
+                    enBatalla = true;
+                }
                 mover(m);
 
                 // teletransporta el cursor a la nueva casilla
@@ -137,14 +148,6 @@ void Tablero::seleccionarPieza(int jugador, RenderizadorAudio* audio)
                 while (cursor.columna > m.destino.columna) cursor.mover(-1, 0);
                 while (cursor.fila > m.destino.fila) cursor.mover(0, 1);  // dy=1 es ARRIBA (resta fila)
                 while (cursor.fila < m.destino.fila) cursor.mover(0, -1);
-
-
-                if (getHayColision())
-                {
-                    animalesEnBatalla[0] = pieza;
-                    animalesEnBatalla[1] = casillas_[m.destino.fila][m.destino.columna];
-                    enBatalla = true;
-                }
 
                  jugadorActivo->soltarPieza();
                  turno_actual_ = (turno_actual_ == 0) ? 1 : 0;
@@ -196,6 +199,7 @@ void Tablero::actualizarColision()
                 casillas_[destFila][destCol]->equipo_ != jugadorActivo->getEquipo())
             {
                 hay_colision_ = true;
+
                 return;
             }
         }
@@ -227,30 +231,22 @@ bool Tablero::esMovimientoLegal(const Movimiento& m) const
     // validar que el destino esté dentro de las dimensiones del tablero
     if (m.destino.fila < 0 || m.destino.fila >= Constantes::FILAS_TABLERO ||
         m.destino.columna < 0 || m.destino.columna >= Constantes::COLUMNAS_TABLERO)
-    {
         return false;
-    }
-
+   
     // obtener el jugador activo
     Jugador* jugadorActivo = jugadores_[turno_actual_];
     if (!jugadorActivo || !jugadorActivo->tienePiezaAgarrada())
-    {
         return false;
-    }
 
 	// obtener la pieza seleccionada
     Animal* pieza = jugadorActivo->getPiezaSeleccionada();
     if (!pieza) 
-    { 
         return false; 
-    }
 
     // comprobar colisión con piezas del propio equipo
     Animal* casillaDestino = casillas_[m.destino.fila][m.destino.columna];
-    if (casillaDestino != nullptr && casillaDestino->equipo_ == turno_actual_)
-    {
+    if (casillaDestino != nullptr && casillaDestino->equipo_ == turno_actual_) 
         return false;
-    }
 
     // conexión con los vectores de movimientos posibles de cada animal
     std::vector<Movimiento> permitidos = pieza->movimientosPosibles();
@@ -295,5 +291,18 @@ void Tablero::mover(const Movimiento& m)
     pieza->casillas_movidas_ = 0;
     pieza->casillas_movidas_x_ = 0;
     pieza->casillas_movidas_y_ = 0;
+}
 
+int Tablero::determinarGanador() {
+
+    if (casillas_[4][4] != nullptr && casillas_[4][0] != nullptr && casillas_[4][8] != nullptr && casillas_[0][4] != nullptr && casillas_[8][4] != nullptr)
+        if (casillas_[4][4]->equipo_ == casillas_[4][0]->equipo_ &&
+            casillas_[4][4]->equipo_ == casillas_[4][8]->equipo_ &&
+            casillas_[4][4]->equipo_ == casillas_[0][4]->equipo_ &&
+            casillas_[4][4]->equipo_ == casillas_[8][4]->equipo_)
+            return casillas_[4][4]->equipo_;
+
+    // + condición de ganar por eliminación
+
+  return -1;
 }

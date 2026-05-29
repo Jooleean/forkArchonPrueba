@@ -5,23 +5,23 @@ void Animal::actualizar(float dt)
     if (intro_tablero_) {
 
         if (equipo_ == 0)
-        if (posicion_.x < xinicial_) {
+        if (posicion_.x < 141 + 11 + 22 * casillaInicial_.columna) {
             posicion_.x += dt/25;
             animar(dt);
         }
         else {
-            posicion_.x = xinicial_; // Aseguramos que quede clavado en la posición exacta
+            posicion_.x = 141 + 11 + 22 * casillaInicial_.columna; // Aseguramos que quede clavado en la posición exacta
             intro_tablero_ = false; 
             setState(0, 0);     
         }
 
         if (equipo_ == 1)
-        if (posicion_.x > xinicial_) {
+        if (posicion_.x > 141 + 11 + 22 * casillaInicial_.columna) {
             posicion_.x -= dt / 25;
             animar(dt);
         }
         else {
-            posicion_.x = xinicial_; // Aseguramos que quede clavado en la posición exacta
+            posicion_.x = 141 + 11 + 22 * casillaInicial_.columna; // Aseguramos que quede clavado en la posición exacta
             intro_tablero_ = false;
             setState(0, 1);
         }
@@ -33,6 +33,7 @@ void Animal::actualizar(float dt)
 		setState(0, equipo_);
         return;
     }
+
     // movimiento usando el Vector 2D
     posicion_ += velocidad_ * (dt / 25);	    
 
@@ -122,7 +123,8 @@ void Animal::setState(int frameX, int frameY)
 std::vector<Movimiento> Animal::movimientosPosibles() const
 {
     std::vector<Movimiento> movimientos;
-    Casilla origen = { casillaInicial_[0], casillaInicial_[1] };
+    //Casilla origen = { casillaInicial_[0], casillaInicial_[1] };
+    Casilla origen = casillaInicial_;
 
     int alcance = max_casillas_movidas_;
 
