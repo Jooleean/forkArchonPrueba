@@ -30,26 +30,26 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -128,32 +128,64 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="lib\ETSIDI.h" />
-    <ClInclude Include="include\placeholder.h" />
-    <ClInclude Include="lib\freeglut.h" />
-    <ClInclude Include="lib\dibujar.h" />
-    <ClInclude Include="lib\menu.h" />
+    <ClInclude Include="include\animal.h" />
+    <ClInclude Include="include\arena.h" />
+    <ClInclude Include="include\cabra.h" />
+    <ClInclude Include="include\controles.h" />
+    <ClInclude Include="include\creditos.h" />
+    <ClInclude Include="include\cursor.h" />
+    <ClInclude Include="include\estructuras.h" />
+    <ClInclude Include="include\ETSIDI.h" />
+    <ClInclude Include="include\freeglut.h" />
+    <ClInclude Include="include\gallina.h" />
+    <ClInclude Include="include\juego.h" />
+    <ClInclude Include="include\jugador.h" />
+    <ClInclude Include="include\menu.h" />
+    <ClInclude Include="include\renderizador.h" />
+    <ClInclude Include="include\RenderizadorAudio.h" />
+    <ClInclude Include="include\tablero.h" />
+    <ClInclude Include="include\tarjetaID.h" />
+    <ClInclude Include="include\transicion.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="assets\Audio\ranchoMainTheme.mpeg" />
+    <None Include="bin\assets\Audio\ranchoMainTheme.mpeg" />
     <None Include="bin\ETSIDI.dll" />
     <None Include="bin\fmodL.dll" />
     <None Include="bin\freeglut.dll" />
-    <None Include="docs\memoria.md" />
-    <None Include="ETSIDI\ETSIDI.exp" />
-    <None Include="ETSIDI\ETSIDIlib.pdf" />
+    <None Include="docs\GitFlow Workflow.pdf" />
+    <None Include="docs\CHANGELOG.md" />
+    <None Include="lib\ETSIDI.exp" />
+    <None Include="docs\ETSIDIlib.pdf" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\dibujar.cpp" />
+    <ClCompile Include="src\animal.cpp" />
+    <ClCompile Include="src\arena.cpp" />
+    <ClCompile Include="src\cabra.cpp" />
+    <ClCompile Include="src\controles.cpp" />
+    <ClCompile Include="src\creditos.cpp" />
+    <ClCompile Include="src\cursor.cpp" />
+    <ClCompile Include="src\gallina.cpp" />
+    <ClCompile Include="src\juego.cpp" />
+    <ClCompile Include="src\jugador.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\menu.cpp" />
+    <ClCompile Include="src\renderizador.cpp" />
+    <ClCompile Include="src\RenderizadorAudio.cpp" />
+    <ClCompile Include="src\tablero.cpp" />
+    <ClCompile Include="src\tarjetaID.cpp" />
+    <ClCompile Include="src\transicion.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="lib\ETSIDI.lib" />
     <Library Include="lib\freeglut.lib" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="src\pendientes.txt" />
+    <Text Include="src\old\CopiaDibujoAnterior" />
+    <Text Include="src\old\Funciones tablero david.txt" />
+    <Text Include="src\old\zzz.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="assets\Sprites\menu\titulo0.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

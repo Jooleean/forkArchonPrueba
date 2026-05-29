@@ -30,24 +30,29 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\placeholder.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="lib\freeglut.h">
-      <Filter>lib</Filter>
-    </ClInclude>
-    <ClInclude Include="lib\ETSIDI.h">
-      <Filter>lib</Filter>
-    </ClInclude>
-    <ClInclude Include="lib\otro.h">
-      <Filter>src</Filter>
-    </ClInclude>
+    <ClInclude Include="include\ETSIDI.h" />
+    <ClInclude Include="include\freeglut.h" />
+    <ClInclude Include="include\menu.h" />
+    <ClInclude Include="include\animal.h" />
+    <ClInclude Include="include\arena.h" />
+    <ClInclude Include="include\juego.h" />
+    <ClInclude Include="include\renderizador.h" />
+    <ClInclude Include="include\tablero.h" />
+    <ClInclude Include="include\cabra.h" />
+    <ClInclude Include="include\transicion.h" />
+    <ClInclude Include="include\cursor.h" />
+    <ClInclude Include="include\tarjetaID.h" />
+    <ClInclude Include="include\gallina.h" />
+    <ClInclude Include="include\creditos.h" />
+    <ClInclude Include="include\controles.h" />
+    <ClInclude Include="include\jugador.h" />
+    <ClInclude Include="include\estructuras.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="docs\memoria.md">
+    <None Include="docs\cuadernoBitacora.md">
       <Filter>docs</Filter>
     </None>
-    <None Include="assets\Audio\ranchoMainTheme.mpeg">
+    <None Include="bin\assets\Audio\ranchoMainTheme.mpeg">
       <Filter>assets\Audio</Filter>
     </None>
     <None Include="bin\ETSIDI.dll">
@@ -59,31 +64,28 @@
     <None Include="bin\freeglut.dll">
       <Filter>bin</Filter>
     </None>
-    <None Include="ETSIDI\ETSIDI.exp">
-      <Filter>ETSIDI</Filter>
-    </None>
-    <None Include="ETSIDI\ETSIDIlib.pdf">
-      <Filter>ETSIDI</Filter>
-    </None>
+    <None Include="docs\GitFlow Workflow.pdf" />
+    <None Include="lib\ETSIDI.exp" />
+    <None Include="docs\ETSIDIlib.pdf" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\otro.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="assets\Sprites\Image.png">
-      <Filter>assets\Sprites</Filter>
-    </Image>
-    <Image Include="assets\Sprites\foto2.png">
-      <Filter>assets\Sprites</Filter>
-    </Image>
-    <Image Include="assets\Sprites\art.gif">
-      <Filter>assets\Sprites</Filter>
-    </Image>
+    <ClCompile Include="src\menu.cpp" />
+    <ClCompile Include="src\animal.cpp" />
+    <ClCompile Include="src\arena.cpp" />
+    <ClCompile Include="src\juego.cpp" />
+    <ClCompile Include="src\renderizador.cpp" />
+    <ClCompile Include="src\tablero.cpp" />
+    <ClCompile Include="src\cabra.cpp" />
+    <ClCompile Include="src\transicion.cpp" />
+    <ClCompile Include="src\cursor.cpp" />
+    <ClCompile Include="src\tarjetaID.cpp" />
+    <ClCompile Include="src\gallina.cpp" />
+    <ClCompile Include="src\creditos.cpp" />
+    <ClCompile Include="src\controles.cpp" />
+    <ClCompile Include="src\jugador.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="lib\ETSIDI.lib">
@@ -92,5 +94,13 @@
     <Library Include="lib\freeglut.lib">
       <Filter>lib</Filter>
     </Library>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="src\old\CopiaDibujoAnterior" />
+    <Text Include="src\old\Funciones tablero david.txt" />
+    <Text Include="src\old\zzz.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="assets\Sprites\menu\titulo0.png" />
   </ItemGroup>
 </Project>
