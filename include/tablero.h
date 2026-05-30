@@ -57,6 +57,11 @@ class Tablero
     Cursor cursorJ1_ = Cursor(2,4,0); // se inicia cursor en columna,fila
     Cursor cursorJ2_ = Cursor(6,4,1);
 
+
+	Movimiento ultimoMovimiento_;
+	Vector2D posicion_piezas_muertas_ = { 0.0f, 247.0f }; 
+	std::vector<Animal*> piezas_muertas_; 
+
     static const int TAMANO_CASILLA = 22;
     static const int X_INICIO = 141;
     static const int Y_INICIO = 36;
@@ -93,11 +98,16 @@ public:
 	float getLetreroPosY() const { return letreroTurnos_.posicion.y; }
 	int getLetreroFrameX() const { return letreroTurnos_.frameActualX_; }
 	int getLetreroFrameY() const { return letreroTurnos_.frameActualY_; }
+    const std::vector<Animal*>& getPiezasMuertas() const { return piezas_muertas_; } 
 	void setLetreroPosX(float x) { letreroTurnos_.posicion.x = x; }
 	void setLetreroPosY(float y) { letreroTurnos_.posicion.y = y; }
 
+    void anadirPiezaMuerta(Animal* pieza);
+
 	Animal* getAnimalEnCasilla(int fila, int columna) const { return casillas_[fila][columna]; }
     void acomodarGanador(Animal* animalGanador);
+    void acomodarPerdedor(Animal* animalPerdedor);
+
 
 	const Tarjeta* getTarjeta() const { return &tarjeta; }
 

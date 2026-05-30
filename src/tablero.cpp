@@ -61,6 +61,11 @@ void Tablero::actualizar(float dt)
     if (getJugadorActivo()->tienePiezaAgarrada())
         getJugadorActivo()->getPiezaSeleccionada()->actualizarEnTablero(dt);
 
+    for (Animal* muerto : piezas_muertas_)
+    {
+        muerto->actualizarEnTablero(dt);
+    }
+
     actualizarColision();
 
     setLetreroPosX(102 + turno_actual_ * 273);
@@ -365,4 +370,37 @@ void Tablero::acomodarGanador(Animal* animalGanador)
     casillas_[casillaDisputada.fila][casillaDisputada.columna] = animalGanador;
     casillas_[casillaDisputada.fila][casillaDisputada.columna]->
     setPosicion({ 141.0f + 11.0f + 22.0f * casillaDisputada.columna, 36.0f + 11.0f + 22.0f * (8 - casillaDisputada.fila) });
+}
+void Tablero::acomodarPerdedor(Animal* animalPerdedor)
+{
+	animalPerdedor->setVida(1); // para que no se muera visualmente, aunque ya no tenga vida lógica, así se puede mostrar en el tablero de piezas muertas
+    anadirPiezaMuerta(animalPerdedor);
+}
+
+void Tablero::anadirPiezaMuerta(Animal* pieza)
+{
+    piezas_muertas_.push_back(pieza);
+
+    int muertas_equipo = 0;
+    for (Animal* m : piezas_muertas_)
+    {
+        if (m->getEquipo() == pieza->getEquipo())
+        {
+            muertas_equipo++;
+        }
+    }
+
+    if (pieza->getEquipo() == 0)
+    {
+        posicion_piezas_muertas_.x = 40.0f + (muertas_equipo * 22.0f); 
+    }
+    else
+    {
+        posicion_piezas_muertas_.x = 450.0f - (muertas_equipo * 22.0f);
+    }
+
+    pieza->setPosicion(Vector2D(posicion_piezas_muertas_));
+    pieza->setVelocidad(Vector2D(0, 0));
+    pieza->setEnMovimiento(false);
+    pieza->setState(0, 0); 
 }
