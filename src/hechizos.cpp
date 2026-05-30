@@ -117,7 +117,7 @@ void Tablero::ejecutarPasoHechizo(Animal* casilla, int fila, int col) {
 
     case CURAR_SELECCIONAR_ALIADO:
         if (casilla && casilla->getEquipo() == bando) {
-            casilla->vida_ = 10; // FALTA PONER LA VIDA MAXIMA DE CADA ANIMAL, habrá que hacer un getVidaMaxima() o algo así
+            casilla->setVida(10); // FALTA PONER LA VIDA MAXIMA DE CADA ANIMAL, habrá que hacer un getVidaMaxima() o algo así
             std::cout << ">> Animal curado al maximo de vida!\n";
             hechizoDisponible_[bando][2] = false; // se consume curar
             finalizarHechizo();
@@ -217,7 +217,7 @@ void Tablero::avanzarTurnosAtrapados() {
         for (int j = 0; j < Constantes::COLUMNAS_TABLERO; j++) {
             Animal* anim = casillas_[i][j];
             // disminuye en 1 si es el turno del jugador al que pertenece el animal atrapado
-            if (anim != nullptr && anim->atrapado_ && anim->equipo_ == turno_actual_) {
+            if (anim != nullptr && anim->atrapado_ && anim->getEquipo() == turno_actual_) {
                 anim->ciclos_atrapado_--;
                 if (anim->ciclos_atrapado_ <= 0) {
                     anim->atrapado_ = false;
