@@ -34,6 +34,12 @@ class Tablero
     Cursor cursorJ1_ = Cursor(2,4,0); // se inicia cursor en columna,fila
     Cursor cursorJ2_ = Cursor(6,4,1);
 
+
+    //miguel
+	Movimiento ultimoMovimiento_;
+	//Vector2D piezas_muertas_ = { 120.0f, 80.0f }; // para colocar las piezas muertas en la esquina del tablero, se va actualizando cada vez que muere una pieza
+	std::vector<Animal*> piezas_muertas_; 
+
     static const int TAMANO_CASILLA = 22;
     static const int X_INICIO = 141;
     static const int Y_INICIO = 36;
