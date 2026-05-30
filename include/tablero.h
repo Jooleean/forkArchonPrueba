@@ -23,12 +23,25 @@ enum EstadoHechizo { // para controlar el estado de los hechizos
 struct Letrero 
 {
     Vector2D posicion = { 550.0f, 65.0f };
-    
+
     int frameActualX_ = 0, frameActualY_ = 0;
     float timer{}, msStep = 65;
     int nFrames = 8;
     void animar(float dt);
     bool loop = false;
+    void setState(int frameX, int frameY);
+};
+
+struct Pato 
+{
+    Vector2D posicion = { 60, 90 };
+    bool subiendo = true;
+    
+    int frameActualX_ = 0, frameActualY_ = 0;
+    float timer{}, msStep = 100;
+    int nFrames = 4;
+    void animar(float dt);
+    bool loop = true;
     void setState(int frameX, int frameY);
 };
 
@@ -50,6 +63,9 @@ class Tablero
   // devuelve el cursor del jugador con el turno
 
 public:
+
+    float angulo = 0;
+    Pato pato;
 
     Casilla casillaDisputada{};
     bool enBatalla = false;
