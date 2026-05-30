@@ -14,6 +14,13 @@ Tablero::Tablero(Jugador* jugador1, Jugador* jugador2)
     for (int j = 0; j < 2; j++)
         for (int i = 0; i < Constantes::FILAS_TABLERO; i++)
             casillas_[i][8 - j] = jugadores_[1]->getAnimales()[j * Constantes::FILAS_TABLERO + i];
+
+    // inicializar todos los hechizos como disponibles
+    for (int j = 0; j < 2; j++) {
+        for (int h = 1; h <= 4; h++) {
+            hechizoDisponible_[j][h] = true; // true = hechizo disponible, cuando se gasta se pone a false
+        }
+    }
 }
 
 Tablero::~Tablero() {} // las piezas se destruyen en el jugador, no en el tablero

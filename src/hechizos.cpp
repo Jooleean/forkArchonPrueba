@@ -34,6 +34,14 @@ void Tablero::procesarTeclaHechizo(int tecla) {
         else return;
     }
 
+    // validación de si el bando ya ha gastado el hechizo elegido
+    if (!hechizoDisponible_[bando][tipoHechizo]) {
+        std::cout << "[!] El Granjero ya ha usado este hechizo.\n";
+        estadoHechizo_ = INACTIVO;
+        teclaHechizoActivo_ = -1;
+        return;
+    }
+
     teclaHechizoActivo_ = tecla;
     std::cout << "\n--- Jugador " << (bando + 1) << " invocando hechizo ---\n";
 
@@ -99,6 +107,7 @@ void Tablero::ejecutarPasoHechizo(Animal* casilla, int fila, int col) {
             primerObjetivoHechizo_->setPosicion(Vector2D(nuevaPosX, nuevaPosY));
 
             std::cout << ">> Teletransporte completado con exito!\n";
+            hechizoDisponible_[bando][1] = false; // se consume teletransporte
             finalizarHechizo();
         }
         else {
@@ -110,6 +119,7 @@ void Tablero::ejecutarPasoHechizo(Animal* casilla, int fila, int col) {
         if (casilla && casilla->getEquipo() == bando) {
             casilla->vida_ = 10; // FALTA PONER LA VIDA MAXIMA DE CADA ANIMAL, habrá que hacer un getVidaMaxima() o algo así
             std::cout << ">> Animal curado al maximo de vida!\n";
+            hechizoDisponible_[bando][2] = false; // se consume curar
             finalizarHechizo();
         }
         else {
@@ -152,6 +162,7 @@ void Tablero::ejecutarPasoHechizo(Animal* casilla, int fila, int col) {
             casilla->setPosicion(Vector2D(nuevaPosX2, nuevaPosY2));
 
             std::cout << ">> Intercambio completado!\n";
+            hechizoDisponible_[bando][3] = false; // se consume intercambio
             finalizarHechizo();
         }
         else {
@@ -164,6 +175,7 @@ void Tablero::ejecutarPasoHechizo(Animal* casilla, int fila, int col) {
             casilla->atrapado_ = true;
             casilla->ciclos_atrapado_ = 3;
             std::cout << ">> Animal rival atrapado e inmovilizado por 3 turnos!\n";
+            hechizoDisponible_[bando][4] = false; // se consume atrapar
             finalizarHechizo();
         }
         else {
