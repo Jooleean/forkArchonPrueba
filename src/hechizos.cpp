@@ -43,7 +43,7 @@ void Tablero::procesarTeclaHechizo(int tecla) {
     }
 
     teclaHechizoActivo_ = tecla;
-    std::cout << "\n--- Jugador " << (bando + 1) << " invocando hechizo ---\n";
+    std::cout << "\n--- Jugador " << (bando + 1) << " usando hechizo ---\n";
 
     // asignar el hechizo y guiar al usuario, 
     // esto de momento en consola, habría que usar ETSIDILIB para escribirlo en pantalla en algún sitio libre
@@ -205,11 +205,11 @@ void Tablero::finalizarHechizo() {
     teclaHechizoActivo_ = -1;
     primerObjetivoHechizo_ = nullptr;
 
+    avanzarTurnosAtrapados(); // antes de pasar el turno
+
     // cambio de turno
     turno_actual_ = (turno_actual_ == 0) ? 1 : 0;
-    letreroTurnos_.setState(0, turno_actual_);
-
-    avanzarTurnosAtrapados();
+    letreroTurnos_.setState(0, turno_actual_);    
 }
 
 void Tablero::avanzarTurnosAtrapados() {

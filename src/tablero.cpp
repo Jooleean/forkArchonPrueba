@@ -167,8 +167,12 @@ void Tablero::seleccionarPieza(int jugador, RenderizadorAudio* audio)
 
                 jugadorActivo->soltarPieza();
 
+                // actualizar los animales atrapados tras un movimiento
+                avanzarTurnosAtrapados();
+
+                // cambio de turno
                 turno_actual_ = (turno_actual_ == 0) ? 1 : 0;
-                letreroTurnos_.setState(0, turno_actual_);
+                letreroTurnos_.setState(0, turno_actual_);                
             }
             else
             {
