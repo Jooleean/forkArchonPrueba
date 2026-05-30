@@ -14,6 +14,13 @@ Tablero::Tablero(Jugador* jugador1, Jugador* jugador2)
     for (int j = 0; j < 2; j++)
         for (int i = 0; i < Constantes::FILAS_TABLERO; i++)
             casillas_[i][8 - j] = jugadores_[1]->getAnimales()[j * Constantes::FILAS_TABLERO + i];
+
+    // inicializar todos los hechizos como disponibles
+    for (int j = 0; j < 2; j++) {
+        for (int h = 1; h <= 4; h++) {
+            hechizoDisponible_[j][h] = true; // true = hechizo disponible, cuando se gasta se pone a false
+        }
+    }
 }
 
 Tablero::~Tablero() {} // las piezas se destruyen en el jugador, no en el tablero
@@ -62,7 +69,7 @@ void Tablero::actualizar(float dt)
     determinarGanador();
 }
 
-void Tablero::recibirMovimiento(int jugador, int dx, int dy)
+void Tablero::recibirMovimiento(int jugador, int dx, int dy) // dx y dy son -1, 0 o 1 dependiendo de la dirección del movimiento
 {
     if (casillas_[8][0] != nullptr && casillas_[8][0]->getIntroTablero()) return;
 
@@ -72,21 +79,23 @@ void Tablero::recibirMovimiento(int jugador, int dx, int dy)
     {
         Jugador* jugadorActivo = getJugadorActivo();
 
-        if (!jugadorActivo->tienePiezaAgarrada())
+        if (estadoHechizo_ != INACTIVO) // si hay un hechizo activo, se mueve el cursor
+        {
+            cursor.mover(dx, dy);
+            return; // corta aquí para que no intente mover al granjero
+        }
+
+		if (!jugadorActivo->tienePiezaAgarrada()) // si no tiene pieza agarrada, se mueve el cursor
         {
             cursor.mover(dx, dy);
         }
-        else
+		else // si tiene una pieza agarrada, se intenta mover la pieza
         {
             Animal* pieza = jugadorActivo->getPiezaSeleccionada();
             if (pieza->getEnMovimiento()) return;
 
             bool movimiento_valido = false;
             movimiento_valido = pieza->mover(TABLERO, dx, dy);
-
-            // Ahora es solo una linea pieza->mover(dx, dy); 
-            // vamos a probar a que el cursor se quede quiero mientras se mueve la pieza
-            // if (movimiento_valido) cursor.mover(dx, dy);
         }
     }
 }
@@ -99,11 +108,21 @@ void Tablero::seleccionarPieza(int jugador, RenderizadorAudio* audio)
         Jugador* jugadorActivo = getJugadorActivo();
         Animal* casilla = casillas_[cursor.getFila()][cursor.getColumna()];
 
+        if (estadoHechizo_ != INACTIVO) {
+            ejecutarPasoHechizo(casilla, cursor.fila, cursor.columna);
+            return;
+        }
+
         // CASO 1: LEVANTAR UNA PIEZA
         if (!jugadorActivo->tienePiezaAgarrada() && casilla != nullptr)
         {
             if (casilla->getEquipo() == jugador)
             {
+                if (casilla->atrapado_) {
+                    std::cout << "[!] Este animal esta atrapado en la red. Le quedan " << casilla->ciclos_atrapado_ << " turnos.\n";
+                    return; // bloquea recoger la pieza
+                }
+
                 // guardar el origen antes de levantarla físicamente
                 casilla->casillaInicial_ = { cursor.getFila(), cursor.getColumna()};
 
@@ -149,6 +168,11 @@ void Tablero::seleccionarPieza(int jugador, RenderizadorAudio* audio)
 
                 mover(m);
 
+                if (enBatalla)
+                {
+                    casillas_[m.destino.fila][m.destino.columna] = nullptr;
+                }
+
                 // teletransporta el cursor a la nueva casilla
                 // aprovechando cursor.mover iterando hasta la meta con while
                 while (cursor.getColumna() < m.destino.columna) cursor.mover(1, 0);
@@ -158,8 +182,12 @@ void Tablero::seleccionarPieza(int jugador, RenderizadorAudio* audio)
 
                 jugadorActivo->soltarPieza();
 
+                // actualizar los animales atrapados tras un movimiento
+                avanzarTurnosAtrapados();
+
+                // cambio de turno
                 turno_actual_ = (turno_actual_ == 0) ? 1 : 0;
-                letreroTurnos_.setState(0, turno_actual_);
+                letreroTurnos_.setState(0, turno_actual_);                
             }
             else
             {
