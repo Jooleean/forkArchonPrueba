@@ -267,9 +267,10 @@ void Arena::confirmarImpacto()
 			audio_->sonarHuevo(combatientes_[i]);
 			audio_->sonarAtacado(combatientes_[rival]);
 			std::cout << "Jugador " << rival + 1 << " recibe "
-			<< combatientes_[i]->getTipoAtaque()
-			<< " de " << ataque->getDano()
-			<< " dano. Vida: " << combatientes_[rival]->getVida() << std::endl;
+				<< combatientes_[i]->getTipoAtaque()
+				<< " de " << ataque->getDano()
+				<< " dano. Vida: " << combatientes_[rival]->getVida() << std::endl;
+		}
 	}
 }
 
