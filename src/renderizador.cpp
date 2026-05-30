@@ -1,6 +1,7 @@
 #include "renderizador.h"
 #include <iostream>
 #include <string>
+#include <cmath>
 
 // LIMPIAR PANTALLA
 void Renderizador::limpiarPantalla()
@@ -89,16 +90,24 @@ void Renderizador::dibujar(const Tablero* tablero) const
 
         int maxMovimientos = 0;
         int equipoFicha = -1;
+        float deltaTamanoTarjeta = 4 * sin(2 * tablero->angulo);
 
         if (animalEnCursor != nullptr) {
             maxMovimientos = animalEnCursor->getMaxCasillasMovidas();
             equipoFicha = animalEnCursor->getEquipo();
+
+            // dibujar tarjeta de animal en cursor
+         
+            dibujarSprite("../assets/Sprites/tarjetas/tarjetas.png", 256 + deltaTamanoTarjeta, 512 + deltaTamanoTarjeta/2.0f, 69 + (342* equipoFicha), 32, -5.5, 8, 2, equipoFicha, animalEnCursor->getEspecie());
         }
 
         if (tienePiezaAgarrada) {
             const Animal* piezaSeleccionada = jugadorActivo->getPiezaSeleccionada();
             maxMovimientos = piezaSeleccionada->getMaxCasillasMovidas();
             equipoFicha = piezaSeleccionada->getEquipo();
+
+            // dibujar tarjeta de animal seleccionado
+            dibujarSprite("../assets/Sprites/tarjetas/tarjetas.png", 256 + deltaTamanoTarjeta, 512 + deltaTamanoTarjeta/2.0f, 69 + (342 * equipoFicha), 32, -5.5, 8, 2, equipoFicha, piezaSeleccionada->getEspecie());
         }
 
         for (int i = 0; i < Constantes::FILAS_TABLERO; i++) {
@@ -140,16 +149,8 @@ void Renderizador::dibujar(const Tablero* tablero) const
 
     // DIBUJAR EL CURSOR
     // falta que haya dos cursores de diferentes colores, uno para cada jugador
-    dibujarSprite("../assets/Sprites/tablero/cursor.png", 32, 32, cursorActivo.getPosX(), cursorActivo.getPosY(), -5.0f);
+    dibujarSprite("../assets/Sprites/tablero/cursor.png", 64, 32, cursorActivo.getPosX(), cursorActivo.getPosY(), -5.0f,1,2, cursorActivo.getIdJugador(),0);
 
-    // DIBUJAR LA TARJETA ID
-    if (cursorActivo.getPosX() > 150 && cursorActivo.getPosX() < 170) {
-        const Tarjeta* tarjeta = tablero->getTarjeta();
-        if (tarjeta != nullptr) {
-            // Tarjeta::dibujar ahora está aquí
-            dibujarSprite("../assets/Sprites/tablero/tarjetasID.png", 128, 64, tarjeta->IZQ, tarjeta->DER, -5);
-        }
-    }
 }
 
 //MENU

@@ -36,6 +36,9 @@ void Tablero::inicializarTablero()
 
 void Tablero::actualizar(float dt)
 {
+    angulo += 0.05;
+    if (angulo > 360) angulo = 0; // para dibujar fuera segun parametro
+
     for (int i = 0; i < Constantes::FILAS_TABLERO; i++)
         for (int j = 0; j < Constantes::COLUMNAS_TABLERO; j++)
             if (casillas_[i][j] != nullptr)
@@ -87,7 +90,7 @@ void Tablero::seleccionarPieza(int jugador, RenderizadorAudio* audio)
     {
         Cursor& cursor = getCursorActivo();
         Jugador* jugadorActivo = getJugadorActivo();
-        Animal* casilla = casillas_[cursor.fila][cursor.columna];
+        Animal* casilla = casillas_[cursor.getFila()][cursor.getColumna()];
 
         // CASO 1: LEVANTAR UNA PIEZA
         if (!jugadorActivo->tienePiezaAgarrada() && casilla != nullptr)
@@ -95,10 +98,10 @@ void Tablero::seleccionarPieza(int jugador, RenderizadorAudio* audio)
             if (casilla->equipo_ == jugador)
             {
                 // guardar el origen antes de levantarla físicamente
-                casilla->casillaInicial_ = { cursor.fila, cursor.columna };
+                casilla->casillaInicial_ = { cursor.getFila(), cursor.getColumna()};
 
                 jugadorActivo->agarrarPieza(casilla);
-                casillas_[cursor.fila][cursor.columna] = nullptr;
+                casillas_[cursor.getFila()][cursor.getColumna()] = nullptr;
 
                 audio->sonarPickeo(casilla);
             }
@@ -141,10 +144,10 @@ void Tablero::seleccionarPieza(int jugador, RenderizadorAudio* audio)
 
                 // teletransporta el cursor a la nueva casilla
                 // aprovechando cursor.mover iterando hasta la meta con while
-                while (cursor.columna < m.destino.columna) cursor.mover(1, 0);
-                while (cursor.columna > m.destino.columna) cursor.mover(-1, 0);
-                while (cursor.fila > m.destino.fila) cursor.mover(0, 1);  // dy=1 es ARRIBA (resta fila)
-                while (cursor.fila < m.destino.fila) cursor.mover(0, -1);
+                while (cursor.getColumna() < m.destino.columna) cursor.mover(1, 0);
+                while (cursor.getColumna() > m.destino.columna) cursor.mover(-1, 0);
+                while (cursor.getFila() > m.destino.fila) cursor.mover(0, 1);  // dy=1 es ARRIBA (resta fila)
+                while (cursor.getFila() < m.destino.fila) cursor.mover(0, -1);
 
                 jugadorActivo->soltarPieza();
 

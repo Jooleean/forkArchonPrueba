@@ -12,7 +12,7 @@ enum modoJuego
 
 enum especieAnimal
 {
-	GRANJERO, CABRA, OVEJA, CERDO, LLAMA, GALLINA
+	CABRA, CERDO, GALLINA, GRANJERO, LLAMA, OVEJA
 };
 
 class Animal

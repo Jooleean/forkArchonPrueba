@@ -41,6 +41,8 @@ class Tablero
 
 public:
 
+    float angulo = 0;
+
     Casilla casillaDisputada{};
     bool enBatalla = false;
     
