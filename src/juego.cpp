@@ -63,7 +63,8 @@ void Juego::actualizarLogica(float dt) // FASE 1: matemáticas, colisiones y reg
 
     case BATALLA:
 
-        arena_->actualizar(dt);
+        if (!arena_->combateTerminado())
+            arena_->actualizar(dt);
 
         if (arena_->combateTerminado())
         {
