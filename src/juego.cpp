@@ -54,7 +54,7 @@ void Juego::actualizarLogica(float dt) // FASE 1: matemáticas, colisiones y reg
             arena_->setCombatientes(jugadores_[0]->getAnimalEnCombate(), jugadores_[1]->getAnimalEnCombate());
         }
 
-        if (tablero_->determinarGanador() != -1)
+        else if (tablero_->determinarGanador() != -1)
         {
             transicion_.empieza();
             proximo_estado = GANADOR;

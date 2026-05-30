@@ -158,6 +158,11 @@ void Tablero::seleccionarPieza(int jugador, RenderizadorAudio* audio)
 
                 mover(m);
 
+                if (enBatalla)
+                {
+                    casillas_[m.destino.fila][m.destino.columna] = nullptr;
+                }
+
                 // teletransporta el cursor a la nueva casilla
                 // aprovechando cursor.mover iterando hasta la meta con while
                 while (cursor.columna < m.destino.columna) cursor.mover(1, 0);
