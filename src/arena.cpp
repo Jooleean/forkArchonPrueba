@@ -129,10 +129,7 @@ bool Arena::recibirAtaque(int jugador,RenderizadorAudio* audio)
 	
 	audio->sonarAtaque(jugador, combatientes_[jugador]);
 		recarga_de_ataque_[jugador] = ataque->getRecarga();
-		//if (combatientes_[rival]->getEspecie() == GALLINA)
-				//audio->sonarDanoGallina();
-			//else if (combatientes_[rival]->getEspecie() == CABRA)
-				//audio->sonarDanoCabra();
+
 	return true;
 }
 
@@ -268,8 +265,6 @@ void Arena::confirmarImpacto()
 			audio_->sonarHuevo(combatientes_[i]);
 			audio_->sonarAtacado(combatientes_[rival]);
 
-			// Texto de recibe daño
-			// std::cout << "Jugador " << rival + 1 << " recibe " <<  combatientes_[i]->getTipoAtaque() << " de " << ataque->getDano() << " dano. Vida: " << combatientes_[rival]->getVida() << std::endl;
 		}
 	}
 }

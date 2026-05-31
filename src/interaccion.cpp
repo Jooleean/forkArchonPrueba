@@ -3,6 +3,9 @@
 
 bool Interaccion::hayColision(Ataque* ataque, const Animal* rival) {
     if (!ataque || !ataque->isActivo() || !rival) return false;
+    float tiempoMinimo = 0.4f;
+    if (dynamic_cast<Disparo*>(ataque)) tiempoMinimo = 0.05f;
+    if (ataque->getTiempoActivo() < tiempoMinimo) return false;
     float dx = ataque->getX() - rival->getPosX();
     float dy = ataque->getY() - rival->getPosY();
     return sqrt(dx * dx + dy * dy) < ataque->getTamanio() / 2.0f + 11.0f;

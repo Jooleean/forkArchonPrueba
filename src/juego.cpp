@@ -71,32 +71,12 @@ void Juego::actualizarLogica(float dt) // FASE 1: matemáticas, colisiones y reg
         else if (proximo_estado != TABLERO)
         {
             Animal* animalPerdedor = jugadores_[arena_->obtenerPerdedor()]->getAnimalEnCombate();
-            Animal* animalGanador = jugadores_[1 - arena_->obtenerPerdedor()]->getAnimalEnCombate();
+            //Animal* animalGanador = jugadores_[1 - arena_->obtenerPerdedor()]->getAnimalEnCombate();
 
-            // vida en batalla = vida base + bonus por estar en casilla de su color
-            int vidaAlEmpezarBatalla = animalGanador->getVidaBase() + animalGanador->getBonusVidaCasilla();
-            int danoRecibido = vidaAlEmpezarBatalla - animalGanador->getVida();
-            int bonus = animalGanador->getBonusVidaCasilla();
-
-            if (danoRecibido <= bonus) {
-                // si el daño es menor al bonus, el bonus absorbió el ataque y vuelve con toda su vida base
-                animalGanador->setVida(animalGanador->getVidaBase());
-            }
-            else {
-                // si sobrepasa el bonus, el daño afecta a la vida
-                int danoReal = danoRecibido - bonus;
-                animalGanador->setVidaBase(animalGanador->getVidaBase() - danoReal);
-                animalGanador->setVida(animalGanador->getVidaBase());
-            }
-
-            animalGanador->setBonusVidaCasilla(0); // limpia el bonus
-
-            tablero_->acomodarGanador(animalGanador);
+            //tablero_->acomodarGanador(animalGanador);
             tablero_->acomodarPerdedor(animalPerdedor);
 
             std::cout<< "combate terminado" << std::endl;
-            //animalPerdedor->setVida_(0);
-            //animalPerdedor->setPosicion(Vector2D(-100, -100));
 
             transicion_.empieza();
             proximo_estado = TABLERO;
@@ -137,10 +117,19 @@ void Juego::actualizarLogica(float dt) // FASE 1: matemáticas, colisiones y reg
         estado_actual = proximo_estado; // solo aqui, una sola vez
         switch (estado_actual)
         {
-        case MENU:     audio_->sonar(menu_);    break;
-        case TABLERO:  audio_->sonar(tablero_); break;
-        case BATALLA:  audio_->sonar(arena_);   break;
-        case CREDITOS: audio_->sonar(creditos_); break;
+        case MENU:      audio_->sonar(menu_); break;
+        case TABLERO:   audio_->sonar(tablero_);
+       
+            if (arena_->combateTerminado())
+            {
+                Animal* animalGanador = jugadores_[1 - arena_->obtenerPerdedor()]->getAnimalEnCombate();
+                tablero_->acomodarGanador(animalGanador);
+     
+            }
+            break;
+
+        case BATALLA:   audio_->sonar(arena_); break;
+        case CREDITOS:  audio_->sonar(creditos_); break;
         case CONTROLES: audio_->sonar(controles_); break;
         }
     }
