@@ -13,4 +13,6 @@ public:
     static bool animalChocaBarrera(float x, float y, float bx, float by,float semi_ancho = 10.0f, float semi_alto = 12.0f);
     static void mantenerDentroArena(float& x, float& y,float margen_x, float margen_y,float zona_x, float zona_y,float radio = 11.0f);
     static bool ataqueEstaFuera(const Ataque* ataque,float lim_izq, float lim_dch,float lim_arr, float lim_abj);
+    static bool aplicarDano(Ataque* ataque, Animal* rival);
+    static bool comprobarTiempo(Ataque* ataque);
 };
