@@ -73,7 +73,6 @@ void Juego::actualizarLogica(float dt) // FASE 1: matemáticas, colisiones y reg
             Animal* animalPerdedor = jugadores_[arena_->obtenerPerdedor()]->getAnimalEnCombate();
             Animal* animalGanador = jugadores_[1 - arena_->obtenerPerdedor()]->getAnimalEnCombate();
 
-            tablero_->acomodarGanador(animalGanador);
             tablero_->acomodarPerdedor(animalPerdedor);
 
             std::cout<< "combate terminado" << std::endl;
@@ -120,7 +119,13 @@ void Juego::actualizarLogica(float dt) // FASE 1: matemáticas, colisiones y reg
         switch (estado_actual)
         {
         case MENU:     audio_->sonar(menu_);    break;
-        case TABLERO:  audio_->sonar(tablero_); break;
+        case TABLERO:
+            if (arena_->combateTerminado()) {
+                Animal* animalGanador = jugadores_[1 - arena_->obtenerPerdedor()]->getAnimalEnCombate();
+                tablero_->acomodarGanador(animalGanador);
+            }
+            audio_->sonar(tablero_); 
+            break;
         case BATALLA:  audio_->sonar(arena_);   break;
         case CREDITOS: audio_->sonar(creditos_); break;
         case CONTROLES: audio_->sonar(controles_); break;

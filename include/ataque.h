@@ -33,6 +33,7 @@ public:
     float       getX()       const { return x_; }
     float       getY()       const { return y_; }
     bool        isActivo()   const { return activo_; }
+    float getTiempoActivo() const { return tiempoActivo_; }
 
     virtual void activar(float x, float y, float dirX, float dirY) {
         x_ = x; y_ = y; dirX_ = dirX; dirY_ = dirY;
