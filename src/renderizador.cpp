@@ -168,8 +168,8 @@ void Renderizador::dibujar(const Tablero* tablero) const
     // DIBUJAR HECHIZOS
        // if (animalEnCursor != nullptr && animalEnCursor->getEspecie() == GRANJERO) // Se puede dibujar el cartel de hechizos incluso si no está seleccionado
             //dibujarSprite("../assets/Sprites/tablero/hechizos.png", 256, 32, 240, 258, -5);
-        if (tienePiezaAgarrada && jugadorActivo->getPiezaSeleccionada()) 
-            dibujarSprite("../assets/Sprites/tablero/hechizos.png", 256, 32, 240, 258, -5);
+        if (tienePiezaAgarrada && jugadorActivo->getPiezaSeleccionada()->getEspecie() == GRANJERO) 
+            dibujarSprite("../assets/Sprites/tablero/hechizos.png", 512, 32, 240, 258, -5,1,2, jugadorActivo->getPiezaSeleccionada()->getEquipo(),0);
           
 
 
