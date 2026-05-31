@@ -127,7 +127,7 @@ public:
     EstadoHechizo getEstadoHechizo() const { return estadoHechizo_; }
 
     void procesarTeclaHechizo(int tecla);
-    void ejecutarPasoHechizo(Animal* casilla, int fila, int col);
+    void ejecutarPasoHechizo(Animal* casilla, int fila, int col, RenderizadorAudio* audio);
     void finalizarHechizo();
     void avanzarTurnosAtrapados();
 };

@@ -114,7 +114,7 @@ void Tablero::seleccionarPieza(int jugador, RenderizadorAudio* audio)
         Animal* casilla = casillas_[cursor.getFila()][cursor.getColumna()];
 
         if (estadoHechizo_ != INACTIVO) {
-            ejecutarPasoHechizo(casilla, cursor.getFila(), cursor.getColumna());
+            ejecutarPasoHechizo(casilla, cursor.getFila(), cursor.getColumna(), audio);
             return;
         }
 
