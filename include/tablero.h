@@ -5,6 +5,7 @@
 #include "jugador.h"
 #include "estructuras.h"
 #include "RenderizadorAudio.h"
+#include <queue>
 const int BANDO_LUZ = 0;
 const int BANDO_OSCURIDAD = 1;
 const int CASILLA_LUZ = 0;
@@ -60,7 +61,7 @@ class Tablero
 
 
 	Movimiento ultimoMovimiento_;
-	Vector2D posicion_piezas_muertas_ = { 0.0f, 247.0f }; 
+	Vector2D posicion_piezas_muertas_ = { 0.0f, 250.0f }; 
 	std::vector<Animal*> piezas_muertas_; 
 
     static const int TAMANO_CASILLA = 22;
@@ -117,6 +118,7 @@ public:
     // propuesta de psanse en la tutoria:
     bool esMovimientoLegal(const Movimiento& m) const;
     void mover(const Movimiento& m);
+    bool esAlcanzable(Casilla origen, Casilla destino, int maxMovimientos, bool puedeSaltar) const;
     //bool hayColisionEnemiga(const Movimiento& m) const;
 
 	// hechizos
