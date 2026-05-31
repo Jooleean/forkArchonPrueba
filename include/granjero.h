@@ -13,7 +13,8 @@ public:
 		max_casillas_movidas_ = 10;
 		nFrames = 5;
 		especie_ = GRANJERO;
-		ataque_ = new Golpe(4, 100.0f, ParametrosAnimales::RECARGA_GRANJERO, "../assets/Sprites/menu/selector.png", 16.0f, 0.5f);
+		ataque_ = new Golpe(ParametrosAnimales::DANO_GRANJERO, ParametrosAnimales::DURACION_GRANJERO,
+			ParametrosAnimales::RECARGA_GRANJERO, "../assets/Sprites/menu/selector.png", 16.0f, 0.5f);
 	}
 	const char* getTipoAtaque() const override { return "Golpe"; }
 	//void actualizar(float dt) override;

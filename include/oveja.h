@@ -15,7 +15,8 @@ public:
 		max_casillas_movidas_ = 3;
 		nFrames = 5;
 		especie_ = OVEJA;
-		ataque_ = new Embestida(5, 0.2f, ParametrosAnimales::RECARGA_OVEJA,"../assets/Sprites/creditos/botella.png", 16.0f);
+		ataque_ = new Embestida(ParametrosAnimales::DANO_OVEJA, ParametrosAnimales::DURACION_OVEJA,
+			ParametrosAnimales::RECARGA_OVEJA,"../assets/Sprites/creditos/botella.png", 16.0f);
 	}
 	const char* getTipoAtaque() const override { return "Embestida"; }
 	//void actualizar(float dt) override;

@@ -15,7 +15,8 @@ public:
 		max_casillas_movidas_ = 4;
 		nFrames = 5;
 		especie_ = CERDO;
-		ataque_ = new Onda(3, 100.0f, ParametrosAnimales::RECARGA_CERDO,"../assets/Sprites/menu/selector.png", 20.0f, 0.6f);
+		ataque_ = new Onda(ParametrosAnimales::DANO_CERDO, ParametrosAnimales::DURACION_CERDO,
+			ParametrosAnimales::RECARGA_CERDO,"../assets/Sprites/menu/selector.png", 20.0f, 0.6f);
 	}
 	const char* getTipoAtaque() const override { return "Onda"; }
 	//void actualizar(float dt) override;

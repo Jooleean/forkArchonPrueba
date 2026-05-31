@@ -15,7 +15,8 @@ public:
 		max_casillas_movidas_ = 2;
 		nFrames = 8;
 		especie_ = GALLINA;
-		ataque_ = new Disparo(2, 140.0f, ParametrosAnimales::RECARGA_GALLINA, "../assets/Sprites/menu/selector.png", 15.0f, 0.35f);
+		ataque_ = new Disparo(ParametrosAnimales::DANO_GALLINA, ParametrosAnimales::DURACION_GALLINA,
+			ParametrosAnimales::RECARGA_GALLINA, "../assets/Sprites/menu/selector.png", 15.0f, 0.35f);
 	}
 
 	const char* getTipoAtaque() const override { return "Disparo";}
