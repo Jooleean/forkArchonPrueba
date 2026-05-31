@@ -129,10 +129,7 @@ bool Arena::recibirAtaque(int jugador,RenderizadorAudio* audio)
 	
 	audio->sonarAtaque(jugador, combatientes_[jugador]);
 		recarga_de_ataque_[jugador] = ataque->getRecarga();
-		//if (combatientes_[rival]->getEspecie() == GALLINA)
-				//audio->sonarDanoGallina();
-			//else if (combatientes_[rival]->getEspecie() == CABRA)
-				//audio->sonarDanoCabra();
+
 	return true;
 }
 

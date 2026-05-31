@@ -2,6 +2,7 @@
 #include "ataque.h"
 #include "animal.h"
 #include "embestida.h"
+#include "disparo.h"
 
 class Interaccion {
 public:

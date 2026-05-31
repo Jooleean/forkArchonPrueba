@@ -71,7 +71,7 @@ void Juego::actualizarLogica(float dt) // FASE 1: matemáticas, colisiones y reg
         else if (proximo_estado != TABLERO)
         {
             Animal* animalPerdedor = jugadores_[arena_->obtenerPerdedor()]->getAnimalEnCombate();
-            Animal* animalGanador = jugadores_[1 - arena_->obtenerPerdedor()]->getAnimalEnCombate();
+            //Animal* animalGanador = jugadores_[1 - arena_->obtenerPerdedor()]->getAnimalEnCombate();
 
             // vida en batalla = vida base + bonus por estar en casilla de su color
             int vidaAlEmpezarBatalla = animalGanador->getVidaBase() + animalGanador->getBonusVidaCasilla();
@@ -95,8 +95,6 @@ void Juego::actualizarLogica(float dt) // FASE 1: matemáticas, colisiones y reg
             tablero_->acomodarPerdedor(animalPerdedor);
 
             std::cout<< "combate terminado" << std::endl;
-            //animalPerdedor->setVida_(0);
-            //animalPerdedor->setPosicion(Vector2D(-100, -100));
 
             transicion_.empieza();
             proximo_estado = TABLERO;
@@ -137,11 +135,9 @@ void Juego::actualizarLogica(float dt) // FASE 1: matemáticas, colisiones y reg
         estado_actual = proximo_estado; // solo aqui, una sola vez
         switch (estado_actual)
         {
-        case MENU:     
-            audio_->sonar(menu_);    
-            break;
-        case TABLERO:  
-            audio_->sonar(tablero_);
+        case MENU: audio_->sonar(menu_); break;
+        case TABLERO: audio_->sonar(tablero_);
+       
             if (arena_->combateTerminado())
             {
                 Animal* animalGanador = jugadores_[1 - arena_->obtenerPerdedor()]->getAnimalEnCombate();
