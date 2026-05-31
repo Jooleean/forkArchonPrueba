@@ -11,6 +11,23 @@ namespace Constantes
 	inline constexpr int COLUMNAS_TABLERO = 9;
 }
 
+namespace ParametrosAnimales
+{
+	inline constexpr float RECARGA_CABRA = 3.0f;
+	inline constexpr float RECARGA_CERDO = 3.0f;
+	inline constexpr float RECARGA_GALLINA = 3.0f;
+	inline constexpr float RECARGA_GRANJERO = 3.0f;
+	inline constexpr float RECARGA_LLAMA = 3.0f;
+	inline constexpr float RECARGA_OVEJA = 3.0f;
+
+	inline constexpr int VIDA_CABRA = 10;
+	inline constexpr int VIDA_CERDO =  10;
+	inline constexpr int VIDA_GALLINA = 10;
+	inline constexpr int VIDA_GRANJERO = 10;
+	inline constexpr int VIDA_LLAMA =  10;
+	inline constexpr int VIDA_OVEJA =  10;
+}
+
 struct Casilla {
 	int fila;
 	int columna;

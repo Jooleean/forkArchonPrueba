@@ -129,10 +129,7 @@ bool Arena::recibirAtaque(int jugador,RenderizadorAudio* audio)
 	
 	audio->sonarAtaque(jugador, combatientes_[jugador]);
 		recarga_de_ataque_[jugador] = ataque->getRecarga();
-		//if (combatientes_[rival]->getEspecie() == GALLINA)
-				//audio->sonarDanoGallina();
-			//else if (combatientes_[rival]->getEspecie() == CABRA)
-				//audio->sonarDanoCabra();
+
 	return true;
 }
 
@@ -202,6 +199,7 @@ void Arena::actualizarAtaques(float dt)
 
 		ataque->mover(dt);
 		if (!ataque->isActivo()) continue;
+
 		//Ataque fuera de la arena
 		if (Interaccion::ataqueEstaFuera(ataque, LIMITE_IZQ_ARENA, LIMITE_DCH_ARENA, LIMITE_ARRIBA_ARENA, LIMITE_ABAJO_ARENA))
 			ataque->desactivar();
@@ -266,10 +264,7 @@ void Arena::confirmarImpacto()
 		{
 			audio_->sonarHuevo(combatientes_[i]);
 			audio_->sonarAtacado(combatientes_[rival]);
-			std::cout << "Jugador " << rival + 1 << " recibe "
-				<< combatientes_[i]->getTipoAtaque()
-				<< " de " << ataque->getDano()
-				<< " dano. Vida: " << combatientes_[rival]->getVida() << std::endl;
+
 		}
 	}
 }
@@ -278,9 +273,12 @@ void Arena::confirmarFinCombate()
 {
 	for (int i = 0; i < 2; i++) {
 		if (combatientes_[i] != nullptr && combatientes_[i]->getVida() <= 0) {
+			combatientes_[i]->setVida(0);
 			vivo_[i] = false;
+			combatientes_[i]->setVivo(false);
 			combate_terminado_ = true;
 			ganador_ = (i == 0) ? 1 : 0;
+
 			std::cout << "Jugador " << ganador_ + 1 << " gana el combate!" << std::endl;
 		}
 	}

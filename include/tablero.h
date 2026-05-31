@@ -48,7 +48,8 @@ struct Pato
 class Tablero 
 {
     Animal* casillas_[Constantes::FILAS_TABLERO][Constantes::COLUMNAS_TABLERO];
-    int color_casilla_[Constantes::FILAS_TABLERO][Constantes::COLUMNAS_TABLERO];
+    char tipo_casilla_[Constantes::FILAS_TABLERO][Constantes::COLUMNAS_TABLERO];
+    int turnos_totales_ = 0; // contador para llevar el ciclo: 2 turnos totales = 1 ciclo completo
     bool hay_colision_ = false;
     int turno_actual_ = BANDO_LUZ;
     Letrero letreroTurnos_;
@@ -127,7 +128,10 @@ public:
     EstadoHechizo getEstadoHechizo() const { return estadoHechizo_; }
 
     void procesarTeclaHechizo(int tecla);
-    void ejecutarPasoHechizo(Animal* casilla, int fila, int col);
+    void ejecutarPasoHechizo(Animal* casilla, int fila, int col, RenderizadorAudio* audio);
     void finalizarHechizo();
     void avanzarTurnosAtrapados();
+
+    // casillas de colores
+    int getColorActualCasilla(int f, int c) const;
 };

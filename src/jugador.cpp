@@ -15,15 +15,15 @@ Jugador::Jugador(int equipo) : equipo_(equipo) // esto de construir los animales
 
     if (equipo_ == 0)
     {
-        animales_.push_back(new Cabra({ 0,0 }, 0));
-        animales_.push_back(new Oveja({ 1,0 }, 0));
-        animales_.push_back(new Cerdo({ 2,0 }, 0));
-        animales_.push_back(new Llama({ 3,0 }, 0));
+        animales_.push_back(new Llama({ 0,0 }, 0));
+        animales_.push_back(new Cerdo({ 1,0 }, 0));
+        animales_.push_back(new Oveja({ 2,0 }, 0));
+        animales_.push_back(new Cabra({ 3,0 }, 0));
         animales_.push_back(new Granjero({ 4,0 }, 0));
-        animales_.push_back(new Llama({ 5,0 }, 0));
-        animales_.push_back(new Cerdo({ 6,0 }, 0));
-        animales_.push_back(new Oveja({ 7,0 }, 0));
-        animales_.push_back(new Cabra({ 8,0 }, 0));
+        animales_.push_back(new Cabra({ 5,0 }, 0));
+        animales_.push_back(new Oveja({ 6,0 }, 0));
+        animales_.push_back(new Cerdo({ 7,0 }, 0));
+        animales_.push_back(new Llama({ 8,0 }, 0));
 
         for (int i = 0; i < 9; i++)
             animales_.push_back(new Gallina({ i,1 }, 0));
@@ -31,15 +31,15 @@ Jugador::Jugador(int equipo) : equipo_(equipo) // esto de construir los animales
 
     if (equipo_ == 1)
     {
-        animales_.push_back(new Cabra({ 0,8 }, 1));
-        animales_.push_back(new Oveja({ 1,8 }, 1));
-        animales_.push_back(new Cerdo({ 2,8 }, 1));
-        animales_.push_back(new Llama({ 3,8 }, 1));
+        animales_.push_back(new Llama({ 0,8 }, 1));
+        animales_.push_back(new Cerdo({ 1,8 }, 1));
+        animales_.push_back(new Oveja({ 2,8 }, 1));
+        animales_.push_back(new Cabra({ 3,8 }, 1));
         animales_.push_back(new Granjero({ 4,8 }, 1));
-        animales_.push_back(new Llama({ 5,8 }, 1));
-        animales_.push_back(new Cerdo({ 6,8 }, 1));
-        animales_.push_back(new Oveja({ 7,8 }, 1));
-        animales_.push_back(new Cabra({ 8,8 }, 1));
+        animales_.push_back(new Cabra({ 5,8 }, 1));
+        animales_.push_back(new Oveja({ 6,8 }, 1));
+        animales_.push_back(new Cerdo({ 7,8 }, 1));
+        animales_.push_back(new Llama({ 8,8 }, 1));
 
         for (int i = 0; i < 9; i++)
             animales_.push_back(new Gallina({ i,7 }, 1));
