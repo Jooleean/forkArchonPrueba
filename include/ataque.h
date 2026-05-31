@@ -7,7 +7,7 @@ class Ataque {
 protected:
     int         dano_;
     float       alcance_;
-    float       recarga_;
+    int       recarga_;
     const char* sprite_;
     float       tamanio_;
     float       duracion_visual_;
@@ -22,7 +22,7 @@ protected:
 
 public:
 
-    Ataque(int dano, float alcance, float recarga, const char* sprite, float tamanio, float duracion_visual)
+    Ataque(int dano, float alcance, int recarga, const char* sprite, float tamanio, float duracion_visual)
         : dano_(dano), alcance_(alcance), recarga_(recarga),
         sprite_(sprite), tamanio_(tamanio), duracion_visual_(duracion_visual) {}
 
@@ -30,7 +30,7 @@ public:
 
     int         getDano()    const { return dano_; }
     float       getAlcance() const { return alcance_; }
-    float       getRecarga() const { return recarga_; }
+    int       getRecarga() const { return recarga_; }
     const char* getSprite()  const { return sprite_; }
     float       getTamanio() const { return tamanio_; }
     float       getX()       const { return x_; }

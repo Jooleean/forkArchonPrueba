@@ -7,7 +7,7 @@ class Onda : public Ataque {
     float tamanioInicial_;
 
 public:
-    Onda(int dano, float alcance, float recarga, const char* sprite, float tamanio, float duracion)
+    Onda(int dano, float alcance, int recarga, const char* sprite, float tamanio, float duracion)
         : Ataque(dano, alcance, recarga, sprite, tamanio, duracion),
         tamanioInicial_(tamanio) {}
 

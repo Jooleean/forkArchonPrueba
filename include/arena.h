@@ -48,7 +48,7 @@ class Arena
 	bool movimiento_izq_[2] = {};
 	bool movimiento_dch_[2] = {};
 
-	float recarga_de_ataque_[2] = {};//tiempo que queda para poder atacar 
+	int recarga_de_ataque_[2] = {};//tiempo que queda para poder atacar 
 
 	float barrera_x_[NUM_DE_BARRERAS] = {};
 	float barrera_y_[NUM_DE_BARRERAS] = {};

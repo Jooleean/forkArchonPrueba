@@ -11,7 +11,7 @@ class Embestida : public Ataque {
     float duracion_embestida_;           // segundos que dura el impulso
 
 public:
-    Embestida(int dano, float duracion, float recarga, const char* sprite, float tamanio)
+    Embestida(int dano, float duracion, int recarga, const char* sprite, float tamanio)
         : Ataque(dano, 0.0f, recarga, sprite, tamanio, duracion),
         duracion_embestida_(duracion) {}
 

@@ -4,7 +4,7 @@
 class Golpe : public Ataque {
 
 public:
-    Golpe(int dano, float alcance, float recarga,const char* sprite, float tamanio, float duracion)
+    Golpe(int dano, float alcance, int recarga,const char* sprite, float tamanio, float duracion)
         : Ataque(dano, alcance, recarga, sprite, tamanio, duracion) {}
 
     void mover(float dt) override {
