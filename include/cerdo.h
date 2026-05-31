@@ -12,7 +12,7 @@ public:
 	{
 		vida_ = ParametrosAnimales::VIDA_CERDO;
 		vida_base_ = ParametrosAnimales::VIDA_CERDO;
-		max_casillas_movidas_ = 4;
+		max_casillas_movidas_ = 3;
 		nFrames = 5;
 		especie_ = CERDO;
 		ataque_ = new Onda(ParametrosAnimales::DANO_CERDO, ParametrosAnimales::DURACION_CERDO,
