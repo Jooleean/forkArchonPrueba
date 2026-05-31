@@ -185,8 +185,8 @@ void Tablero::seleccionarPieza(int jugador, RenderizadorAudio* audio)
                     a2->setBonusVidaCasilla(0);
 
                     // +50% de la vida base si estas en la casilla de tu color
-                    if (colorCasilla == 0) a1->setBonusVidaCasilla(a1->getVidaBase() * 0.5f);
-                    if (colorCasilla == 1) a2->setBonusVidaCasilla(a2->getVidaBase() * 0.5f);
+                    if (colorCasilla == 1) a1->setBonusVidaCasilla(a1->getVidaBase() * 0.5f);
+                    if (colorCasilla == 0) a2->setBonusVidaCasilla(a2->getVidaBase() * 0.5f);
 
                     // configurar la vida inicial de la batalla
                     a1->setVida(a1->getVidaBase() + a1->getBonusVidaCasilla());

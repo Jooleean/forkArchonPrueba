@@ -70,7 +70,9 @@ void Renderizador::dibujar(const Tablero* tablero) const
 {
 	// DIBUJAR FONDO
     dibujarSprite("../assets/Sprites/tablero/tableroFondo.png", 512, 512, 480 / 2, 270 / 2, -1);
-    dibujarSprite("../assets/Sprites/tablero/tablero.png", 256, 256, 480 / 2, 270 / 2, -2);
+    //dibujarSprite("../assets/Sprites/tablero/tablero.png", 256, 256, 480 / 2, 270 / 2, -2);
+    dibujarSprite("../assets/Sprites/tablero/vallas.png", 256, 256, 480 / 2, 270 / 2, -2.2);
+    dibujarSprite("../assets/Sprites/tablero/vallaAbajo.png", 256, 256, 480 / 2, 270 / 2, -4);
 
     // CASILLAS
     for (int i = 0; i < Constantes::FILAS_TABLERO; i++) {
@@ -84,7 +86,7 @@ void Renderizador::dibujar(const Tablero* tablero) const
             int frame = 1; // neutro por defecto
             if (color == 0) frame = 0; // claro
             if (color == 1) frame = 2; // oscuro
-            if (color == 3) frame = 1; // las casillas de poder de momento que sean neutras y ya está
+            if (color == 3) frame = 3; // las casillas de poder de momento que sean neutras y ya está
 
             // posición real
             float posCasillaX = 141.0f + 11.0f + (22.0f * j);
@@ -94,7 +96,7 @@ void Renderizador::dibujar(const Tablero* tablero) const
             // capa a -2.1f para estar entre el tablero y los animales pero hay que revisar tranparencias y tal
             // también ver que pasa con los movimientos legales
             // se espera 66x22 (3 frames de 22x22). si los dibujas más grandes, ajusta aquí, gracias, un saludo.
-            dibujarSprite("../assets/Sprites/tablero/casillas.png", 66, 22, posCasillaX, posCasillaY, -2.1f, 1, 3, frame, 0, false);
+            dibujarSprite("../assets/Sprites/tablero/casillas.png", 128, 32, posCasillaX, posCasillaY, -2.1f, 1, 4, frame, 0);
         }
     }
 
@@ -153,7 +155,7 @@ void Renderizador::dibujar(const Tablero* tablero) const
                             {
                                 int posPosibleX = 141 + 11 + 22 * j;
                                 int posPosibleY = 36 + 11 + 22 * (8 - i);
-                                dibujarSprite("../assets/Sprites/tablero/casillaPosible.png", 32, 32, posPosibleX, posPosibleY, -2.5);
+                                dibujarSprite("../assets/Sprites/tablero/casillaPosible2.png", 32, 32, posPosibleX, posPosibleY, -2.5);
                             }
                         }
                     }
