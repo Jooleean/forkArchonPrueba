@@ -80,7 +80,7 @@ void Tablero::procesarTeclaHechizo(int tecla) {
     }
 }
 
-void Tablero::ejecutarPasoHechizo(Animal* casilla, int fila, int col, RenderizadorAudio* audio) {
+void Tablero::ejecutarPasoHechizo(Animal* casilla, int fila, int col, renderizadorAudio* audio) {
 
     // no se pueden usar hechizos sobre las casillas de poder
     if (tipo_casilla_[fila][col] == 'P') {

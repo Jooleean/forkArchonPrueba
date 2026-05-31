@@ -32,7 +32,7 @@ const int DERECHA = 3;
 class Arena
 {	
 	bool intro_arena = true;
-	RenderizadorAudio* audio_ = nullptr;
+	renderizadorAudio* audio_ = nullptr;
 
 	Animal* combatientes_[2]{}; // si quereis Bnado Luz [0], [1] para el otro bando.
 	float pos_x_[2] = {};
@@ -76,7 +76,7 @@ public:
 	void inicioCombate();
 	void actualizar(float dt);
 	void recibirMovimiento(int jugador, int movimiento, bool tecla_pulsada);
-	bool recibirAtaque(int jugador, RenderizadorAudio* audio);
+	bool recibirAtaque(int jugador, renderizadorAudio* audio);
 	int obtenerPerdedor() const; 
 	bool combateTerminado() const { return combate_terminado_; }
 	int ganadorCombate() const { return ganador_;};

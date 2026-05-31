@@ -107,7 +107,7 @@ void Arena::recibirMovimiento(int jugador, int movimiento, bool tecla_pulsada)
 	if (movimiento == IZQUIERDA) movimiento_izq_[jugador] = tecla_pulsada;
 	if (movimiento == DERECHA)   movimiento_dch_[jugador] = tecla_pulsada;
 }
-bool Arena::recibirAtaque(int jugador,RenderizadorAudio* audio)
+bool Arena::recibirAtaque(int jugador,renderizadorAudio* audio)
 {
 	audio_ = audio;
 	if (combate_terminado_) return false;

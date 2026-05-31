@@ -85,7 +85,7 @@ public:
 
     void inicializarTablero();
     void recibirMovimiento(int jugador, int dx, int dy);
-    void seleccionarPieza(int jugador, RenderizadorAudio* audio);
+    void seleccionarPieza(int jugador, renderizadorAudio* audio);
     void actualizar(float dt);
     void actualizarColision();
     int determinarGanador();
@@ -128,7 +128,7 @@ public:
     EstadoHechizo getEstadoHechizo() const { return estadoHechizo_; }
 
     void procesarTeclaHechizo(int tecla);
-    void ejecutarPasoHechizo(Animal* casilla, int fila, int col, RenderizadorAudio* audio);
+    void ejecutarPasoHechizo(Animal* casilla, int fila, int col, renderizadorAudio* audio);
     void finalizarHechizo();
     void avanzarTurnosAtrapados();
 
