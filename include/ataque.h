@@ -11,6 +11,9 @@ protected:
     const char* sprite_;
     float       tamanio_;
     float       duracion_visual_;
+    bool contacto_detectado_ = false;
+
+    
 
     float x_ = 0, y_ = 0;
     float dirX_ = 0, dirY_ = 0;
@@ -33,13 +36,17 @@ public:
     float       getX()       const { return x_; }
     float       getY()       const { return y_; }
     bool        isActivo()   const { return activo_; }
+    float getTiempoActivo() const { return tiempoActivo_; }
+    void setContactoDetectado(bool v) { contacto_detectado_ = v; }
+    bool getContactoDetectado() const { return contacto_detectado_; }
 
     virtual void activar(float x, float y, float dirX, float dirY) {
         x_ = x; y_ = y; dirX_ = dirX; dirY_ = dirY;
         activo_ = true; tiempoActivo_ = 0;
     }
 
-    void desactivar() { activo_ = false; tiempoActivo_ = 0; }
+    void desactivar() { activo_ = false; tiempoActivo_ = 0; contacto_detectado_ = false; }
+  
 
     virtual void mover(float dt) = 0;
 };

@@ -8,7 +8,7 @@ class Arena;
 class Creditos;
 class Controles;
 
-class RenderizadorAudio
+class renderizadorAudio
 {
     //guardamos la ruta de la musica que esta sonando ahora mismo
     mutable const char* musica_actual_ = nullptr;
@@ -23,10 +23,13 @@ public:
 
  
     void sonarTransicion() const;
+    void sonarTransicionCombate() const;
+    void sonarFinDeCombate() const;
     void sonarPickeo(const Animal* animal) const;
     void sonarAtaque(int jugador, const Animal* atacante) const;
     void sonarHuevo(const Animal* atacante) const;
     void sonarAtacado(const Animal* atacado) const;
+    void sonarHechizo(int tipoHechizo) const;
     void sonidoMenu() const;
     void eleccionMenu() const;
     

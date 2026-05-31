@@ -27,16 +27,24 @@ Tablero::~Tablero() {} // las piezas se destruyen en el jugador, no en el tabler
 
 void Tablero::inicializarTablero()
 {
+    const char mapaInicial[Constantes::FILAS_TABLERO][Constantes::COLUMNAS_TABLERO] = {
+        {'O','C','O','N','P','N','C','O','C'},
+        {'C','O','N','C','N','O','N','C','O'},
+        {'O','N','C','O','N','C','O','N','C'},
+        {'N','C','O','C','N','O','C','O','N'},
+        {'P','N','N','N','P','N','N','N','P'},
+        {'N','C','O','C','N','O','C','O','N'},
+        {'O','N','C','O','N','C','O','N','C'},
+        {'C','O','N','C','N','O','N','C','O'},
+        {'O','C','O','N','P','N','C','O','C'}
+    };
+
     for (int i = 0; i < Constantes::FILAS_TABLERO; i++)
     {
         for (int j = 0; j < Constantes::COLUMNAS_TABLERO; j++)
         {
             casillas_[i][j] = nullptr;
-
-            if ((i + j) % 2 == 0)
-                color_casilla_[i][j] = CASILLA_LUZ;
-            else
-                color_casilla_[i][j] = CASILLA_OSCURA;
+            tipo_casilla_[i][j] = mapaInicial[i][j];
         }
     }
 }
@@ -105,7 +113,7 @@ void Tablero::recibirMovimiento(int jugador, int dx, int dy) // dx y dy son -1, 
     }
 }
 
-void Tablero::seleccionarPieza(int jugador, RenderizadorAudio* audio)
+void Tablero::seleccionarPieza(int jugador, renderizadorAudio* audio)
 {
     if (turno_actual_ == jugador)
     {
@@ -114,7 +122,7 @@ void Tablero::seleccionarPieza(int jugador, RenderizadorAudio* audio)
         Animal* casilla = casillas_[cursor.getFila()][cursor.getColumna()];
 
         if (estadoHechizo_ != INACTIVO) {
-            ejecutarPasoHechizo(casilla, cursor.getFila(), cursor.getColumna());
+            ejecutarPasoHechizo(casilla, cursor.getFila(), cursor.getColumna(), audio);
             return;
         }
 
@@ -167,6 +175,23 @@ void Tablero::seleccionarPieza(int jugador, RenderizadorAudio* audio)
                         jugadores_[1]->setAnimalEnCombate(pieza);
                     }
 
+                    // para calcular el bonus de vida extra
+                    int colorCasilla = getColorActualCasilla(m.destino.fila, m.destino.columna);
+
+                    Animal* a1 = jugadores_[0]->getAnimalEnCombate();
+                    Animal* a2 = jugadores_[1]->getAnimalEnCombate();
+
+                    a1->setBonusVidaCasilla(0);
+                    a2->setBonusVidaCasilla(0);
+
+                    // +50% de la vida base si estas en la casilla de tu color
+                    if (colorCasilla == 1) a1->setBonusVidaCasilla(a1->getVidaBase() * 0.5f);
+                    if (colorCasilla == 0) a2->setBonusVidaCasilla(a2->getVidaBase() * 0.5f);
+
+                    // configurar la vida inicial de la batalla
+                    a1->setVida(a1->getVidaBase() + a1->getBonusVidaCasilla());
+                    a2->setVida(a2->getVidaBase() + a2->getBonusVidaCasilla());
+
                     casillaDisputada = m.destino;
                     enBatalla = true;
                 }
@@ -192,6 +217,7 @@ void Tablero::seleccionarPieza(int jugador, RenderizadorAudio* audio)
 
                 // cambio de turno
                 turno_actual_ = (turno_actual_ == 0) ? 1 : 0;
+                if (!enBatalla) turnos_totales_++; // aumenta del contador global de turnos
                 letreroTurnos_.setState(0, turno_actual_);                
             }
             else
@@ -353,6 +379,7 @@ void Tablero::mover(const Movimiento& m)
 
 int Tablero::determinarGanador() {
 
+    // condicion para ganar por controlar los puntos de poder
     if (casillas_[4][4] != nullptr && casillas_[4][0] != nullptr && casillas_[4][8] != nullptr && casillas_[0][4] != nullptr && casillas_[8][4] != nullptr)
         if (casillas_[4][4]->getEquipo() == casillas_[4][0]->getEquipo() &&
             casillas_[4][4]->getEquipo() == casillas_[4][8]->getEquipo() &&
@@ -360,7 +387,21 @@ int Tablero::determinarGanador() {
             casillas_[4][4]->getEquipo() == casillas_[8][4]->getEquipo())
             return casillas_[4][4]->getEquipo();
 
-    // + condición de ganar por eliminación
+    // condición de ganar por eliminación
+    int muertes_equipo_0 = 0;
+    int muertes_equipo_1 = 0;
+
+    for (Animal* muerto : piezas_muertas_) {
+        if (muerto->getEquipo() == 0) {
+            muertes_equipo_0++;
+        }
+        else if (muerto->getEquipo() == 1) {
+            muertes_equipo_1++;
+        }
+    }
+
+    if (muertes_equipo_0 >= Constantes::NUMERO_ANIMALES) return 1; // gana el equipo 1 porque el 0 no tiene piezas
+    if (muertes_equipo_1 >= Constantes::NUMERO_ANIMALES) return 0; // gana el equipo 0 porque el 1 no tiene piezas
 
     return -1;
 }
@@ -370,10 +411,12 @@ void Tablero::acomodarGanador(Animal* animalGanador)
     casillas_[casillaDisputada.fila][casillaDisputada.columna] = animalGanador;
     casillas_[casillaDisputada.fila][casillaDisputada.columna]->
     setPosicion({ 141.0f + 11.0f + 22.0f * casillaDisputada.columna, 36.0f + 11.0f + 22.0f * (8 - casillaDisputada.fila) });
+
+    turnos_totales_++;
 }
 void Tablero::acomodarPerdedor(Animal* animalPerdedor)
 {
-	animalPerdedor->setVida(1); // para que no se muera visualmente, aunque ya no tenga vida lógica, así se puede mostrar en el tablero de piezas muertas
+	//animalPerdedor->setVida(1); // para que no se muera visualmente, aunque ya no tenga vida lógica, así se puede mostrar en el tablero de piezas muertas
     anadirPiezaMuerta(animalPerdedor);
 }
 
@@ -392,15 +435,41 @@ void Tablero::anadirPiezaMuerta(Animal* pieza)
 
     if (pieza->getEquipo() == 0)
     {
-        posicion_piezas_muertas_.x = 40.0f + (muertas_equipo * 22.0f); 
+        posicion_piezas_muertas_.x = 360 + (muertas_equipo * 11.0f); 
+        if (muertas_equipo >9) posicion_piezas_muertas_.x = 360 + (muertas_equipo - 9) * 11.0f; // segunda fila
+
+        posicion_piezas_muertas_.y = 250;
+        if (muertas_equipo > 9) posicion_piezas_muertas_.y = 235; // segunda fila
     }
     else
     {
-        posicion_piezas_muertas_.x = 450.0f - (muertas_equipo * 22.0f);
+        posicion_piezas_muertas_.x = 360 + (muertas_equipo * 11.0f);
+        if (muertas_equipo > 9) posicion_piezas_muertas_.x = 360 + (muertas_equipo - 9) * 11.0f;
+
+        posicion_piezas_muertas_.y = 210;
+        if (muertas_equipo > 9) posicion_piezas_muertas_.y = 195;
     }
 
     pieza->setPosicion(Vector2D(posicion_piezas_muertas_));
     pieza->setVelocidad(Vector2D(0, 0));
     pieza->setEnMovimiento(false);
     pieza->setState(0, 0); 
+}
+
+int Tablero::getColorActualCasilla(int f, int c) const
+{
+    char tipo = tipo_casilla_[f][c];
+    if (tipo == 'C') return 0; // Clara
+    if (tipo == 'O') return 1; // Oscura
+    if (tipo == 'P') return 3; // Poder
+
+    if (tipo == 'N') {
+        // Un turno completo equivale a 1 jugada del J1 + 1 jugada del J2.
+        int ciclo = (turnos_totales_ / 2) % 4; // Fases: 0, 1, 2, 3
+
+        if (ciclo == 0 || ciclo == 2) return 2; // Fase 0 y 2: Neutro
+        if (ciclo == 1) return 0;               // Fase 1: Claro
+        if (ciclo == 3) return 1;               // Fase 3: Oscuro
+    }
+    return 2; // Por defecto
 }

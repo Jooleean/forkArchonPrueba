@@ -1,59 +1,58 @@
 #include "RenderizadorAudio.h"
 #include <cstring>
 
-void RenderizadorAudio::cambiarMusica(const char* rutaAudio) const
+void renderizadorAudio::cambiarMusica(const char* rutaAudio) const
 {
     if (musica_actual_ != nullptr && strcmp(musica_actual_, rutaAudio) == 0)
         return;
-
     // si es diferente la cambiamos
     musica_actual_ = rutaAudio;
     ETSIDI::playMusica(rutaAudio, true);
 }
 
-void RenderizadorAudio::sonar(const Menu* menu) const
+void renderizadorAudio::sonar(const Menu* menu) const
 {
     if (musica_actual_ == nullptr)
         cambiarMusica("../assets/Audio/menu.mp3");
 }
 
-void RenderizadorAudio::sonar(const Tablero* tablero) const
+void renderizadorAudio::sonar(const Tablero* tablero) const
 {
-    ETSIDI::playMusica("../assets/Audio/musica_tablero.mp3", true);
+    cambiarMusica("../assets/Audio/musica_tablero.mp3");
 }
 
-void RenderizadorAudio::sonar(const Arena* arena) const
+void renderizadorAudio::sonar(const Arena* arena) const
 {
-    ETSIDI::playMusica("../assets/Audio/musica_combate.mp3", true);
+    cambiarMusica("../assets/Audio/musica_combate.mp3");
 }
 
-void RenderizadorAudio::sonar(const Creditos* creditos) const
+void renderizadorAudio::sonar(const Creditos* creditos) const
 {
     //sigue sonando la musica
 }
 
-void RenderizadorAudio::sonar(const Controles* controles) const
+void renderizadorAudio::sonar(const Controles* controles) const
 {
     //igual que creditos
 }
 
-void RenderizadorAudio::playMusica(const char* rutaAudio, bool repitir) const
+void renderizadorAudio::playMusica(const char* rutaAudio, bool repitir) const
 {
     ETSIDI::playMusica(rutaAudio, repitir);
 }
 
-void RenderizadorAudio::stopMusica() const
+void renderizadorAudio::stopMusica() const
 {
     musica_actual_ = nullptr;
     ETSIDI::stopMusica();
 }
 
-void RenderizadorAudio::playSonido(const char* rutaAudio) const
+void renderizadorAudio::playSonido(const char* rutaAudio) const
 {
     ETSIDI::play(rutaAudio);
 }
 
-void RenderizadorAudio::sonarPickeo(const Animal* animal) const
+void renderizadorAudio::sonarPickeo(const Animal* animal) const
 {
     if (animal->getEspecie() == GALLINA)
         ETSIDI::play("../assets/Audio/gallina.mp3");
@@ -69,7 +68,7 @@ void RenderizadorAudio::sonarPickeo(const Animal* animal) const
         ETSIDI::play("../assets/Audio/granjero.mp3");
 }
 
-void RenderizadorAudio::sonarAtaque(int jugador, const Animal* atacante) const
+void renderizadorAudio::sonarAtaque(int jugador, const Animal* atacante) const
 {
     if (atacante->getEspecie() == GALLINA)
         ETSIDI::play("../assets/Audio/lanzarhuevo.mp3");
@@ -85,7 +84,7 @@ void RenderizadorAudio::sonarAtaque(int jugador, const Animal* atacante) const
         ETSIDI::play("../assets/Audio/ataqueoveja.mp3");
 }
 
-void RenderizadorAudio::sonarHuevo(const Animal* atacante) const
+void renderizadorAudio::sonarHuevo(const Animal* atacante) const
 {
     if (atacante->getEspecie() == GALLINA)
         ETSIDI::play("../assets/Audio/huevoroto.mp3");
@@ -93,7 +92,7 @@ void RenderizadorAudio::sonarHuevo(const Animal* atacante) const
         ETSIDI::play("../assets/Audio/impactobabas.mp3");
 }
 
-void RenderizadorAudio::sonarAtacado(const Animal* atacado) const
+void renderizadorAudio::sonarAtacado(const Animal* atacado) const
 {
     if (atacado->getEspecie() == GALLINA)
         ETSIDI::play("../assets/Audio/damage_gallina.mp3");
@@ -109,18 +108,40 @@ void RenderizadorAudio::sonarAtacado(const Animal* atacado) const
         ETSIDI::play("../assets/Audio/damage_llama.mp3");
 }
 
-void RenderizadorAudio::sonidoMenu() const
+void renderizadorAudio::sonarHechizo(int tipoHechizo) const
+{
+    switch (tipoHechizo)
+    {
+    case 1: ETSIDI::play("../assets/Audio/tp.mp3"); break;
+    case 2: ETSIDI::play("../assets/Audio/curar.mp3");          break;
+    case 3: ETSIDI::play("../assets/Audio/intercambio.mp3");    break;
+    case 4: ETSIDI::play("../assets/Audio/encerrar.mp3");        break;
+    default: break;
+    }
+}
+
+void renderizadorAudio::sonidoMenu() const
 {
     ETSIDI::play("../assets/Audio/mover_menu.mp3");
 }
 
-void RenderizadorAudio::eleccionMenu() const
+void renderizadorAudio::eleccionMenu() const
 {
     ETSIDI::play("../assets/Audio/seleccion_menu.mp3");
 }
 
 
-void RenderizadorAudio::sonarTransicion() const
+void renderizadorAudio::sonarTransicion() const
 {
     ETSIDI::play("../assets/Audio/transicion.mp3");
+}
+
+void renderizadorAudio::sonarTransicionCombate() const
+{
+    ETSIDI::play("../assets/Audio/transicioncombate.mp3");
+}
+
+void renderizadorAudio::sonarFinDeCombate() const
+{
+    ETSIDI::play("../assets/Audio/transiciodevueltatablero.mp3");
 }

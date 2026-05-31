@@ -96,8 +96,8 @@ void Arena::actualizar(float dt)
 	confirmarImpacto();
 	confirmarFinCombate();
 
-	combatientes_[0]->actualizarEnBatalla(dt);
-	combatientes_[1]->actualizarEnBatalla(dt);
+	//combatientes_[0]->actualizarEnBatalla(dt);
+	//combatientes_[1]->actualizarEnBatalla(dt);
 }
 
 void Arena::recibirMovimiento(int jugador, int movimiento, bool tecla_pulsada)
@@ -107,7 +107,7 @@ void Arena::recibirMovimiento(int jugador, int movimiento, bool tecla_pulsada)
 	if (movimiento == IZQUIERDA) movimiento_izq_[jugador] = tecla_pulsada;
 	if (movimiento == DERECHA)   movimiento_dch_[jugador] = tecla_pulsada;
 }
-bool Arena::recibirAtaque(int jugador,RenderizadorAudio* audio)
+bool Arena::recibirAtaque(int jugador,renderizadorAudio* audio)
 {
 	audio_ = audio;
 	if (combate_terminado_) return false;
@@ -129,10 +129,7 @@ bool Arena::recibirAtaque(int jugador,RenderizadorAudio* audio)
 	
 	audio->sonarAtaque(jugador, combatientes_[jugador]);
 		recarga_de_ataque_[jugador] = ataque->getRecarga();
-		//if (combatientes_[rival]->getEspecie() == GALLINA)
-				//audio->sonarDanoGallina();
-			//else if (combatientes_[rival]->getEspecie() == CABRA)
-				//audio->sonarDanoCabra();
+
 	return true;
 }
 
@@ -148,10 +145,13 @@ void Arena::actualizarMovimiento(float dt)
 		const float velocidad = 100.0f;
 		const float dt_seg = dt / 1000.0f;  // convertimos a segundos
 
-		if (movimiento_arriba_[i]) pos_y_[i] += velocidad * dt_seg;
-		if (movimiento_abajo_[i])  pos_y_[i] -= velocidad * dt_seg;
-		if (movimiento_izq_[i])    pos_x_[i] -= velocidad * dt_seg;
-		if (movimiento_dch_[i])    pos_x_[i] += velocidad * dt_seg;
+		// Parche de animacion para movimiento no coincidente con tablero: No deberia modificar frameActual_ desde fuera, pero el movimiento está definido diferente a tablero
+		// No se puede usar setState() porque colisiona con animar() - haría state, animar, state, animar
+		if (movimiento_arriba_[i]) { pos_y_[i] += velocidad * dt_seg; combatientes_[i]->frameActualY_ = 2; combatientes_[i]->animar(dt); }
+		else if (movimiento_abajo_[i]) { pos_y_[i] -= velocidad * dt_seg; combatientes_[i]->frameActualY_ = 3; combatientes_[i]->animar(dt);}
+		else if (movimiento_izq_[i]) { pos_x_[i] -= velocidad * dt_seg; combatientes_[i]->frameActualY_ = 1; combatientes_[i]->animar(dt);}
+		else if (movimiento_dch_[i]) { pos_x_[i] += velocidad * dt_seg; combatientes_[i]->frameActualY_ = 0; combatientes_[i]->animar(dt);}
+		else combatientes_[i]->setState(0, combatientes_[i]->getFrameActualY());
 
 		if (movimiento_arriba_[i]) { ultima_direccion_x_[i] = 0; ultima_direccion_y_[i] = 1; }
 		if (movimiento_abajo_[i]) { ultima_direccion_x_[i] = 0; ultima_direccion_y_[i] = -1; }
@@ -180,7 +180,6 @@ void Arena::actualizarMovimiento(float dt)
 		// Animales pueden pasarse: NO hay colisión animal-animal aquí.
 		// El daño por contacto lo gestiona confirmarImpacto (embestida).
 
-		if (combatientes_[i])
 			combatientes_[i]->setPosicion(Vector2D(pos_x_[i], pos_y_[i]));
 	}
 }
@@ -190,7 +189,6 @@ void Arena::actualizarRecarga(float dt)
 	for (int i = 0; i < 2; i++) {
 		if (recarga_de_ataque_[i] > 0) {
 			recarga_de_ataque_[i] -= dt / 1000;
-			std::cout << recarga_de_ataque_[i];
 		}
 	}
 }
@@ -202,6 +200,7 @@ void Arena::actualizarAtaques(float dt)
 
 		ataque->mover(dt);
 		if (!ataque->isActivo()) continue;
+
 		//Ataque fuera de la arena
 		if (Interaccion::ataqueEstaFuera(ataque, LIMITE_IZQ_ARENA, LIMITE_DCH_ARENA, LIMITE_ARRIBA_ARENA, LIMITE_ABAJO_ARENA))
 			ataque->desactivar();
@@ -266,10 +265,6 @@ void Arena::confirmarImpacto()
 		{
 			audio_->sonarHuevo(combatientes_[i]);
 			audio_->sonarAtacado(combatientes_[rival]);
-			std::cout << "Jugador " << rival + 1 << " recibe "
-				<< combatientes_[i]->getTipoAtaque()
-				<< " de " << ataque->getDano()
-				<< " dano. Vida: " << combatientes_[rival]->getVida() << std::endl;
 		}
 	}
 }
@@ -278,9 +273,12 @@ void Arena::confirmarFinCombate()
 {
 	for (int i = 0; i < 2; i++) {
 		if (combatientes_[i] != nullptr && combatientes_[i]->getVida() <= 0) {
+			combatientes_[i]->setVida(0);
 			vivo_[i] = false;
+			combatientes_[i]->setVivo(false);
 			combate_terminado_ = true;
 			ganador_ = (i == 0) ? 1 : 0;
+
 			std::cout << "Jugador " << ganador_ + 1 << " gana el combate!" << std::endl;
 		}
 	}

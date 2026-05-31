@@ -25,7 +25,10 @@ protected:
 
 	float capaz_{};
 	int equipo_;
-	int vida_;
+	int vida_; // vida que cambia durante el combate
+	int vida_base_; // vida base del animal
+	int bonus_vida_casilla_ = 0; // bonus de vida temporal por estar en casilla de su color
+	bool vivo_ = true;
 
 public:
 
@@ -87,11 +90,12 @@ public:
 	int getFrameActualY() const { return frameActualY_; }
 
 	especieAnimal getEspecie() const { return especie_; }
-	bool getVivo() const { return vida_ > 0; }
+	bool getVivo() const { return vivo_; }
 
 //protected: // Solo los hijos animales pueden modificar sus posiciones
 
 	void setVida(const int vida) { vida_ = vida; }
+	void setVivo(const bool vivo) { vivo_ = vivo; }
 	void setPosicion(const Vector2D& pos) { posicion_ = pos; }
 	void setPosX(float posx) { posicion_.x  = posx; }
 	void setPosy(float posy) { posicion_.y  = posy; }
@@ -123,6 +127,13 @@ public:
 	int   getDanoAtaque()    const { return ataque_ ? ataque_->getDano() : 0; }
 	float getAlcanceAtaque() const { return ataque_ ? ataque_->getAlcance() : 0.f; }
 	float getRecargaAtaque() const { return ataque_ ? ataque_->getRecarga() : 0.f; }
+	float getRecargaActual() const { return ataque_->getRecarga(); }
 	virtual const char* getTipoAtaque() const { return "No estoy definido"; };
 	void recibirDano(int dano) { vida_ -= dano; }
+
+	// casillas de colores
+	void setBonusVidaCasilla(int bonus) { bonus_vida_casilla_ = bonus; }
+	int getBonusVidaCasilla() const { return bonus_vida_casilla_; }
+	int getVidaBase() const { return vida_base_; }
+	void setVidaBase(int v) { vida_base_ = v; }
 };
