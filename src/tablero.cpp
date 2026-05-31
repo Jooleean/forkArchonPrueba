@@ -217,7 +217,7 @@ void Tablero::seleccionarPieza(int jugador, RenderizadorAudio* audio)
 
                 // cambio de turno
                 turno_actual_ = (turno_actual_ == 0) ? 1 : 0;
-                turnos_totales_++; // aumenta del contador global de turnos
+                if (!enBatalla) turnos_totales_++; // aumenta del contador global de turnos
                 letreroTurnos_.setState(0, turno_actual_);                
             }
             else
@@ -396,6 +396,8 @@ void Tablero::acomodarGanador(Animal* animalGanador)
     casillas_[casillaDisputada.fila][casillaDisputada.columna] = animalGanador;
     casillas_[casillaDisputada.fila][casillaDisputada.columna]->
     setPosicion({ 141.0f + 11.0f + 22.0f * casillaDisputada.columna, 36.0f + 11.0f + 22.0f * (8 - casillaDisputada.fila) });
+
+    turnos_totales_++;
 }
 void Tablero::acomodarPerdedor(Animal* animalPerdedor)
 {
