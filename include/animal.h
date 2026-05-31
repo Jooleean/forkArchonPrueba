@@ -28,6 +28,7 @@ protected:
 	int vida_; // vida que cambia durante el combate
 	int vida_base_; // vida base del animal
 	int bonus_vida_casilla_ = 0; // bonus de vida temporal por estar en casilla de su color
+	bool vivo_ = true;
 
 public:
 
@@ -89,11 +90,12 @@ public:
 	int getFrameActualY() const { return frameActualY_; }
 
 	especieAnimal getEspecie() const { return especie_; }
-	bool getVivo() const { return vida_ > 0; }
+	bool getVivo() const { return vivo_; }
 
 //protected: // Solo los hijos animales pueden modificar sus posiciones
 
 	void setVida(const int vida) { vida_ = vida; }
+	void setVivo(const bool vivo) { vivo_ = vivo; }
 	void setPosicion(const Vector2D& pos) { posicion_ = pos; }
 	void setPosX(float posx) { posicion_.x  = posx; }
 	void setPosy(float posy) { posicion_.y  = posy; }

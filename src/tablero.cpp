@@ -401,7 +401,7 @@ void Tablero::acomodarGanador(Animal* animalGanador)
 }
 void Tablero::acomodarPerdedor(Animal* animalPerdedor)
 {
-	animalPerdedor->setVida(1); // para que no se muera visualmente, aunque ya no tenga vida lógica, así se puede mostrar en el tablero de piezas muertas
+	//animalPerdedor->setVida(1); // para que no se muera visualmente, aunque ya no tenga vida lógica, así se puede mostrar en el tablero de piezas muertas
     anadirPiezaMuerta(animalPerdedor);
 }
 

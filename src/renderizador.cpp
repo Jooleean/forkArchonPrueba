@@ -14,7 +14,7 @@ void Renderizador::limpiarPantalla()
 // ANIMALES
 void Renderizador::dibujar(const Animal* animal) const
 {
-    if (!animal || !animal->getVivo()) return;
+    if (!animal) return;
 
 	std::string ruta_sprite;
     switch (animal->getEspecie()) {
