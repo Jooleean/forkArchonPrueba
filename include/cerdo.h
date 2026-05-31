@@ -1,6 +1,8 @@
 #pragma once
 #include "animal.h"
 #include "onda.h"
+#include "estructuras.h"
+
 
 class Cerdo : public Animal
 {
