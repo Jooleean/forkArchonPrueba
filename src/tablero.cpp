@@ -379,6 +379,7 @@ void Tablero::mover(const Movimiento& m)
 
 int Tablero::determinarGanador() {
 
+    // condicion para ganar por controlar los puntos de poder
     if (casillas_[4][4] != nullptr && casillas_[4][0] != nullptr && casillas_[4][8] != nullptr && casillas_[0][4] != nullptr && casillas_[8][4] != nullptr)
         if (casillas_[4][4]->getEquipo() == casillas_[4][0]->getEquipo() &&
             casillas_[4][4]->getEquipo() == casillas_[4][8]->getEquipo() &&
@@ -386,7 +387,21 @@ int Tablero::determinarGanador() {
             casillas_[4][4]->getEquipo() == casillas_[8][4]->getEquipo())
             return casillas_[4][4]->getEquipo();
 
-    // + condición de ganar por eliminación
+    // condición de ganar por eliminación
+    int muertes_equipo_0 = 0;
+    int muertes_equipo_1 = 0;
+
+    for (Animal* muerto : piezas_muertas_) {
+        if (muerto->getEquipo() == 0) {
+            muertes_equipo_0++;
+        }
+        else if (muerto->getEquipo() == 1) {
+            muertes_equipo_1++;
+        }
+    }
+
+    if (muertes_equipo_0 >= Constantes::NUMERO_ANIMALES) return 1; // gana el equipo 1 porque el 0 no tiene piezas
+    if (muertes_equipo_1 >= Constantes::NUMERO_ANIMALES) return 0; // gana el equipo 0 porque el 1 no tiene piezas
 
     return -1;
 }

@@ -189,7 +189,6 @@ void Arena::actualizarRecarga(float dt)
 	for (int i = 0; i < 2; i++) {
 		if (recarga_de_ataque_[i] > 0) {
 			recarga_de_ataque_[i] -= dt / 1000;
-			std::cout << recarga_de_ataque_[i];
 		}
 	}
 }
