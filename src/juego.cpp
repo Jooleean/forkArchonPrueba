@@ -3,7 +3,7 @@
 #include "arena.h"
 #include "juego.h"
 
-Juego::Juego() 
+Juego::Juego()
 {
     estado_actual = MENU;
     proximo_estado = MENU;
@@ -14,11 +14,12 @@ Juego::Juego()
     creditos_ = new Creditos();
     controles_ = new Controles();
     ganador_ = new Ganador();
-    audio_ = new RenderizadorAudio();
+    audio_ = new renderizadorAudio();
 
     for (int i = 0; i < 2; i++)
         jugadores_[i] = new Jugador(i);
     tablero_ = new Tablero(jugadores_[0], jugadores_[1]);
+
     audio_->sonar(menu_);
 }
 
@@ -47,6 +48,8 @@ void Juego::actualizarLogica(float dt) // FASE 1: matemáticas, colisiones y reg
         tablero_->actualizar(dt);
         if (tablero_->enBatalla)
         {
+            audio_->stopMusica();
+            audio_->sonarTransicionCombate();
             transicion_.empieza();
             proximo_estado = BATALLA;
             tablero_->enBatalla = false;
@@ -97,7 +100,8 @@ void Juego::actualizarLogica(float dt) // FASE 1: matemáticas, colisiones y reg
             std::cout<< "combate terminado" << std::endl;
             //animalPerdedor->setVida_(0);
             //animalPerdedor->setPosicion(Vector2D(-100, -100));
-
+            audio_->stopMusica();
+            audio_->sonarFinDeCombate();
             transicion_.empieza();
             proximo_estado = TABLERO;
         }
@@ -184,15 +188,6 @@ void Juego::procesarTeclaPresionada(unsigned char key) // Hacer que tecla solo s
 {
     if (key == 27) exit(0); // Esc siempre cierra el juego, aunque en un futuro molaría poner un menú de pausa
 
-	if (key == 'b' || key == 'B') // temporalmente, para saltar el menú y probar la batalla directamente
-    {
-        transicion_.empieza();
-        proximo_estado = BATALLA;
-        arena_->setCombatientes(jugadores_[0]->getAnimalEnCombate(), jugadores_[1]->getAnimalEnCombate());
-        arena_->inicioCombate();
-        return;
-    }
-
     switch (estado_actual) 
     {
         case MENU:
@@ -226,12 +221,6 @@ void Juego::procesarTeclaPresionada(unsigned char key) // Hacer que tecla solo s
             }
         }
 
-        if (key == 'b') {
-            transicion_.empieza();
-            proximo_estado = BATALLA;
-        }
-        break;
-
 		case TABLERO: // movimiento discreto en el tablero, no hace falta procesar la tecla al levantarla, el movimiento se hace una vez al pulsar y ya está
          
          if (key == 'w' || key == 'W') tablero_->recibirMovimiento(0, 0, 1); // tablero->recibirMovimiento(jugador, dx, dy);
@@ -253,11 +242,6 @@ void Juego::procesarTeclaPresionada(unsigned char key) // Hacer que tecla solo s
          if (key == 'd' || key == 'D') arena_->recibirMovimiento(0, DERECHA, true);                
 		 if (key == 'q' || key == 'Q') arena_->recibirAtaque(0,audio_); // Ataque para J1
          if (key == 'm' || key == 'M') arena_->recibirAtaque(1,audio_); // Ataque para J2
-
-         if (key == 'b') {
-             transicion_.empieza();
-             proximo_estado = MENU;
-         }
          break;
     }
 }

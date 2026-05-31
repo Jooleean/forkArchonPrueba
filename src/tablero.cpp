@@ -113,7 +113,7 @@ void Tablero::recibirMovimiento(int jugador, int dx, int dy) // dx y dy son -1, 
     }
 }
 
-void Tablero::seleccionarPieza(int jugador, RenderizadorAudio* audio)
+void Tablero::seleccionarPieza(int jugador, renderizadorAudio* audio)
 {
     if (turno_actual_ == jugador)
     {
