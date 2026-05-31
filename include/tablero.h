@@ -5,7 +5,6 @@
 #include "jugador.h"
 #include "estructuras.h"
 #include "RenderizadorAudio.h"
-#include <queue>
 const int BANDO_LUZ = 0;
 const int BANDO_OSCURIDAD = 1;
 const int CASILLA_LUZ = 0;
