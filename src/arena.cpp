@@ -96,8 +96,8 @@ void Arena::actualizar(float dt)
 	confirmarImpacto();
 	confirmarFinCombate();
 
-	combatientes_[0]->actualizarEnBatalla(dt);
-	combatientes_[1]->actualizarEnBatalla(dt);
+	//combatientes_[0]->actualizarEnBatalla(dt);
+	//combatientes_[1]->actualizarEnBatalla(dt);
 }
 
 void Arena::recibirMovimiento(int jugador, int movimiento, bool tecla_pulsada)
@@ -145,13 +145,12 @@ void Arena::actualizarMovimiento(float dt)
 		const float velocidad = 100.0f;
 		const float dt_seg = dt / 1000.0f;  // convertimos a segundos
 
-		// Parche de animacion para movimiento no coincidente con tablero
-
-		
-		if (movimiento_arriba_[i]) { pos_y_[i] += velocidad * dt_seg; combatientes_[i]->setState(0, 2); combatientes_[i]->animar(dt);}
-		else if (movimiento_abajo_[i]) { pos_y_[i] -= velocidad * dt_seg; combatientes_[i]->setState(0, 3); combatientes_[i]->animar(dt);}
-		else if (movimiento_izq_[i]) { pos_x_[i] -= velocidad * dt_seg; combatientes_[i]->setState(0, 1); combatientes_[i]->animar(dt);}
-		else if (movimiento_dch_[i]) { pos_x_[i] += velocidad * dt_seg; combatientes_[i]->setState(0, 0); combatientes_[i]->animar(dt);}
+		// Parche de animacion para movimiento no coincidente con tablero: No deberia modificar frameActual_ desde fuera, pero el movimiento está definido diferente a tablero
+		// No se puede usar setState() porque colisiona con animar() - haría state, animar, state, animar
+		if (movimiento_arriba_[i]) { pos_y_[i] += velocidad * dt_seg; combatientes_[i]->frameActualY_ = 2; combatientes_[i]->animar(dt); }
+		else if (movimiento_abajo_[i]) { pos_y_[i] -= velocidad * dt_seg; combatientes_[i]->frameActualY_ = 3; combatientes_[i]->animar(dt);}
+		else if (movimiento_izq_[i]) { pos_x_[i] -= velocidad * dt_seg; combatientes_[i]->frameActualY_ = 1; combatientes_[i]->animar(dt);}
+		else if (movimiento_dch_[i]) { pos_x_[i] += velocidad * dt_seg; combatientes_[i]->frameActualY_ = 0; combatientes_[i]->animar(dt);}
 		else combatientes_[i]->setState(0, combatientes_[i]->getFrameActualY());
 
 		if (movimiento_arriba_[i]) { ultima_direccion_x_[i] = 0; ultima_direccion_y_[i] = 1; }

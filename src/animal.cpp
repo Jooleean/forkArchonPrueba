@@ -30,7 +30,8 @@ void Animal::actualizarEnTablero(float dt)
         return; // Salimos de la función para que no haga el movimiento del Tablero todavía
     } 
 
-    if (!en_movimiento_) { 
+    if (!en_movimiento_) 
+    { 
 		setState(0, equipo_);
         return;
     }
@@ -69,7 +70,7 @@ bool Animal::mover(modoJuego modo, int dx, int dy) // Para que el animal sepa qu
 
     case TABLERO: // Se llama desde tablero con animal.mover(TABLERO, direccion)
 
-        // orientación de caminata 
+        // orientación de caminata: Esto funciona bien, porque mover se llama una vez entonces el estado solo se setea al principio, como esta definido en batalla no funciona
         if (dx == 1) setState(0, 0);
         if (dx == -1) setState(0, 1);
         if (dy == 1) setState(0, 2);

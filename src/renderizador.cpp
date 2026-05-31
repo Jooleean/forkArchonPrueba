@@ -115,6 +115,7 @@ void Renderizador::dibujar(const Tablero* tablero) const
     
     const Animal* animalEnCursor = tablero->getAnimalEnCasilla(filaCursor, colCursor);
     bool tienePiezaAgarrada = jugadorActivo->tienePiezaAgarrada();
+
     if (tablero->getEstadoHechizo() == INACTIVO) // para que no aparezcan mientras se usa un hechizo
     {
         if (animalEnCursor != nullptr || tienePiezaAgarrada) {
@@ -164,6 +165,14 @@ void Renderizador::dibujar(const Tablero* tablero) const
         }
     }
 
+    // DIBUJAR HECHIZOS
+       // if (animalEnCursor != nullptr && animalEnCursor->getEspecie() == GRANJERO) // Se puede dibujar el cartel de hechizos incluso si no está seleccionado
+            //dibujarSprite("../assets/Sprites/tablero/hechizos.png", 256, 32, 240, 258, -5);
+        if (tienePiezaAgarrada && jugadorActivo->getPiezaSeleccionada()->getEspecie() == GRANJERO) 
+            dibujarSprite("../assets/Sprites/tablero/hechizos.png", 512, 32, 240, 258, -5,1,2, jugadorActivo->getPiezaSeleccionada()->getEquipo(),0);
+          
+
+
     // DIBUJAR LOS ANIMALES EN EL TABLERO
     for (int i = 0; i < Constantes::FILAS_TABLERO; i++) {
         for (int j = 0; j < Constantes::COLUMNAS_TABLERO; j++) {
@@ -189,7 +198,7 @@ void Renderizador::dibujar(const Tablero* tablero) const
     dibujarSprite("../assets/Sprites/tablero/cursor.png", 64, 32, cursorActivo.getPosX(), cursorActivo.getPosY(), -5.0f,1,2, cursorActivo.getIdJugador(),0);
 
     // DIBUJAR AL PATO jajaja
-    dibujarSprite("../assets/Sprites/tablero/pato.png", 128, 64, tablero->pato.posicion.x, tablero->pato.posicion.y, -5.0f, 2, 4, tablero->pato.frameActualX_, tablero->pato.frameActualY_);
+    dibujarSprite("../assets/Sprites/tablero/pato.png", 128, 64, tablero->pato.posicion.x, tablero->pato.posicion.y, -2.0f, 2, 4, tablero->pato.frameActualX_, tablero->pato.frameActualY_);
 
 }
 
@@ -249,6 +258,11 @@ void Renderizador::dibujar(const Controles* controles) const
     dibujarSprite("../assets/Sprites/controles/palomaControles.png", 3 * 256, 3 * 128,
         paloma.getPosX(), paloma.getPosY(), -2, 4, 8,
         paloma.getFrameActualX(), paloma.getFrameActualY());
+
+    if(controles->listo1 || controles->listo2)
+    dibujarSprite("../assets/Sprites/controles/controles.png", 3 * 512, 3 * 2048,758, 270/2, -5, 14, 1, 0, controles->contador);
+
+
 }
 
 void Renderizador::dibujar(const Creditos* creditos) const
