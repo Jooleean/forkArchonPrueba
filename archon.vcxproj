@@ -163,8 +163,10 @@
     <None Include="bin\ETSIDI.dll" />
     <None Include="bin\fmodL.dll" />
     <None Include="bin\freeglut.dll" />
+    <None Include="docs\ESTILO.md" />
     <None Include="docs\GitFlow Workflow.pdf" />
     <None Include="docs\CHANGELOG" />
+    <None Include="docs\memoriaRanchov9.pdf" />
     <None Include="lib\ETSIDI.exp" />
     <None Include="docs\ETSIDIlib.pdf" />
   </ItemGroup>
