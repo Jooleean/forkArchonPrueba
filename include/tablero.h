@@ -118,7 +118,6 @@ public:
     // propuesta de psanse en la tutoria:
     bool esMovimientoLegal(const Movimiento& m) const;
     void mover(const Movimiento& m);
-    bool esAlcanzable(Casilla origen, Casilla destino, int maxMovimientos, bool puedeSaltar) const;
     //bool hayColisionEnemiga(const Movimiento& m) const;
 
 	// hechizos
