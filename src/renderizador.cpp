@@ -333,7 +333,7 @@ void Renderizador::dibujar(const Arena* arena) const
 
     for (int i = 0; i < 2; i++) 
     {        
-        recarga[i] = arena->getCombatiente(i)->getRecargaAtaque();
+        recarga[i] = arena->getRecargaDeAtaque(i);
 
         stateX[i] = (recarga[i] / 3.0f) * 9.99f; // al convertirlo en int se recortan los decimales
 
