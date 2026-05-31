@@ -12,7 +12,7 @@ public:
 	{
 		vida_ = ParametrosAnimales::VIDA_LLAMA;
 		vida_base_ = ParametrosAnimales::VIDA_LLAMA;
-		max_casillas_movidas_ = 6;
+		max_casillas_movidas_ = 4;
 		nFrames = 5;
 		especie_ = LLAMA;
 		ataque_ = new Disparo(ParametrosAnimales::DANO_LLAMA, ParametrosAnimales::DURACION_LLAMA,
