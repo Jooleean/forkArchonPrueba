@@ -10,12 +10,13 @@ public:
 
 	Llama(Casilla casillaInicial, int equipo) : Animal(casillaInicial, equipo)
 	{
-		vida_ = 10;
-		vida_base_ = 10;
+		vida_ = ParametrosAnimales::VIDA_LLAMA;
+		vida_base_ = ParametrosAnimales::VIDA_LLAMA;
 		max_casillas_movidas_ = 6;
 		nFrames = 5;
 		especie_ = LLAMA;
-		ataque_ = new Disparo(2, 140.0f, 0.8f, "../assets/Sprites/menu/selector.png", 15.0f, 0.35f);
+		ataque_ = new Disparo(ParametrosAnimales::DANO_LLAMA, ParametrosAnimales::DURACION_LLAMA,
+			ParametrosAnimales::RECARGA_LLAMA, "../assets/Sprites/menu/selector.png", 15.0f, 0.35f);
 	}
 	const char* getTipoAtaque() const override { return "Disparo"; }
 	//void actualizar(float dt) override;

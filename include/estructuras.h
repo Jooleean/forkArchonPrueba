@@ -15,17 +15,31 @@ namespace ParametrosAnimales
 {
 	inline constexpr float RECARGA_CABRA = 3.0f;
 	inline constexpr float RECARGA_CERDO = 3.0f;
-	inline constexpr float RECARGA_GALLINA = 3.0f;
-	inline constexpr float RECARGA_GRANJERO = 3.0f;
-	inline constexpr float RECARGA_LLAMA = 3.0f;
+	inline constexpr float RECARGA_GALLINA = 2.0f;
+	inline constexpr float RECARGA_GRANJERO = 2.0f;
+	inline constexpr float RECARGA_LLAMA = 2.0f;
 	inline constexpr float RECARGA_OVEJA = 3.0f;
 
-	inline constexpr int VIDA_CABRA = 10;
-	inline constexpr int VIDA_CERDO =  10;
-	inline constexpr int VIDA_GALLINA = 10;
+	inline constexpr int VIDA_CABRA = 6;
+	inline constexpr int VIDA_CERDO =  8;
+	inline constexpr int VIDA_GALLINA = 5;
 	inline constexpr int VIDA_GRANJERO = 10;
-	inline constexpr int VIDA_LLAMA =  10;
-	inline constexpr int VIDA_OVEJA =  10;
+	inline constexpr int VIDA_LLAMA =  9;
+	inline constexpr int VIDA_OVEJA =  6;
+
+	inline constexpr float DURACION_CABRA = 0.3f;
+	inline constexpr float DURACION_CERDO =  100.0f;
+	inline constexpr float DURACION_GALLINA = 140.0f;
+	inline constexpr float DURACION_GRANJERO = 100.0f;
+	inline constexpr float DURACION_LLAMA =  140.0f;
+	inline constexpr float DURACION_OVEJA =  0.2f;
+
+	inline constexpr int DANO_CABRA = 3;
+	inline constexpr int DANO_CERDO =  2;
+	inline constexpr int DANO_GALLINA = 1;
+	inline constexpr int DANO_GRANJERO = 2;
+	inline constexpr int DANO_LLAMA =  2;
+	inline constexpr int DANO_OVEJA =  2;
 }
 
 struct Casilla {

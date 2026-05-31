@@ -125,7 +125,7 @@ void Tablero::ejecutarPasoHechizo(Animal* casilla, int fila, int col, renderizad
 
     case CURAR_SELECCIONAR_ALIADO:
         if (casilla && casilla->getEquipo() == bando) {
-            casilla->setVida(10); // FALTA PONER LA VIDA MAXIMA DE CADA ANIMAL, habrá que hacer un getVidaMaxima() o algo así
+            casilla->setVida(casilla->getVidaBase());
             std::cout << ">> Animal curado al maximo de vida!\n";
             audio->sonarHechizo(2);
             hechizoDisponible_[bando][2] = false; // se consume curar

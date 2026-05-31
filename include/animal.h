@@ -127,6 +127,7 @@ public:
 	int   getDanoAtaque()    const { return ataque_ ? ataque_->getDano() : 0; }
 	float getAlcanceAtaque() const { return ataque_ ? ataque_->getAlcance() : 0.f; }
 	float getRecargaAtaque() const { return ataque_ ? ataque_->getRecarga() : 0.f; }
+	float getRecargaActual() const { return ataque_->getRecarga(); }
 	virtual const char* getTipoAtaque() const { return "No estoy definido"; };
 	void recibirDano(int dano) { vida_ -= dano; }
 
