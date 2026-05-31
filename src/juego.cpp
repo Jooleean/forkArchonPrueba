@@ -118,13 +118,15 @@ void Juego::actualizarLogica(float dt) // FASE 1: matemáticas, colisiones y reg
         break;
 
     case CONTROLES:
-        if (!transicion_.getActivo())
+
+       /* if (!transicion_.getActivo())
             controles_->actualizar(25);
         if (controles_->getFinalizado())
         {
             transicion_.empieza();
             proximo_estado = MENU;
-        }
+        }*/
+
         break;
 
     case GANADOR:
@@ -227,9 +229,12 @@ void Juego::procesarTeclaPresionada(unsigned char key) // Hacer que tecla solo s
                 break;
 
             case Selector::CONTROLES:
+
+                /*
                 controles_->reset();
                 transicion_.empieza();
                 proximo_estado = CONTROLES;
+                */
                 break;
             }
         }
@@ -272,8 +277,8 @@ void Juego::procesarTeclaPresionada(unsigned char key) // Hacer que tecla solo s
                     proximo_estado = MENU;
                 }
             }
-
-                break;*/
+            */
+                break;
     }
 
     
