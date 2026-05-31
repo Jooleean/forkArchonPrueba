@@ -75,18 +75,18 @@ void Juego::actualizarLogica(float dt) // FASE 1: matemáticas, colisiones y reg
 
             // vida en batalla = vida base + bonus por estar en casilla de su color
             int vidaAlEmpezarBatalla = animalGanador->getVidaBase() + animalGanador->getBonusVidaCasilla();
-            int danoRecibido = vidaAlEmpezarBatalla - animalGanador->getVidaActual();
+            int danoRecibido = vidaAlEmpezarBatalla - animalGanador->getVida();
             int bonus = animalGanador->getBonusVidaCasilla();
 
             if (danoRecibido <= bonus) {
                 // si el daño es menor al bonus, el bonus absorbió el ataque y vuelve con toda su vida base
-                animalGanador->setVidaActual(animalGanador->getVidaBase());
+                animalGanador->setVida(animalGanador->getVidaBase());
             }
             else {
-                // si sobrepasa el bonus, el daño afecta a la vida actual
+                // si sobrepasa el bonus, el daño afecta a la vida
                 int danoReal = danoRecibido - bonus;
                 animalGanador->setVidaBase(animalGanador->getVidaBase() - danoReal);
-                animalGanador->setVidaActual(animalGanador->getVidaBase());
+                animalGanador->setVida(animalGanador->getVidaBase());
             }
 
             animalGanador->setBonusVidaCasilla(0); // limpia el bonus

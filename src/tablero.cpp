@@ -189,8 +189,8 @@ void Tablero::seleccionarPieza(int jugador, RenderizadorAudio* audio)
                     if (colorCasilla == 1) a2->setBonusVidaCasilla(a2->getVidaBase() * 0.5f);
 
                     // configurar la vida inicial de la batalla
-                    a1->setVidaActual(a1->getVidaBase() + a1->getBonusVidaCasilla());
-                    a2->setVidaActual(a2->getVidaBase() + a2->getBonusVidaCasilla());
+                    a1->setVida(a1->getVidaBase() + a1->getBonusVidaCasilla());
+                    a2->setVida(a2->getVidaBase() + a2->getBonusVidaCasilla());
 
                     casillaDisputada = m.destino;
                     enBatalla = true;
