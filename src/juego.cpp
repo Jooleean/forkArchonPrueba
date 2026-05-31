@@ -184,16 +184,7 @@ void Juego::procesarTeclaPresionada(unsigned char key) // Hacer que tecla solo s
 {
     if (key == 27) exit(0); // Esc siempre cierra el juego, aunque en un futuro molaría poner un menú de pausa
 
-	if (key == 'b' || key == 'B') // temporalmente, para saltar el menú y probar la batalla directamente
-    {
-        transicion_.empieza();
-        proximo_estado = BATALLA;
-        arena_->setCombatientes(jugadores_[0]->getAnimalEnCombate(), jugadores_[1]->getAnimalEnCombate());
-        arena_->inicioCombate();
-        return;
-    }
-
-    switch (estado_actual) 
+    switch (estado_actual)
     {
         case MENU:
 
@@ -225,11 +216,6 @@ void Juego::procesarTeclaPresionada(unsigned char key) // Hacer que tecla solo s
                 break;
             }
         }
-
-        if (key == 'b') {
-            transicion_.empieza();
-            proximo_estado = BATALLA;
-        }
         break;
 
 		case TABLERO: // movimiento discreto en el tablero, no hace falta procesar la tecla al levantarla, el movimiento se hace una vez al pulsar y ya está
@@ -254,10 +240,6 @@ void Juego::procesarTeclaPresionada(unsigned char key) // Hacer que tecla solo s
 		 if (key == 'q' || key == 'Q') arena_->recibirAtaque(0,audio_); // Ataque para J1
          if (key == 'm' || key == 'M') arena_->recibirAtaque(1,audio_); // Ataque para J2
 
-         if (key == 'b') {
-             transicion_.empieza();
-             proximo_estado = MENU;
-         }
          break;
     }
 }
@@ -290,12 +272,11 @@ void Juego::procesarTeclaEspecialPresionada(int key) // JUGADOR 2 (FLECHAS)
             menu_->moverSelector(-1); // arriba resta 1 (se acerca a 0 que es JUGAR)
             audio_->sonidoMenu();
         }
-        if (key == GLUT_KEY_DOWN) 
+        if (key == GLUT_KEY_DOWN)
         {
             menu_->moverSelector(1); // abajo suma 1 (bajándo hacia el 3 que es CREDITOS)
             audio_->sonidoMenu();
         }
-            
         break;
 
     case TABLERO:
