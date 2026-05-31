@@ -331,15 +331,32 @@ void Renderizador::dibujar(const Arena* arena) const
     int stateX[2]{};
     int posicionesX[2] = { 22, 460 };
 
-    for (int i = 0; i < 2; i++) 
-    {        
+    for (int i = 0; i < 2; i++)
+    {
         recarga[i] = arena->getRecargaDeAtaque(i);
+        float recargaBase = 0.1f; // daba erorr si dividia entre 0, así es mas srguro
 
-        stateX[i] = (recarga[i] / 3.0f) * 9.99f; // al convertirlo en int se recortan los decimales
+        const Animal* combatiente = arena->getCombatiente(i);
+        if (combatiente && combatiente->getAtaque()) {
+            recargaBase = combatiente->getRecargaAtaque();
+        }
 
-        if (stateX[i] < 0) stateX[i] = 0; // por seguridad
-        if (stateX[i] > 9) stateX[i] = 9;
-        
+        // si la recarga acabó, se fuerza que esté lleno
+        if (recarga[i] <= 0.0f) {
+            stateX[i] = 10;
+        }
+        else {
+            // calcular la proporción de 0 a 10
+            stateX[i] = (1.0f - (recarga[i] / recargaBase)) * 10.0f;
+
+            // para que no marque lleno si aún le falta
+            if (stateX[i] >= 10) stateX[i] = 9;
+        }
+
+        // por seguridad
+        if (stateX[i] < 0) stateX[i] = 0;
+        if (stateX[i] > 10) stateX[i] = 10;
+
         dibujarSprite("../assets/Sprites/vida/ataque.png", 512, 128, posicionesX[i], 210, -3, 1, 16, stateX[i], 0);
     }
 }
