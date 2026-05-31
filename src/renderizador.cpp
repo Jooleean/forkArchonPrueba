@@ -327,8 +327,21 @@ void Renderizador::dibujar(const Arena* arena) const
     dibujarSprite("../assets/Sprites/vida/vida.png", 512, 128, 431, 210, -3, 1, 16, arena->getCombatiente(1)->getVida(), 0);
 
     // DIBUJAR ATAQUE de combatientes
-    dibujarSprite("../assets/Sprites/vida/ataque.png", 512, 128, 22, 210, -3, 1, 16, arena->getCombatiente(0)->getRecargaAtaque(), 0);
-    dibujarSprite("../assets/Sprites/vida/ataque.png", 512, 128, 460, 210, -3, 1, 16, arena->getCombatiente(1)->getRecargaAtaque(), 0);
+    float recarga[2]{};
+    int stateX[2]{};
+    int posicionesX[2] = { 22, 460 };
+
+    for (int i = 0; i < 2; i++) 
+    {        
+        recarga[i] = arena->getCombatiente(i)->getRecargaAtaque();
+
+        stateX[i] = (recarga[i] / 3.0f) * 9.99f; // al convertirlo en int se recortan los decimales
+
+        if (stateX[i] < 0) stateX[i] = 0; // por seguridad
+        if (stateX[i] > 9) stateX[i] = 9;
+        
+        dibujarSprite("../assets/Sprites/vida/ataque.png", 512, 128, posicionesX[i], 210, -3, 1, 16, stateX[i], 0);
+    }
 }
 
 void Renderizador::dibujar(const Ganador* ganador) const
