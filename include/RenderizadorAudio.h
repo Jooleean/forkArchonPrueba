@@ -27,6 +27,7 @@ public:
     void sonarAtaque(int jugador, const Animal* atacante) const;
     void sonarHuevo(const Animal* atacante) const;
     void sonarAtacado(const Animal* atacado) const;
+    void sonarHechizo(int tipoHechizo) const;
     void sonidoMenu() const;
     void eleccionMenu() const;
     

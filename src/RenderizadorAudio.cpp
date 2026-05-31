@@ -109,6 +109,18 @@ void RenderizadorAudio::sonarAtacado(const Animal* atacado) const
         ETSIDI::play("../assets/Audio/damage_llama.mp3");
 }
 
+void RenderizadorAudio::sonarHechizo(int tipoHechizo) const
+{
+    switch (tipoHechizo)
+    {
+    case 1: ETSIDI::play("../assets/Audio/tp.mp3"); break;
+    case 2: ETSIDI::play("../assets/Audio/curar.mp3");          break;
+    case 3: ETSIDI::play("../assets/Audio/intercambio.mp3");    break;
+    case 4: ETSIDI::play("../assets/Audio/encerrar.mp3");        break;
+    default: break;
+    }
+}
+
 void RenderizadorAudio::sonidoMenu() const
 {
     ETSIDI::play("../assets/Audio/mover_menu.mp3");

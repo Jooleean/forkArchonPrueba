@@ -80,7 +80,7 @@ void Tablero::procesarTeclaHechizo(int tecla) {
     }
 }
 
-void Tablero::ejecutarPasoHechizo(Animal* casilla, int fila, int col) {
+void Tablero::ejecutarPasoHechizo(Animal* casilla, int fila, int col, RenderizadorAudio* audio) {
 
     // no se pueden usar hechizos sobre las casillas de poder
     if (tipo_casilla_[fila][col] == 'P') {
@@ -114,6 +114,7 @@ void Tablero::ejecutarPasoHechizo(Animal* casilla, int fila, int col) {
             primerObjetivoHechizo_->setPosicion(Vector2D(nuevaPosX, nuevaPosY));
 
             std::cout << ">> Teletransporte completado con exito!\n";
+            audio->sonarHechizo(1);
             hechizoDisponible_[bando][1] = false; // se consume teletransporte
             finalizarHechizo();
         }
@@ -126,6 +127,7 @@ void Tablero::ejecutarPasoHechizo(Animal* casilla, int fila, int col) {
         if (casilla && casilla->getEquipo() == bando) {
             casilla->setVida(10); // FALTA PONER LA VIDA MAXIMA DE CADA ANIMAL, habrá que hacer un getVidaMaxima() o algo así
             std::cout << ">> Animal curado al maximo de vida!\n";
+            audio->sonarHechizo(2);
             hechizoDisponible_[bando][2] = false; // se consume curar
             finalizarHechizo();
         }
@@ -169,6 +171,7 @@ void Tablero::ejecutarPasoHechizo(Animal* casilla, int fila, int col) {
             casilla->setPosicion(Vector2D(nuevaPosX2, nuevaPosY2));
 
             std::cout << ">> Intercambio completado!\n";
+            audio->sonarHechizo(3);
             hechizoDisponible_[bando][3] = false; // se consume intercambio
             finalizarHechizo();
         }
@@ -182,6 +185,7 @@ void Tablero::ejecutarPasoHechizo(Animal* casilla, int fila, int col) {
             casilla->atrapado_ = true;
             casilla->ciclos_atrapado_ = 3;
             std::cout << ">> Animal rival atrapado e inmovilizado por 3 turnos!\n";
+            audio->sonarHechizo(4);
             hechizoDisponible_[bando][4] = false; // se consume atrapar
             finalizarHechizo();
         }
