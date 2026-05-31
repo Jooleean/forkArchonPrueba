@@ -36,12 +36,35 @@ void Controles::actualizar(float dt) {
     else
         fin_ = true;
 
-    if (paloma_.getPosY() > 53) {
+    if (listo1 == false)
+    {
+        if (paloma_.getPosY() > 53) {
 
-        paloma_.setPosY(paloma_.getPosY() - 2);
-        paloma_.animar(dt);
-
+            paloma_.setPosY(paloma_.getPosY() - 2);
+            paloma_.animar(dt);
+        }
+        else {
+            paloma_.setState(0, 0);
+            if (!listo1) { listo1 = true; }
+        }
     }
-    else
-        paloma_.setState(0,0);
+
+    if (contador == 4)
+    {
+        if (posicion_.x > -250)
+        {
+            posicion_.x -= 5;
+            paloma_.setPosY(paloma_.getPosY() + 0.1);
+            paloma_.animar(dt);
+            listo1 = false;
+
+        }
+          else {
+            listo2 = true;
+            }
+    }
+
+    if (listo2 && (contador == 4))
+        contador = 5;
+ 
 }

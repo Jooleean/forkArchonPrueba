@@ -257,7 +257,28 @@ void Juego::procesarTeclaPresionada(unsigned char key) // Hacer que tecla solo s
 		 if (key == 'q' || key == 'Q') arena_->recibirAtaque(0,audio_); // Ataque para J1
          if (key == 'm' || key == 'M') arena_->recibirAtaque(1,audio_); // Ataque para J2
          break;
+
+
+        case CONTROLES:
+
+           /* if (key == 13)
+            {
+                if (controles_->listo1)
+                controles_->contador++;
+
+                if (controles_->contador == 13)
+                {
+                    transicion_.empieza();
+                    proximo_estado = MENU;
+                }
+            }
+
+                break;*/
     }
+
+    
+
+
 }
 
 void Juego::procesarTeclaLevantada(unsigned char key)

@@ -30,14 +30,17 @@ class Controles
 {
 private:
 
+    Vector2D posicion_ = { 758, 270 / 2 };
     PalomaControles paloma_;
-    Vector2D posicion_;
     const float posFinal_ = -246;
     float capaz_;
     bool fin_;
 
 public:
 
+    bool listo1 = false;
+    bool listo2 = false;
+    int contador = 0;
     void reset();
     Controles() { reset(); }
     bool getFinalizado() const { return fin_; }
