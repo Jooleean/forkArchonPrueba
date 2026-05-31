@@ -71,7 +71,7 @@ void Juego::actualizarLogica(float dt) // FASE 1: matemáticas, colisiones y reg
         else if (proximo_estado != TABLERO)
         {
             Animal* animalPerdedor = jugadores_[arena_->obtenerPerdedor()]->getAnimalEnCombate();
-            //Animal* animalGanador = jugadores_[1 - arena_->obtenerPerdedor()]->getAnimalEnCombate();
+            Animal* animalGanador = jugadores_[1 - arena_->obtenerPerdedor()]->getAnimalEnCombate();
 
             // vida en batalla = vida base + bonus por estar en casilla de su color
             int vidaAlEmpezarBatalla = animalGanador->getVidaBase() + animalGanador->getBonusVidaCasilla();
