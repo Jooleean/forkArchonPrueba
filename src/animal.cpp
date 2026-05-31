@@ -58,11 +58,7 @@ void Animal::actualizarEnTablero(float dt)
 
 void Animal::actualizarEnBatalla(float dt)
 {
-
-    // movimiento usando el Vector 2D
-    posicion_ += velocidad_ * (dt / 25);
-
-    animar(dt);
+    // Aqui se debería estar el control de movimiento de animal, ahora en batalla
 }
 
 bool Animal::mover(modoJuego modo, int dx, int dy) // Para que el animal sepa que tipo de movimiento debe realizar, 
@@ -95,6 +91,8 @@ bool Animal::mover(modoJuego modo, int dx, int dy) // Para que el animal sepa qu
 		else return true;
 
     case BATALLA: // Se llama desde batalla con animal.mover(BATALLA, direccion)
+
+
 
         return false;
 

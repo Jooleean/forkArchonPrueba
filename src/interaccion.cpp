@@ -8,11 +8,20 @@ bool Interaccion::hayColision(Ataque* ataque, const Animal* rival) {
     return sqrt(dx * dx + dy * dy) < ataque->getTamanio() / 2.0f + 11.0f;
 }
 
-bool Interaccion::procesarImpacto(Ataque* ataque, Animal* rival) {
-    if (!hayColision(ataque, rival)) return false;
-    rival->recibirDano(ataque->getDano());
-    ataque->desactivar();
-    return true;
+bool Interaccion::procesarImpacto(Ataque* ataque, Animal* rival)
+{
+    if(!ataque || !ataque->isActivo() || !rival) return false;
+    float tiempoMinimo = 0.4f;
+    if (dynamic_cast<Disparo*>(ataque)) tiempoMinimo = 0.05f;
+    if (hayColision(ataque, rival))
+        ataque->setContactoDetectado(true);
+      
+    if (ataque->getTiempoActivo() >= tiempoMinimo && ataque->getContactoDetectado()){
+        rival->recibirDano(ataque->getDano());
+        ataque->desactivar();
+        return true;
+    }
+    return false;
 }
 
 bool Interaccion::procesarEmbestida(Embestida* emb, Animal* atacante, Animal* rival,

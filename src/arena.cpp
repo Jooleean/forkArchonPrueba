@@ -129,10 +129,7 @@ bool Arena::recibirAtaque(int jugador,renderizadorAudio* audio)
 	
 	audio->sonarAtaque(jugador, combatientes_[jugador]);
 		recarga_de_ataque_[jugador] = ataque->getRecarga();
-		//if (combatientes_[rival]->getEspecie() == GALLINA)
-				//audio->sonarDanoGallina();
-			//else if (combatientes_[rival]->getEspecie() == CABRA)
-				//audio->sonarDanoCabra();
+
 	return true;
 }
 
@@ -148,10 +145,14 @@ void Arena::actualizarMovimiento(float dt)
 		const float velocidad = 100.0f;
 		const float dt_seg = dt / 1000.0f;  // convertimos a segundos
 
-		if (movimiento_arriba_[i]) pos_y_[i] += velocidad * dt_seg;
-		if (movimiento_abajo_[i])  pos_y_[i] -= velocidad * dt_seg;
-		if (movimiento_izq_[i])    pos_x_[i] -= velocidad * dt_seg;
-		if (movimiento_dch_[i])    pos_x_[i] += velocidad * dt_seg;
+		// Parche de animacion para movimiento no coincidente con tablero
+
+		
+		if (movimiento_arriba_[i]) { pos_y_[i] += velocidad * dt_seg; combatientes_[i]->setState(0, 2); combatientes_[i]->animar(dt);}
+		else if (movimiento_abajo_[i]) { pos_y_[i] -= velocidad * dt_seg; combatientes_[i]->setState(0, 3); combatientes_[i]->animar(dt);}
+		else if (movimiento_izq_[i]) { pos_x_[i] -= velocidad * dt_seg; combatientes_[i]->setState(0, 1); combatientes_[i]->animar(dt);}
+		else if (movimiento_dch_[i]) { pos_x_[i] += velocidad * dt_seg; combatientes_[i]->setState(0, 0); combatientes_[i]->animar(dt);}
+		else combatientes_[i]->setState(0, combatientes_[i]->getFrameActualY());
 
 		if (movimiento_arriba_[i]) { ultima_direccion_x_[i] = 0; ultima_direccion_y_[i] = 1; }
 		if (movimiento_abajo_[i]) { ultima_direccion_x_[i] = 0; ultima_direccion_y_[i] = -1; }
@@ -180,7 +181,6 @@ void Arena::actualizarMovimiento(float dt)
 		// Animales pueden pasarse: NO hay colisión animal-animal aquí.
 		// El daño por contacto lo gestiona confirmarImpacto (embestida).
 
-		if (combatientes_[i])
 			combatientes_[i]->setPosicion(Vector2D(pos_x_[i], pos_y_[i]));
 	}
 }
@@ -267,9 +267,6 @@ void Arena::confirmarImpacto()
 		{
 			audio_->sonarHuevo(combatientes_[i]);
 			audio_->sonarAtacado(combatientes_[rival]);
-
-			// Texto de recibe daño
-			// std::cout << "Jugador " << rival + 1 << " recibe " <<  combatientes_[i]->getTipoAtaque() << " de " << ataque->getDano() << " dano. Vida: " << combatientes_[rival]->getVida() << std::endl;
 		}
 	}
 }

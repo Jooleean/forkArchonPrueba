@@ -94,7 +94,7 @@ void Juego::actualizarLogica(float dt) // FASE 1: matemáticas, colisiones y reg
 
             animalGanador->setBonusVidaCasilla(0); // limpia el bonus
 
-            tablero_->acomodarGanador(animalGanador);
+            //tablero_->acomodarGanador(animalGanador);
             tablero_->acomodarPerdedor(animalPerdedor);
 
             std::cout<< "combate terminado" << std::endl;
@@ -141,11 +141,24 @@ void Juego::actualizarLogica(float dt) // FASE 1: matemáticas, colisiones y reg
         estado_actual = proximo_estado; // solo aqui, una sola vez
         switch (estado_actual)
         {
-        case MENU:     audio_->sonar(menu_);    break;
-        case TABLERO:  audio_->sonar(tablero_); break;
-        case BATALLA:  audio_->sonar(arena_);   break;
-        case CREDITOS: audio_->sonar(creditos_); break;
-        case CONTROLES: audio_->sonar(controles_); break;
+        case MENU: audio_->sonar(menu_); break;
+        case TABLERO: audio_->sonar(tablero_);
+       
+            if (arena_->combateTerminado())
+            {
+                Animal* animalGanador = jugadores_[1 - arena_->obtenerPerdedor()]->getAnimalEnCombate();
+                tablero_->acomodarGanador(animalGanador);
+            }
+            break;       
+        case BATALLA:  
+            audio_->sonar(arena_); 
+            break;
+        case CREDITOS: 
+            audio_->sonar(creditos_); 
+            break;
+        case CONTROLES: 
+            audio_->sonar(controles_); 
+            break;
         }
     }
 }
@@ -220,6 +233,7 @@ void Juego::procesarTeclaPresionada(unsigned char key) // Hacer que tecla solo s
                 break;
             }
         }
+        break;
 
 		case TABLERO: // movimiento discreto en el tablero, no hace falta procesar la tecla al levantarla, el movimiento se hace una vez al pulsar y ya está
          
@@ -274,12 +288,11 @@ void Juego::procesarTeclaEspecialPresionada(int key) // JUGADOR 2 (FLECHAS)
             menu_->moverSelector(-1); // arriba resta 1 (se acerca a 0 que es JUGAR)
             audio_->sonidoMenu();
         }
-        if (key == GLUT_KEY_DOWN) 
+        if (key == GLUT_KEY_DOWN)
         {
             menu_->moverSelector(1); // abajo suma 1 (bajándo hacia el 3 que es CREDITOS)
             audio_->sonidoMenu();
         }
-            
         break;
 
     case TABLERO:
