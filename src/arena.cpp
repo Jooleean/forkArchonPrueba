@@ -1,11 +1,5 @@
 #include "arena.h"
-#include "interaccion.h"
-#include "embestida.h"
-#include "onda.h"
-#include <cmath>
-#include <cstdlib>
-#include <ctime>
-#include <iostream>
+
 
 Arena::Arena() 
 {
@@ -77,12 +71,11 @@ void Arena::inicioCombate()
 
 void Arena::actualizar(float dt)
 {
-
-	if (intro_arena)
+	/*if (intro_arena)    // ahora se esta haciendo desde juego para esperar transicion a actualizar
 	{
 		inicioCombate();
 		intro_arena = false;
-	}
+	}*/
 
 	if (combate_terminado_) {
 		intro_arena = true;
@@ -90,7 +83,7 @@ void Arena::actualizar(float dt)
 	}
 
 	actualizarBarreras(dt);
-	actualizarMovimiento(dt);
+	actualizarMovimiento(dt); // Movimiento de animales esta aqui por ahora
 	actualizarAtaques(dt);
 	actualizarRecarga(dt);
 	confirmarImpacto();
@@ -122,8 +115,8 @@ bool Arena::recibirAtaque(int jugador,renderizadorAudio* audio)
 
 	if (!dynamic_cast<Embestida*>(ataque) && !dynamic_cast<Onda*>(ataque))
 	{
-		offsetX += ultima_direccion_x_[jugador] * 18.0f;
-		offsetY += ultima_direccion_y_[jugador] * 18.0f;
+		offsetX += ultima_direccion_x_[jugador] * 15.0f;
+		offsetY += ultima_direccion_y_[jugador] * 15.0f;
 	}
 	ataque->activar(offsetX, offsetY,ultima_direccion_x_[jugador],ultima_direccion_y_[jugador]);
 	
@@ -199,6 +192,8 @@ void Arena::actualizarAtaques(float dt)
 		if (!ataque || !ataque->isActivo()) continue;
 
 		ataque->mover(dt);
+		ataque->animar(dt);
+
 		if (!ataque->isActivo()) continue;
 
 		//Ataque fuera de la arena
@@ -233,9 +228,9 @@ void Arena::actualizarBarreras(float dt)
 						float dx = pos_x_[j] - barrera_x_[i];
 						float dy = pos_y_[j] - barrera_y_[i];
 						if (abs(dx) > abs(dy))
-							pos_x_[j] += (dx > 0) ? 17.0f : -17.0f;
+							pos_x_[j] += (dx > 0) ? 20.0f : -20.0f;  // retroceso si está dentro
 						else
-							pos_y_[j] += (dy > 0) ? 10.0f : -10.0f;
+							pos_y_[j] += (dy > 0) ? 16.0f : -16.0f;
 
 						if (combatientes_[j])
 							combatientes_[j]->setPosicion(Vector2D(pos_x_[j], pos_y_[j]));

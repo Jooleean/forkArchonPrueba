@@ -1,11 +1,4 @@
 #include "jugador.h"
-#include "granjero.h"
-#include "cabra.h"
-#include "oveja.h"
-#include "cerdo.h"
-#include "llama.h"
-#include "gallina.h"
-#include "estructuras.h"
 
 Jugador::Jugador(int equipo) : equipo_(equipo) // esto de construir los animales con tantos números mágicos es muy feo, mejor usar filas y columnas
 {
@@ -44,7 +37,6 @@ Jugador::Jugador(int equipo) : equipo_(equipo) // esto de construir los animales
         for (int i = 0; i < 9; i++)
             animales_.push_back(new Gallina({ i,7 }, 1));
     }
-
     animalEnCombate_ = animales_[9];
 }
 
@@ -54,16 +46,11 @@ Jugador::~Jugador()
     for (Animal* animal : animales_) {
         delete animal;
     }
-
     animales_.clear(); // para dejar el vector vacío
 }
 
-    //template <typename T> void agregarAnimal(float& posX, float& posY, float& posZ, float dirX, float varExt2) {
-    //    // 1. Crea el animal en la posición actual del cursor
-    //    animales_.push_back(new T(posX, posY, posZ, 20.0f, varExt2, equipo_));
+/*template <typename T> void agregarAnimal(Casilla& casilla, int& equipo)
+animales_.push_back(new T(Casilla& casilla, int& equipo));
+casilla++
+capa+=0.1*/
 
-    //    // 2. Avanza el cursor automáticamente para el SIGUIENTE animal (+1 en X)
-    //    posX += dirX * 1.0f;  // El paso de +1 que necesitas
-    //    posY -= 22.0f;        // Mantiene el desplazamiento en Y
-    //    posZ -= 0.01f;        // Mantiene el desplazamiento en Z
-    //}

@@ -16,9 +16,8 @@ public:
 		nFrames = 8;
 		especie_ = GALLINA;
 		ataque_ = new Disparo(ParametrosAnimales::DANO_GALLINA, ParametrosAnimales::DURACION_GALLINA,
-			ParametrosAnimales::RECARGA_GALLINA, "../assets/Sprites/menu/selector.png", 15.0f, 0.35f);
+			ParametrosAnimales::RECARGA_GALLINA, "../assets/Sprites/gallina/huevo.png", 5.0f, 0.35f);
 	}
 
-	const char* getTipoAtaque() const override { return "Disparo";}
 };
 	

@@ -1,18 +1,20 @@
 #pragma once
 
+#include <iostream>
+#include <stdlib.h>
+
 #include "menu.h"
-#include "tablero.h"
-#include "arena.h"
-#include "renderizador.h" 
 #include "animal.h"
-#include "cabra.h"
-#include "gallina.h"
-#include "transicion.h" 
-#include "creditos.h"
+#include "arena.h"
 #include "controles.h"
-#include "jugador.h"
+#include "creditos.h"
 #include "estructuras.h"
+#include "jugador.h"
+#include "opciones.h"
+#include "renderizador.h" 
 #include "RenderizadorAudio.h"
+#include "tablero.h"
+#include "transicion.h" 
 
 class Juego 
 {   
@@ -25,11 +27,12 @@ class Juego
     Jugador* jugadores_[2];
     Creditos* creditos_;
     Controles* controles_;
+    Opciones* opciones_;
     Ganador* ganador_;
 
 public:
 
-    enum Estado { MENU, TABLERO, BATALLA, CREDITOS, CONTROLES, GANADOR};
+    enum Estado { MENU, TABLERO, BATALLA, OPCIONES, CONTROLES, CREDITOS, GANADOR};
     Estado estado_actual;
     Estado proximo_estado;
 

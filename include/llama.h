@@ -18,6 +18,6 @@ public:
 		ataque_ = new Disparo(ParametrosAnimales::DANO_LLAMA, ParametrosAnimales::DURACION_LLAMA,
 			ParametrosAnimales::RECARGA_LLAMA, "../assets/Sprites/menu/selector.png", 15.0f, 0.35f);
 	}
-	const char* getTipoAtaque() const override { return "Disparo"; }
+
 	//void actualizar(float dt) override;
 };

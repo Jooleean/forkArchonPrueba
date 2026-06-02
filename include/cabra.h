@@ -18,7 +18,4 @@ public:
 			ParametrosAnimales::RECARGA_CABRA,"../assets/Sprites/creditos/botella.png", 20.0f);
 	} 
 
-    const char* getTipoAtaque() const override { return "Embestida"; }
-
-	//void actualizar(float dt) override;
 };

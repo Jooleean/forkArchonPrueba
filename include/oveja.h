@@ -3,7 +3,6 @@
 #include "embestida.h"
 #include "estructuras.h"
 
-
 class Oveja : public Animal
 {
 public:
@@ -18,6 +17,4 @@ public:
 		ataque_ = new Embestida(ParametrosAnimales::DANO_OVEJA, ParametrosAnimales::DURACION_OVEJA,
 			ParametrosAnimales::RECARGA_OVEJA,"../assets/Sprites/creditos/botella.png", 16.0f);
 	}
-	const char* getTipoAtaque() const override { return "Embestida"; }
-	//void actualizar(float dt) override;
 };

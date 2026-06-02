@@ -1,6 +1,3 @@
-#include <iostream>
-#include <stdlib.h>
-#include "arena.h"
 #include "juego.h"
 
 Juego::Juego()
@@ -13,6 +10,7 @@ Juego::Juego()
     renderizador_ = new Renderizador();
     creditos_ = new Creditos();
     controles_ = new Controles();
+    opciones_ = new Opciones();
     ganador_ = new Ganador();
     audio_ = new renderizadorAudio();
 
@@ -31,6 +29,7 @@ Juego::~Juego()
     delete renderizador_;
 	delete creditos_;
     delete controles_;
+    delete opciones_;
     delete ganador_;
     for (int i = 0; i < 2; i++)
         delete jugadores_[i];
@@ -54,7 +53,7 @@ void Juego::actualizarLogica(float dt) // FASE 1: matemáticas, colisiones y reg
             proximo_estado = BATALLA;
             tablero_->enBatalla = false;
 
-            arena_->setCombatientes(jugadores_[0]->getAnimalEnCombate(), jugadores_[1]->getAnimalEnCombate());
+            arena_->setCombatientes(jugadores_[0]->getAnimalEnCombate(), jugadores_[1]->getAnimalEnCombate()); // Pasa animales de jugador a arena
         }
 
         else if (tablero_->determinarGanador() != -1)
@@ -66,8 +65,15 @@ void Juego::actualizarLogica(float dt) // FASE 1: matemáticas, colisiones y reg
 
     case BATALLA:
 
+        if (arena_->intro_arena)
+        {
+            arena_->inicioCombate();
+            arena_->intro_arena = false;
+        }
+
         if (!arena_->combateTerminado())
         {
+            if (!transicion_.getActivo())
             arena_->actualizar(dt);
         }
 
@@ -119,13 +125,13 @@ void Juego::actualizarLogica(float dt) // FASE 1: matemáticas, colisiones y reg
 
     case CONTROLES:
 
-       /* if (!transicion_.getActivo())
+       if (!transicion_.getActivo())
             controles_->actualizar(25);
         if (controles_->getFinalizado())
         {
             transicion_.empieza();
             proximo_estado = MENU;
-        }*/
+        }
 
         break;
 
@@ -191,6 +197,10 @@ void Juego::renderizarGraficos() // FASE 2: pintar en pantalla
         renderizador_->dibujar(controles_);
         break;
 
+    case OPCIONES:
+        renderizador_->dibujar(opciones_);
+        break;
+
     case GANADOR:
         renderizador_->dibujar(ganador_);
         break;
@@ -218,9 +228,10 @@ void Juego::procesarTeclaPresionada(unsigned char key) // Hacer que tecla solo s
                 proximo_estado = TABLERO;
                 break;
 
-            //case Selector::OPCIONES: // en opciones puede estar el volumen o quizá algo del juego
-            //    estado_actual = OPCIONES; // no sé si los submenús del ménu son un estado 
-            //    break;
+            case Selector::OPCIONES: 
+                transicion_.empieza();
+                proximo_estado = OPCIONES;
+                break;
 
             case Selector::CREDITOS:
                 creditos_->reset();
@@ -229,12 +240,10 @@ void Juego::procesarTeclaPresionada(unsigned char key) // Hacer que tecla solo s
                 break;
 
             case Selector::CONTROLES:
-
-                /*
+   
                 controles_->reset();
                 transicion_.empieza();
                 proximo_estado = CONTROLES;
-                */
                 break;
             }
         }
@@ -263,26 +272,10 @@ void Juego::procesarTeclaPresionada(unsigned char key) // Hacer que tecla solo s
          if (key == 'm' || key == 'M') arena_->recibirAtaque(1,audio_); // Ataque para J2
          break;
 
-
         case CONTROLES:
 
-           /* if (key == 13)
-            {
-                if (controles_->listo1)
-                controles_->contador++;
-
-                if (controles_->contador == 13)
-                {
-                    transicion_.empieza();
-                    proximo_estado = MENU;
-                }
-            }
-            */
                 break;
     }
-
-    
-
 
 }
 

@@ -1,8 +1,10 @@
-#include "iostream"
-#include "ETSIDI.h" // Biblioteca para sprites y sonidos
+#include <iostream>
+
 #include "freeglut.h" // Biblioteca de ventana, dibujo y manejo teclado
-#include "juego.h"
+#include "ETSIDI.h" // Biblioteca para sprites y sonidos
+
 #include "estructuras.h"
+#include "juego.h"
 
 Juego rancho; // FALTA IMPLEMENTAR EL PATRÓN SINGLETON PARA QUE SOLO HAYA UNA INSTANCIA DE JUEGO
 

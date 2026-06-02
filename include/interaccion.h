@@ -1,8 +1,11 @@
 #pragma once
-#include "ataque.h"
+
+#include <cmath>
+
 #include "animal.h"
-#include "embestida.h"
+#include "ataque.h"
 #include "disparo.h"
+#include "embestida.h"
 
 class Interaccion {
 public:
@@ -14,5 +17,4 @@ public:
     static void mantenerDentroArena(float& x, float& y,float margen_x, float margen_y,float zona_x, float zona_y,float radio = 11.0f);
     static bool ataqueEstaFuera(const Ataque* ataque,float lim_izq, float lim_dch,float lim_arr, float lim_abj);
     static bool aplicarDano(Ataque* ataque, Animal* rival);
-    static bool comprobarTiempo(Ataque* ataque);
 };

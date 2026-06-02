@@ -3,7 +3,6 @@
 
 class BotellaCreditos
 {
-private:
     float timer_ = 0;
     float msStep_ = 100;
     int nFrames_ = 8;
@@ -25,10 +24,8 @@ public:
     int getFrameActualY() const { return frameActualY_; }
 };
 
-
 class GallinaCreditos
 {
-private:
 
     float timer_ = 0;
     float msStep_ = 100;
@@ -49,10 +46,8 @@ public:
     int getFrameActualY() const { return frameActualY_; }
 };
 
-
 class Creditos
 {
-private:
 
     BotellaCreditos botella_;
     GallinaCreditos gallina_;

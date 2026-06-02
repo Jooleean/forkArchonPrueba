@@ -1,10 +1,13 @@
 #pragma once
+#include <cmath>
+
 #include "animal.h"  
 #include "cursor.h" 
 #include "tarjetaID.h" 
 #include "jugador.h"
 #include "estructuras.h"
 #include "RenderizadorAudio.h"
+
 const int BANDO_LUZ = 0;
 const int BANDO_OSCURIDAD = 1;
 const int CASILLA_LUZ = 0;
@@ -58,7 +61,6 @@ class Tablero
     Cursor cursorJ1_ = Cursor(2,4,0); // se inicia cursor en columna,fila
     Cursor cursorJ2_ = Cursor(6,4,1);
 
-
 	Movimiento ultimoMovimiento_;
 	Vector2D posicion_piezas_muertas_ = { 0.0f, 247.0f }; 
 	std::vector<Animal*> piezas_muertas_; 
@@ -75,8 +77,6 @@ public:
 
     Casilla casillaDisputada{};
     bool enBatalla = false;
-    
-    Animal* animalesEnBatalla[2]{};
 
     Tablero(Jugador* jugador1, Jugador* jugador2);
     ~Tablero();
@@ -103,21 +103,14 @@ public:
 	void setLetreroPosX(float x) { letreroTurnos_.posicion.x = x; }
 	void setLetreroPosY(float y) { letreroTurnos_.posicion.y = y; }
 
-    void anadirPiezaMuerta(Animal* pieza);
-
 	Animal* getAnimalEnCasilla(int fila, int columna) const { return casillas_[fila][columna]; }
     void acomodarGanador(Animal* animalGanador);
     void acomodarPerdedor(Animal* animalPerdedor);
-
-
-	const Tarjeta* getTarjeta() const { return &tarjeta; }
-
-    Tarjeta tarjeta;
+    void anadirPiezaMuerta(Animal* pieza);
 
     // propuesta de psanse en la tutoria:
     bool esMovimientoLegal(const Movimiento& m) const;
     void mover(const Movimiento& m);
-    //bool hayColisionEnemiga(const Movimiento& m) const;
 
 	// hechizos
     EstadoHechizo estadoHechizo_ = INACTIVO;
@@ -126,12 +119,10 @@ public:
     bool hechizoDisponible_[2][5]; // matriz para controlar si un jugador tiene disponible cada hechizo
 
     EstadoHechizo getEstadoHechizo() const { return estadoHechizo_; }
-
     void procesarTeclaHechizo(int tecla);
     void ejecutarPasoHechizo(Animal* casilla, int fila, int col, renderizadorAudio* audio);
     void finalizarHechizo();
     void avanzarTurnosAtrapados();
 
-    // casillas de colores
-    int getColorActualCasilla(int f, int c) const;
+    int getColorActualCasilla(int f, int c) const; // casillas de colores
 };

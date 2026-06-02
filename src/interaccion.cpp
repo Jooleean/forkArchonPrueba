@@ -1,10 +1,9 @@
 #include "interaccion.h"
-#include <cmath>
 
 bool Interaccion::hayColision(Ataque* ataque, const Animal* rival) {
     if (!ataque || !ataque->isActivo() || !rival) return false;
-    float dx = ataque->getX() - rival->getPosX();
-    float dy = ataque->getY() - rival->getPosY();
+    float dx = ataque->getPosX() - rival->getPosX();
+    float dy = ataque->getPosY() - rival->getPosY();
     return sqrt(dx * dx + dy * dy) < ataque->getTamanio() / 2.0f + 11.0f;
 }
 bool Interaccion::aplicarDano(Ataque* ataque, Animal* rival) {
@@ -47,8 +46,8 @@ bool Interaccion::ataqueChocaBarrera(const Ataque* ataque, float bx, float by,
     float semi_ancho, float semi_alto)
 {
     if (!ataque || !ataque->isActivo()) return false;
-    float dx = ataque->getX() - bx;
-    float dy = ataque->getY() - by;
+    float dx = ataque->getPosX() - bx;
+    float dy = ataque->getPosY() - by;
     return (dx > -semi_ancho && dx < semi_ancho &&
         dy > -semi_alto && dy < semi_alto);
 }
@@ -78,6 +77,6 @@ bool Interaccion::ataqueEstaFuera(const Ataque* ataque,
     float lim_arr, float lim_abj)
 {
     if (!ataque || !ataque->isActivo()) return false;
-    return (ataque->getX() < lim_izq || ataque->getX() > lim_dch ||
-        ataque->getY() < lim_arr || ataque->getY() > lim_abj);
+    return (ataque->getPosX() < lim_izq || ataque->getPosX() > lim_dch ||
+        ataque->getPosY() < lim_arr || ataque->getPosY() > lim_abj);
 }

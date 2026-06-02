@@ -18,6 +18,5 @@ public:
 		ataque_ = new Onda(ParametrosAnimales::DANO_CERDO, ParametrosAnimales::DURACION_CERDO,
 			ParametrosAnimales::RECARGA_CERDO,"../assets/Sprites/menu/selector.png", 20.0f, 0.6f);
 	}
-	const char* getTipoAtaque() const override { return "Onda"; }
-	//void actualizar(float dt) override;
+
 };

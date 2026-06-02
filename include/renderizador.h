@@ -11,6 +11,7 @@
 #include "menu.h"
 #include "controles.h"
 #include "creditos.h"
+#include "opciones.h"
 #include "transicion.h"
 #include "ganador.h"
 #include "arena.h"
@@ -25,6 +26,7 @@ public:
 	void dibujar(const Tablero* tablero) const;
 	void dibujar(const Menu* menu) const;
 	void dibujar(const Controles* controles) const;
+    void dibujar(const Opciones* opciones) const;
     void dibujar(const Creditos* creditos) const;
     void dibujar(const Transicion* transicion) const;
     void dibujar(const Arena* arena) const;

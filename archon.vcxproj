@@ -99,7 +99,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
@@ -151,6 +151,7 @@
     <ClInclude Include="include\llama.h" />
     <ClInclude Include="include\menu.h" />
     <ClInclude Include="include\onda.h" />
+    <ClInclude Include="include\opciones.h" />
     <ClInclude Include="include\oveja.h" />
     <ClInclude Include="include\renderizador.h" />
     <ClInclude Include="include\renderizadorAudio.h" />
@@ -173,6 +174,7 @@
   <ItemGroup>
     <ClCompile Include="src\animal.cpp" />
     <ClCompile Include="src\arena.cpp" />
+    <ClCompile Include="src\ataque.cpp" />
     <ClCompile Include="src\cabra.cpp" />
     <ClCompile Include="src\controles.cpp" />
     <ClCompile Include="src\creditos.cpp" />

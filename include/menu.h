@@ -1,4 +1,7 @@
 #pragma once
+#include <cmath>
+#include <iostream>
+#include <string>
 
 struct Letra 
 {

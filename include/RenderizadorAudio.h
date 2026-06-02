@@ -1,5 +1,8 @@
 #pragma once
+#include <cstring>
+
 #include "ETSIDI.h"
+
 #include "animal.h"
 
 class Menu;

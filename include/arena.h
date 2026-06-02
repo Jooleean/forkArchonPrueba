@@ -1,8 +1,15 @@
 #pragma once
+
+#include <cmath>
+#include <cstdlib>
+#include <ctime>
+#include <iostream>
+
 #include "animal.h"
-#include "RenderizadorAudio.h"
 #include "embestida.h"
+#include "interaccion.h"
 #include "onda.h"
+#include "RenderizadorAudio.h"
 
 //dimensiones que ocupa la arena en la pantalla
 const int ANCHO_DE_LA_ARENA = 480;
@@ -30,8 +37,7 @@ const int IZQUIERDA = 2;
 const int DERECHA = 3;
 
 class Arena
-{	
-	bool intro_arena = true;
+{		
 	renderizadorAudio* audio_ = nullptr;
 
 	Animal* combatientes_[2]{}; // si quereis Bnado Luz [0], [1] para el otro bando.
@@ -68,6 +74,7 @@ class Arena
 	
 public:
 
+	bool intro_arena = true;
 	bool combate_terminado_ = false;
 
 	Arena();
@@ -79,13 +86,12 @@ public:
 	bool recibirAtaque(int jugador, renderizadorAudio* audio);
 	int obtenerPerdedor() const; 
 	bool combateTerminado() const { return combate_terminado_; }
-	int ganadorCombate() const { return ganador_;};
 	bool isBarreraVisible(int indice) const { return barrera_visible_[indice]; }
 	float getBarreraX(int indice) const { return barrera_x_[indice]; }
 	float getBarreraY(int indice) const { return barrera_y_[indice]; }
 	float getRecargaDeAtaque(int jugador) const { return recarga_de_ataque_[jugador]; }
 
-	bool isVivo(int jugador) const { return vivo_[jugador]; }
+	bool isVivo(int jugador) const { return vivo_[jugador]; } // Todos los atributos duplicados, en animal y batalla
 	const Animal* getCombatiente(int jugador) const { return combatientes_[jugador]; }
 
 	void setCombatientes(Animal* animal1, Animal* animal2) 
@@ -95,8 +101,6 @@ public:
 		combatientes_[0] = animal1;
 		combatientes_[1] = animal2;
 	}
-	const Ataque* getAtaqueObjeto(int i) const {
-		return combatientes_[i] ? combatientes_[i]->getAtaque() : nullptr;
-	}
+	const Ataque* getAtaqueObjeto(int i) const {return combatientes_[i] ? combatientes_[i]->getAtaque() : nullptr;}
 };
 

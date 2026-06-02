@@ -72,7 +72,7 @@ void Renderizador::dibujar(const Tablero* tablero) const
     dibujarSprite("../assets/Sprites/tablero/tableroFondo.png", 512, 512, 480 / 2, 270 / 2, -1);
     //dibujarSprite("../assets/Sprites/tablero/tablero.png", 256, 256, 480 / 2, 270 / 2, -2);
     dibujarSprite("../assets/Sprites/tablero/vallas.png", 256, 256, 480 / 2, 270 / 2, -2.2);
-    dibujarSprite("../assets/Sprites/tablero/vallaAbajo.png", 256, 256, 480 / 2, 270 / 2, -4);
+    dibujarSprite("../assets/Sprites/tablero/vallaAbajo.png", 256, 256, 480 / 2, 270 / 2, -5);
 
     // CASILLAS
     for (int i = 0; i < Constantes::FILAS_TABLERO; i++) {
@@ -129,8 +129,8 @@ void Renderizador::dibujar(const Tablero* tablero) const
             equipoFicha = animalEnCursor->getEquipo();
 
             // dibujar tarjeta de animal en cursor
-         
             dibujarSprite("../assets/Sprites/tarjetas/tarjetas.png", 256 + deltaTamanoTarjeta, 512 + deltaTamanoTarjeta/2.0f, 69 + (342* equipoFicha), 32, -5.5, 8, 2, equipoFicha, animalEnCursor->getEspecie());
+            dibujarSprite("../assets/Sprites/tarjetas/vida.png", 64 + deltaTamanoTarjeta/4.0f, 128 + deltaTamanoTarjeta /8.0f, 15 + 69 + (342 * equipoFicha), 14, -5.6, 16, 1, 0, animalEnCursor->getVida());
         }
 
         if (tienePiezaAgarrada) {
@@ -140,6 +140,7 @@ void Renderizador::dibujar(const Tablero* tablero) const
 
             // dibujar tarjeta de animal seleccionado
             dibujarSprite("../assets/Sprites/tarjetas/tarjetas.png", 256 + deltaTamanoTarjeta, 512 + deltaTamanoTarjeta/2.0f, 69 + (342 * equipoFicha), 32, -5.5, 8, 2, equipoFicha, piezaSeleccionada->getEspecie());
+            dibujarSprite("../assets/Sprites/tarjetas/vida.png", 64 + deltaTamanoTarjeta / 4.0f, 128 + deltaTamanoTarjeta / 8.0f, 15 + 69 + (342 * equipoFicha), 14, -5.6, 16, 1, 0, piezaSeleccionada->getVida());
         }
 
             for (int i = 0; i < Constantes::FILAS_TABLERO; i++) {
@@ -261,8 +262,12 @@ void Renderizador::dibujar(const Controles* controles) const
 
     if(controles->listo1 || controles->listo2)
     dibujarSprite("../assets/Sprites/controles/controles.png", 3 * 512, 3 * 2048,758, 270/2, -5, 14, 1, 0, controles->contador);
+}
 
-
+void Renderizador::dibujar(const Opciones* opciones) const
+{
+    // DIBUJAR FONDO
+    dibujarSprite("../assets/Sprites/opciones/fondo.png", 512, 512, 480/2, 270/2, -1);
 }
 
 void Renderizador::dibujar(const Creditos* creditos) const
@@ -326,7 +331,7 @@ void Renderizador::dibujar(const Arena* arena) const
         const Ataque* atq = arena->getAtaqueObjeto(i);
         
         if (atq && atq->isActivo()) 
-            dibujarSprite(atq->getSprite(), atq->getTamanio(), atq->getTamanio(),atq->getX(), atq->getY(),-4.40f,1, 1, 0, 0,true);
+            dibujarSprite(atq->getSprite(), 1024, 64,atq->getPosX(), atq->getPosY(),-4.40f,1, 16, atq->getFrameActualX(), atq->getFrameActualY(),true);
   
     }
 

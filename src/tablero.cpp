@@ -1,5 +1,4 @@
 #include "tablero.h"
-#include <cmath>
 
 Tablero::Tablero(Jugador* jugador1, Jugador* jugador2)
 {
@@ -199,9 +198,7 @@ void Tablero::seleccionarPieza(int jugador, renderizadorAudio* audio)
                 mover(m);
 
                 if (enBatalla)
-                {
-                    casillas_[m.destino.fila][m.destino.columna] = nullptr;
-                }
+                    casillas_[m.destino.fila][m.destino.columna] = nullptr; // Deja la casilla disputada pendiente
 
                 // teletransporta el cursor a la nueva casilla
                 // aprovechando cursor.mover iterando hasta la meta con while
@@ -472,5 +469,6 @@ int Tablero::getColorActualCasilla(int f, int c) const
         if (ciclo == 1) return 0;               // Fase 1: Claro
         if (ciclo == 3) return 1;               // Fase 3: Oscuro
     }
+
     return 2; // Por defecto
 }

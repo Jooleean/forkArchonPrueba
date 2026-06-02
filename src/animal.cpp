@@ -41,18 +41,21 @@ void Animal::actualizarEnTablero(float dt)
 
     avanzando_casilla_ += velocidad_.modulo() * (dt / 25);
 
-    if (avanzando_casilla_ >= 22) { // si el animal se ha movido más de una casilla, se para
+    // si el animal se ha movido más de una casilla, se para
+    if (avanzando_casilla_ >= 22) { 
         velocidad_.x = 0;
         velocidad_.y = 0;
         avanzando_casilla_ = 0;
 		en_movimiento_ = false;
 	}
 
-    //cuando te vas a una casilla fuera del cuadrado, el juego mueve otra vez automaticamente a la casilla de antes
-	if (posicion_.x <= 130) int trash = mover(TABLERO, 1, 0); // Limite izquierdo del tablero
-	if (posicion_.x >= 130 + 22 * 10) int trash = mover(TABLERO, -1, 0); // Limite derecho del tablero
-	if (posicion_.y <= 25) int trash = mover(TABLERO, 0, 1); // Limite inferior del tablero
-	if (posicion_.y >= 25 + 22 * 10) int trash = mover(TABLERO, 0, -1); // Limite superior del tablero
+    // cuando te vas a una casilla fuera del cuadrado, el juego mueve otra vez automaticamente a la casilla de antes
+    // limites del tablero (antes se guardabe en int trash, se puede ejecutar la funcion y que el valor de retorno muera) int trash = mover(TABLERO, 1, 0); 
+    // concepto [[nodiscard]]
+	if (posicion_.x <= 130) mover(TABLERO, 1, 0); 
+	if (posicion_.x >= 130 + 22 * 10) mover(TABLERO, -1, 0); 
+	if (posicion_.y <= 25) mover(TABLERO, 0, 1); 
+	if (posicion_.y >= 25 + 22 * 10) mover(TABLERO, 0, -1); 
 
     animar(dt);
 }
@@ -93,8 +96,6 @@ bool Animal::mover(modoJuego modo, int dx, int dy) // Para que el animal sepa qu
 
     case BATALLA: // Se llama desde batalla con animal.mover(BATALLA, direccion)
 
-
-
         return false;
 
 	case CANCELAR: 
@@ -106,8 +107,8 @@ bool Animal::mover(modoJuego modo, int dx, int dy) // Para que el animal sepa qu
 
         return false;
     }
-	return false;
 
+	return false;
 }
 
 void Animal::animar(float dt)
@@ -126,7 +127,6 @@ void Animal::setState(int frameX, int frameY)
     frameActualX_ = frameX;
     frameActualY_ = frameY;
     pausa = true;
-
 }
 
 std::vector<Movimiento> Animal::movimientosPosibles() const

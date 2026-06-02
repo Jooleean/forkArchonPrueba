@@ -1,5 +1,4 @@
 #include "RenderizadorAudio.h"
-#include <cstring>
 
 void renderizadorAudio::cambiarMusica(const char* rutaAudio) const
 {

@@ -3,8 +3,6 @@
 
 class PalomaControles
 {
-private:
-
     float timer_ = 0;
     float msStep_ = 100;
     int nFrames_ = 5;
@@ -28,8 +26,6 @@ public:
 
 class Controles
 {
-private:
-
     Vector2D posicion_ = { 758, 270 / 2 };
     PalomaControles paloma_;
     const float posFinal_ = -246;

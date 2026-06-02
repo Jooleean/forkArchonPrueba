@@ -1,9 +1,5 @@
 #include "menu.h"
 
-#include <string>
-#include <iostream>
-#include "math.h"
-
 void Menu::actualizar(float dt) 
 {
 	angulo += 0.05; 
@@ -39,8 +35,6 @@ void Menu::actualizar(float dt)
 	selector.posy = 139 - (selector.opcionActual * 25.0f); // SELECTOR	
 	selector.tamano_actual = selector.tamano_base + 1.0f * sin(angulo * 3.0f); // latido del selector
 }
-
-
 
 void Menu::moverSelector(int direccion) 
 {
